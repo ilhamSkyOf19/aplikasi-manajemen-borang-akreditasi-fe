@@ -1,9 +1,14 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import { AuthService } from "../services/auth.service";
+import DashboardLayout from "../layouts/DashboardLayout";
 const route = createBrowserRouter([
   {
     path: "/",
+    loader: () => redirect("/dashboard"),
+  },
+  {
+    path: "/dashboard",
     loader: async () => {
       try {
         const result = await AuthService.me();
@@ -21,7 +26,13 @@ const route = createBrowserRouter([
         throw err;
       }
     },
-    element: <h1>hello world</h1>,
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <h1>Dashbord</h1>,
+      },
+    ],
   },
 
   {

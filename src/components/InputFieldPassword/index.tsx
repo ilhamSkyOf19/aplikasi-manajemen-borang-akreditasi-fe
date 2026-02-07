@@ -25,7 +25,7 @@ const InputFieldPassword: FC<Props> = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
   return (
     <div className="w-full flex flex-col justify-start items-start">
-      <div className="h-10 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out ">
+      <div className="h-10 lg:h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out ">
         {/* icon */}
         <label htmlFor={name}>
           <KeyRound className="w-4 h-4" />
@@ -37,7 +37,7 @@ const InputFieldPassword: FC<Props> = ({
           type={showPassword ? "text" : "password"}
           id={name}
           placeholder={placeholder}
-          className="w-full bg-transparent outline-none text-xs placeholder:text-xs placeholder:text-gray-400  placeholder:font-light"
+          className="w-full bg-transparent outline-none text-xs placeholder:text-xs placeholder:text-gray-400  placeholder:font-light lg:text-sm lg:placeholder:text-sm"
           autoComplete="off"
           minLength={minLength || 6}
           maxLength={maxLength || 100}
