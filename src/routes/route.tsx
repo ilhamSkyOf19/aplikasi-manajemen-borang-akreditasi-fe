@@ -9,12 +9,13 @@ const route = createBrowserRouter([
   },
   {
     path: "/dashboard",
+
     loader: async () => {
       try {
         const result = await AuthService.me();
 
         if (result.meta.statusCode === 200) {
-          return null;
+          return result.data;
         }
 
         return null;

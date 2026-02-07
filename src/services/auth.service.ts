@@ -21,4 +21,13 @@ export class AuthService {
     //   return
     return result;
   }
+
+  // logout
+  static async logout(): Promise<ResponseStructure<null>> {
+    const result = await instanceAxios
+      .post("/auth/logout")
+      .then((res) => res.data);
+
+    return result;
+  }
 }

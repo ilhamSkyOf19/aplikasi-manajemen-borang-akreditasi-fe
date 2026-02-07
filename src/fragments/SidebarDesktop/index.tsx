@@ -1,25 +1,13 @@
 import { type FC } from "react";
 import logoFikom from "../../assets/logos/logo-fikom.webp";
-import { useLocation } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { NAVIGATION_LIST_WD } from "../../utils/constanst";
+import { Link } from "react-router-dom";
 import { cn } from "../../utils/cn";
+import useSidebarDekstop from "./useSidebarDesktop";
+import { LogOut } from "lucide-react";
 
 const SidebarDesktop: FC = () => {
-  // get pathname
-  const pathname = useLocation().pathname;
-
-  // use mutation
-  const { mutateAsync: _handleLogout } = useMutation({
-    mutationFn: async () => {},
-    onSuccess: () => {
-      window.location.href = "/login";
-    },
-
-    onError: () => {
-      window.location.href = "/login";
-    },
-  });
+  // call use dashboard
+  const { isNavigation, pathname, handleLogout } = useSidebarDekstop();
 
   return (
     <div className="drawer-side is-drawer-close:overflow-visible">
@@ -28,7 +16,7 @@ const SidebarDesktop: FC = () => {
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
-      <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-16 is-drawer-open:w-75">
+      <div className="flex min-h-full flex-col items-start justify-between bg-base-200 is-drawer-close:w-16 is-drawer-open:w-75">
         {/* Sidebar content here */}
         <ul className="menu w-full grow space-y-1">
           {/* logo */}
@@ -53,9 +41,10 @@ const SidebarDesktop: FC = () => {
           </li>
           <ul className="w-full mt-4 space-y-1">
             {/* List item */}
-            {NAVIGATION_LIST_WD.map((item, index) => (
+            {isNavigation.map((item, index) => (
               <li key={index}>
-                <button
+                <Link
+                  to={item.link}
                   className={cn(
                     "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-primary-purple group",
                     pathname === item.link && "bg-primary-purple",
@@ -77,11 +66,42 @@ const SidebarDesktop: FC = () => {
                   >
                     {item.label}
                   </span>
-                </button>
+                </Link>
               </li>
             ))}
+
+            {/* line */}
+            <div className="w-full h-px bg-primary-black" />
+            {/* logout */}
+            <li className="">
+              <button
+                type="button"
+                className={cn(
+                  "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-primary-purple group",
+                )}
+                data-tip="keluar"
+                onClick={() => handleLogout()}
+              >
+                {/* Home icon */}
+                <LogOut
+                  className={cn(
+                    "my-1.5 inline-block size-6 group-hover:text-primary-white transition-all duration-150 ease-in-out",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "is-drawer-close:hidden group-hover:text-primary-white capitalize transition-all duration-150 ease-in-out",
+                  )}
+                >
+                  keluar
+                </span>
+              </button>
+            </li>
           </ul>
         </ul>
+
+        {/* button logout */}
+        <div className="menu w-full grow space-y-1"></div>
       </div>
     </div>
   );

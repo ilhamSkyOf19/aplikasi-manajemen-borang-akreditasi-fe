@@ -1,9 +1,23 @@
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import SidebarDesktop from "../../fragments/SidebarDesktop";
-// import NavbarDashboardMobile from "../../fragments/NavbarDashboardMobile";
 import { PanelRightClose } from "lucide-react";
+import { useLoaderData } from "react-router-dom";
+import type { PayloadUserType } from "../../models/user.model";
+import { useAuth } from "../../contexts/AuthContext";
 
 const DashboardLayout: FC = () => {
+  // loader
+  const user = useLoaderData() as PayloadUserType;
+
+  // set auth context
+  const { handleUser } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      handleUser(user);
+    }
+  }, [user]);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
