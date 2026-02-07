@@ -9,9 +9,24 @@
 @theme {
   --font-poppins: "Poppins", sans-serif;
   --color-primary-purple: #7367f0;
-  --color-primary-white: #f5f5f5;
-  --color-secondary-white: #dbdbdb;
+  --color-primary-white: #f8f8f8;
+  --color-secondary-white: #eeeeee;
   --color-primary-black: #282828;
+}
+
+@layer utilities {
+  .hover-overlay {
+    @apply relative overflow-hidden;
+  }
+
+  .hover-overlay::before {
+    content: "";
+    @apply absolute inset-0 bg-primary-black/20 opacity-0 transition-all duration-300 ease-in-out;
+  }
+
+  .hover-overlay:hover::before {
+    @apply opacity-100;
+  }
 }
 
 body {

@@ -27,7 +27,7 @@ export const NAVIGATION_LIST_WD: {
   },
   {
     label: "daftar kriteria",
-    link: "/dashboard/pengumpulan",
+    link: "/dashboard/daftar-kriteria",
     icon: ScrollText,
   },
   {

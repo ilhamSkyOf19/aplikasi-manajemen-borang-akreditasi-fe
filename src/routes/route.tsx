@@ -2,6 +2,9 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import { AuthService } from "../services/auth.service";
 import DashboardLayout from "../layouts/DashboardLayout";
+import HomePage from "../pages/Homepage";
+import KelolaTimAkreditasiPage from "../pages/KelolaTimAkreditasiPage";
+import DaftarKriteriaPage from "../pages/DaftarKriteriaPage";
 const route = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +34,19 @@ const route = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Dashbord</h1>,
+        element: <HomePage />,
+      },
+
+      // daftar kriteria
+      {
+        path: "daftar-kriteria",
+        element: <DaftarKriteriaPage />,
+      },
+
+      // kelola tim akreditasi
+      {
+        path: "kelola-tim-akreditasi",
+        element: <KelolaTimAkreditasiPage />,
       },
     ],
   },

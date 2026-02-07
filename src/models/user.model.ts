@@ -1,4 +1,4 @@
-import type { UserRole } from "../types/constanst";
+import type { UserRole } from "../types/constanst.type";
 
 export interface IUser {
   id: number;

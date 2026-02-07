@@ -3,42 +3,58 @@ import logoFikom from "../../assets/logos/logo-fikom.webp";
 import { Link } from "react-router-dom";
 import { cn } from "../../utils/cn";
 import useSidebarDekstop from "./useSidebarDesktop";
-import { LogOut } from "lucide-react";
+import { LogOut, PanelLeftClose } from "lucide-react";
+import useHasScroll from "../../hooks/useHasScroll";
 
 const SidebarDesktop: FC = () => {
   // call use dashboard
   const { isNavigation, pathname, handleLogout } = useSidebarDekstop();
 
+  // use has scroll
+  const { divRef, hasScroll } = useHasScroll();
   return (
-    <div className="drawer-side is-drawer-close:overflow-visible">
+    <div className="drawer-side is-drawer-close:overflow-visible border-r border-primary-black/10 z-50">
       <label
         htmlFor="my-drawer-4"
         aria-label="close sidebar"
         className="drawer-overlay"
       ></label>
-      <div className="flex min-h-full flex-col items-start justify-between bg-base-200 is-drawer-close:w-16 is-drawer-open:w-75">
+      <div
+        ref={divRef}
+        className={cn(
+          "flex h-screen overflow-hidden overflow-y-auto flex-col items-start justify-between bg-primary-white is-drawer-close:w-16 lg:is-drawer-open:w-75 is-drawer-open:w-70",
+          hasScroll && "is-drawer-close:w-18",
+        )}
+      >
+        {/* logo */}
+        <div
+          className={cn(
+            "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-transparent w-full flex flex-row justify-start items-center gap-2 px-2",
+          )}
+        >
+          {/* logo */}
+          <img
+            src={logoFikom}
+            alt="logo polisi"
+            className="my-1.5 inline-block w-12 mb-2"
+          />
+
+          {/* heading */}
+          <span className="is-drawer-close:hidden text-primary-black font-semibold text-base border-b flex-1 border-primary-purple pb-2">
+            AMBARA
+          </span>
+
+          <label
+            htmlFor="my-drawer-4"
+            aria-label="open sidebar"
+            className="btn btn-square btn-ghost lg:hidden"
+          >
+            {/* Sidebar toggle icon */}
+            <PanelLeftClose className="size-6" />
+          </label>
+        </div>
         {/* Sidebar content here */}
         <ul className="menu w-full grow space-y-1">
-          {/* logo */}
-          <li>
-            <div
-              className={cn(
-                "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-transparent",
-              )}
-            >
-              {/* logo */}
-              <img
-                src={logoFikom}
-                alt="logo polisi"
-                className="my-1.5 inline-block w-12 mb-2"
-              />
-
-              {/* heading */}
-              <span className="is-drawer-close:hidden text-primary-black font-semibold text-base border-b border-primary-purple pb-2">
-                AMBARA
-              </span>
-            </div>
-          </li>
           <ul className="w-full mt-4 space-y-1">
             {/* List item */}
             {isNavigation.map((item, index) => (
