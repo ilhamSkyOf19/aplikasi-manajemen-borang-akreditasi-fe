@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { KriteriaService } from "../../../../services/kriteria.service";
 import { useEffect } from "react";
+import { AxiosError } from "axios";
 
 const useFormulirKriteria = () => {
   // navigate
@@ -32,6 +33,7 @@ const useFormulirKriteria = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    setError,
   } = useForm<CreateKriteriaType | UpdateKriteriaType>({
     resolver: zodResolver(
       id ? KriteriaValidation.UPDATE : KriteriaValidation.CREATE,
@@ -63,21 +65,47 @@ const useFormulirKriteria = () => {
       }
     },
     onSuccess: (data) => {
-      console.log(data);
+      // navigate
+      navigate("/dashboard/daftar-kriteria", {
+        state: {
+          status: id ? "updated" : "created",
+        },
+      });
 
-      reset();
-
-      //   navigate
-      navigate("/dashboard/daftar-kriteria");
+      // reset
+      reset({
+        kriteria: data?.data?.kriteria,
+        namaKriteria: data?.data?.namaKriteria,
+      });
     },
     onError: (error) => {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data.meta.statusCode === 409) {
+          setError("kriteria", {
+            message: "Kriteria sudah ada",
+          });
+        }
+      }
     },
   });
 
   // handle submit
   const onSubmit = async (data: CreateKriteriaType | UpdateKriteriaType) => {
     try {
+      // check same data
+      if (
+        data.kriteria === dataKriteria?.data?.kriteria &&
+        data.namaKriteria === dataKriteria?.data?.namaKriteria
+      ) {
+        navigate("/dashboard/daftar-kriteria", {
+          state: {
+            status: "notUpdated",
+          },
+        });
+
+        return;
+      }
+
       await mutateAsync(data);
     } catch (error) {
       console.log(error);
@@ -85,7 +113,17 @@ const useFormulirKriteria = () => {
   };
 
   //
-  return { register, errors, handleSubmit, onSubmit, isPending, pathname };
+  return {
+    register,
+    errors,
+    handleSubmit,
+    onSubmit,
+    isPending,
+    pathname,
+    kriteria: dataKriteria?.data?.kriteria,
+    namaKriteria: dataKriteria?.data?.namaKriteria,
+    formulirUpdate: id,
+  };
 };
 
 export default useFormulirKriteria;

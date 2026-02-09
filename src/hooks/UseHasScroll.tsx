@@ -5,7 +5,7 @@ type UseHasScrollTypeReturn = {
   hasScroll: boolean;
 };
 
-const UseHasScroll = (): UseHasScrollTypeReturn => {
+const useHasScroll = (): UseHasScrollTypeReturn => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const [hasScroll, setHasScroll] = useState<boolean>(false);
@@ -27,4 +27,4 @@ const UseHasScroll = (): UseHasScrollTypeReturn => {
   return { divRef, hasScroll };
 };
 
-export default UseHasScroll;
+export default useHasScroll;

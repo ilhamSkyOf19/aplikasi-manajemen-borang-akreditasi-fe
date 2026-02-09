@@ -1,23 +1,21 @@
 import { type FC, type RefObject } from "react";
 import { Link } from "react-router-dom";
+import type { ResponseKriteriaType } from "../../../../models/kriteria.model";
+import { formatTanggalPanjang } from "../../../../utils/formatDate";
 type Props = {
   isShowModal: {
-    data: {
-      id: number;
-      namaKriteria: string;
-      tanggalBuat: string;
-      tanggalUbah: string;
-      status: string;
-    };
+    data: ResponseKriteriaType;
     active: boolean;
   };
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
+  handleShowModalDelete: (id: number) => void;
 };
 const ModalDaftarKriteria: FC<Props> = ({
   handleCloseModal,
   isShowModal,
   modalRef,
+  handleShowModalDelete,
 }) => {
   return (
     <>
@@ -32,18 +30,29 @@ const ModalDaftarKriteria: FC<Props> = ({
 
           <div className="w-full flex flex-col justify-start items-stary mt-4 gap-3">
             <FieldDataModal
+              typeData="Kriteria"
+              value={`C${isShowModal.data.kriteria}`}
+            />
+            <FieldDataModal
               typeData="Nama Kriteria"
               value={isShowModal.data.namaKriteria}
             />
             <FieldDataModal
               typeData="Tanggal Buat"
-              value={isShowModal.data.tanggalBuat}
+              value={formatTanggalPanjang(isShowModal.data.createdAt)}
             />
             <FieldDataModal
               typeData="Tanggal Ubah"
-              value={isShowModal.data.tanggalUbah}
+              value={formatTanggalPanjang(isShowModal.data.updatedAt)}
             />
-            <FieldDataModal typeData="Status" value={isShowModal.data.status} />
+            <FieldDataModal
+              typeData="Status"
+              value={
+                isShowModal.data.revisi > 0
+                  ? `Revisi ke-${isShowModal.data.revisi}`
+                  : "Baru"
+              }
+            />
           </div>
 
           <div className="w-full flex flex-row justify-end items-end gap-2 mt-2">
@@ -58,19 +67,23 @@ const ModalDaftarKriteria: FC<Props> = ({
 
             {/* button update */}
             <Link
-              to={`/dashboard/daftar-kriteria/update-kriteria/${isShowModal.data.id}`}
+              to={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal.data.id}`}
               type="button"
               className="btn btn-info"
             >
               <span className="text-xs lg:text-sm text-primary-white">
-                Update
+                Ubah
               </span>
             </Link>
 
             {/* button delete */}
-            <button type="button" className="btn btn-error">
+            <button
+              type="button"
+              className="btn btn-error"
+              onClick={() => handleShowModalDelete(isShowModal.data.id)}
+            >
               <span className="text-xs lg:text-sm text-primary-white">
-                Delete
+                Hapus
               </span>
             </button>
           </div>

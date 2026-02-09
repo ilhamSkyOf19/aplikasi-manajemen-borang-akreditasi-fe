@@ -1,12 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { KriteriaService } from "../../../services/kriteria.service";
-import { UseSearch } from "../../../hooks/useSearch";
-import { formatTanggalPanjang } from "../../../utils/formatDate";
+import { useSearch } from "../../../hooks/useSearch";
+import type { ResponseKriteriaType } from "../../../models/kriteria.model";
+import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 
 const UseDaftarKriteria = () => {
+  // query client
+  const queryClient = useQueryClient();
+  //   modal ref
+  const modalRef = useRef<HTMLDialogElement>(null);
+  const modalDeleteRef = useRef<HTMLDialogElement>(null);
+  // call use animation toast
+  const { isAnimationOut, isToast, handleSetToast } = useToastAnimation();
   // call use search
-  const { handleSearch, search } = UseSearch();
+  const { handleSearch, search } = useSearch();
 
   // use query
   const { data: dataKriteria, isLoading } = useQuery({
@@ -20,27 +28,19 @@ const UseDaftarKriteria = () => {
 
   // state modal show
   const [isShowModal, setIsShowModal] = useState<{
-    data: {
-      id: number;
-      namaKriteria: string;
-      tanggalBuat: string;
-      tanggalUbah: string;
-      status: string;
-    };
+    data: ResponseKriteriaType;
     active: boolean;
   }>({
     data: {
       id: 0,
+      kriteria: 0,
       namaKriteria: "",
-      tanggalBuat: "",
-      tanggalUbah: "",
-      status: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      revisi: 0,
     },
     active: false,
   });
-
-  //   modal ref
-  const modalRef = useRef<HTMLDialogElement>(null);
 
   // handle show modal
   const handleShowModal = (index: number) => {
@@ -55,14 +55,7 @@ const UseDaftarKriteria = () => {
 
       if (findData) {
         setIsShowModal({
-          data: {
-            id: findData.id,
-            namaKriteria: findData.namaKriteria,
-            tanggalBuat: formatTanggalPanjang(new Date(findData.createdAt)),
-            tanggalUbah: formatTanggalPanjang(new Date(findData.updatedAt)),
-            status:
-              findData.revisi > 0 ? `Revisi ke-${findData.revisi}` : "Baru",
-          },
+          data: findData,
           active: true,
         });
       }
@@ -79,16 +72,66 @@ const UseDaftarKriteria = () => {
       modalRef.current.close();
     }
 
-    setIsShowModal({
-      data: {
-        id: 0,
-        namaKriteria: "",
-        tanggalBuat: "",
-        tanggalUbah: "",
-        status: "",
+    // timer
+    const timer = setTimeout(() => {
+      setIsShowModal({
+        data: {
+          id: 0,
+          kriteria: 0,
+          namaKriteria: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          revisi: 0,
+        },
+        active: false,
+      });
+    }, 200);
+
+    return () => clearTimeout(timer);
+  };
+
+  // state id delete
+  const [idDelete, setIdDelete] = useState<number>(0);
+
+  // handle delete
+  const { mutateAsync: mutateDelete, isPending: isLoadingDelete } = useMutation(
+    {
+      mutationFn: async (id: number) => {
+        return KriteriaService.delete(id);
       },
-      active: false,
-    });
+      onSuccess: () => {
+        handleSetToast("deleted");
+
+        // refetch
+        queryClient.invalidateQueries({ queryKey: ["daftar-kriteria"] });
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  // handle delete
+  const handleDelete = async () => {
+    await mutateDelete(idDelete);
+  };
+
+  // handle modal delete show
+  const handleModalDeleteShow = (id: number) => {
+    // set id delete
+    setIdDelete(id);
+
+    // show modal
+    if (modalDeleteRef.current) {
+      modalDeleteRef.current.showModal();
+    }
+  };
+
+  // handle modal delete close
+  const handleModalDeleteClose = () => {
+    if (modalDeleteRef.current) {
+      modalDeleteRef.current.close();
+    }
   };
 
   //   header
@@ -109,6 +152,13 @@ const UseDaftarKriteria = () => {
     handleSearch,
     dataKriteria,
     isLoading,
+    isToast,
+    isAnimationOut,
+    isLoadingDelete,
+    handleDelete,
+    handleModalDeleteShow,
+    handleModalDeleteClose,
+    modalDeleteRef,
   };
 };
 

@@ -22,7 +22,7 @@ const InputFieldWithIconText: FC<Props> = ({
 }) => {
   return (
     <div className="w-full flex flex-col justify-start items-start">
-      <div className="h-11 lg:h-12 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out ">
+      <div className="h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out ">
         {/* icon */}
         <label htmlFor={name}>
           <UserRound className="w-4 h-4" />

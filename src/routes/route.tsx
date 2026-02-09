@@ -50,7 +50,7 @@ const route = createBrowserRouter([
         element: <FormulirDaftarKriteriaPage />,
       },
       {
-        path: "daftar-kriteria/update-kriteria/:id",
+        path: "daftar-kriteria/ubah-kriteria/:id",
         loader: async ({ params }) => {
           if (!params.id || isNaN(Number(params.id))) {
             return redirect("/dashboard/daftar-kriteria");

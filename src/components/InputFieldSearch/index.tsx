@@ -1,14 +1,27 @@
 import { Search, X } from "lucide-react";
-import { useState, type FC } from "react";
+import { useEffect, useState, type FC } from "react";
 import { cn } from "../../utils/cn";
+import { useSearchParams } from "react-router-dom";
 
 type Props = {
   handleSearch: (value: string) => void;
 };
 
 const InputFieldSearch: FC<Props> = ({ handleSearch }) => {
+  const [searchParams] = useSearchParams();
+
+  // ambil dari URL
+  const urlSearch = searchParams.get("search") ?? "";
+
   // state search
   const [inputValue, setInputValue] = useState<string>("");
+
+  // set default value
+  useEffect(() => {
+    if (urlSearch) {
+      setInputValue(urlSearch);
+    }
+  }, [urlSearch]);
 
   return (
     <div className="w-full h-10 lg:h-11 flex flex-row justify-start items-center">

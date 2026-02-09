@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 import useSidebarDekstop from "./useSidebarDesktop";
 import { LogOut, PanelLeftClose } from "lucide-react";
 import { Tooltip } from "react-tooltip";
-import UseHasScroll from "../../hooks/useHasScroll";
+import useHasScroll from "../../hooks/useHasScroll";
 
 type Props = {
   isClose: boolean;
@@ -15,7 +15,7 @@ const SidebarDesktop: FC<Props> = ({ isClose }) => {
   const { isNavigation, pathname, handleLogout } = useSidebarDekstop();
 
   // use has scroll
-  const { divRef, hasScroll } = UseHasScroll();
+  const { divRef, hasScroll } = useHasScroll();
   return (
     <div className="drawer-side is-drawer-close:overflow-visible border-r border-primary-black/10">
       <label
@@ -143,7 +143,7 @@ const SidebarDesktop: FC<Props> = ({ isClose }) => {
 
       <Tooltip
         id="sidebar-tooltip"
-        className="z-50"
+        className="z-50 hidden lg:block"
         style={{
           backgroundColor: "#333",
           color: "#fff",
