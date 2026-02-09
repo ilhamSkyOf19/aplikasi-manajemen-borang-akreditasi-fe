@@ -8,7 +8,7 @@ type Props = {
 const ButtonSubmit: FC<Props> = ({ label, isLoading }: Props) => {
   return (
     <button
-      className="w-full h-10 bg-primary-purple rounded-md flex justify-center items-center overflow-hidden relative before:absolute before:inset-0 before:bg-primary-black/10 before:opacity-0 before:transition-all before:duration-300 before:ease-in-out hover:before:opacity-100"
+      className="w-full h-10 bg-primary-purple rounded-md flex justify-center items-center overflow-hidden relative before:absolute before:inset-0 before:bg-primary-black/20 before:opacity-0 before:transition-all before:duration-300 before:ease-in-out hover:before:opacity-100"
       type="submit"
     >
       {isLoading ? (

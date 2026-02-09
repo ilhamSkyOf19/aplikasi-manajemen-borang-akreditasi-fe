@@ -1,4 +1,5 @@
 import { useState, type FC } from "react";
+import { cn } from "../../utils/cn";
 
 // max
 const max = 5;
@@ -7,7 +8,12 @@ const Pagination: FC = () => {
   // state count
   const [isCount, setIsCount] = useState<number>(1);
   return (
-    <div className="w-full flex flex-row justify-center items-center py-4 lg:justify-end">
+    <div
+      className={cn(
+        "w-full flex flex-row justify-center items-center py-4 lg:justify-end",
+        isCount === 1 && "hidden",
+      )}
+    >
       <div className="join">
         <button
           disabled={isCount === 1}

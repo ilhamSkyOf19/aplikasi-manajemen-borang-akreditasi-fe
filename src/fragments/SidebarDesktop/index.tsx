@@ -5,15 +5,19 @@ import { cn } from "../../utils/cn";
 import useSidebarDekstop from "./useSidebarDesktop";
 import { LogOut, PanelLeftClose } from "lucide-react";
 import useHasScroll from "../../hooks/useHasScroll";
+import { Tooltip } from "react-tooltip";
 
-const SidebarDesktop: FC = () => {
+type Props = {
+  isClose: boolean;
+};
+const SidebarDesktop: FC<Props> = ({ isClose }) => {
   // call use dashboard
   const { isNavigation, pathname, handleLogout } = useSidebarDekstop();
 
   // use has scroll
   const { divRef, hasScroll } = useHasScroll();
   return (
-    <div className="drawer-side is-drawer-close:overflow-visible border-r border-primary-black/10 z-50">
+    <div className="drawer-side is-drawer-close:overflow-visible border-r border-primary-black/10">
       <label
         htmlFor="my-drawer-4"
         aria-label="close sidebar"
@@ -57,27 +61,39 @@ const SidebarDesktop: FC = () => {
         <ul className="menu w-full grow space-y-1">
           <ul className="w-full mt-4 space-y-1">
             {/* List item */}
+
             {isNavigation.map((item, index) => (
               <li key={index}>
                 <Link
                   to={item.link}
+                  {...(!isClose && {
+                    "data-tooltip-id": "sidebar-tooltip",
+                    "data-tooltip-content": item.label,
+                  })}
+                  data-tooltip-place="right"
                   className={cn(
-                    "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-primary-purple group",
-                    pathname === item.link && "bg-primary-purple",
+                    "hover:bg-primary-purple group",
+                    item.link === "/dashboard"
+                      ? pathname === "/dashboard" && "bg-primary-purple"
+                      : pathname.startsWith(item.link) && "bg-primary-purple",
                   )}
-                  data-tip={item.label}
                 >
-                  {/* Home icon */}
                   <item.icon
                     className={cn(
                       "my-1.5 inline-block size-6 group-hover:text-primary-white transition-all duration-150 ease-in-out",
-                      pathname === item.link && "text-primary-white",
+                      item.link === "/dashboard"
+                        ? pathname === "/dashboard" && "text-primary-white"
+                        : pathname.startsWith(item.link) &&
+                            "text-primary-white",
                     )}
                   />
                   <span
                     className={cn(
                       "is-drawer-close:hidden group-hover:text-primary-white capitalize transition-all duration-150 ease-in-out",
-                      pathname === item.link && "text-primary-white",
+                      item.link === "/dashboard"
+                        ? pathname === "/dashboard" && "text-primary-white"
+                        : pathname.startsWith(item.link) &&
+                            "text-primary-white",
                     )}
                   >
                     {item.label}
@@ -92,6 +108,11 @@ const SidebarDesktop: FC = () => {
             <li className="">
               <button
                 type="button"
+                {...(!isClose && {
+                  "data-tooltip-id": "sidebar-tooltip",
+                  "data-tooltip-content": "keluar",
+                })}
+                data-tooltip-place="right"
                 className={cn(
                   "is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-primary-purple group",
                 )}
@@ -119,6 +140,18 @@ const SidebarDesktop: FC = () => {
         {/* button logout */}
         <div className="menu w-full grow space-y-1"></div>
       </div>
+
+      <Tooltip
+        id="sidebar-tooltip"
+        className="z-50"
+        style={{
+          backgroundColor: "#333",
+          color: "#fff",
+          borderRadius: "4px",
+          padding: "8px 12px",
+          fontSize: "14px",
+        }}
+      />
     </div>
   );
 };

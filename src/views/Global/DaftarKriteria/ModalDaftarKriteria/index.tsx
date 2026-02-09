@@ -1,5 +1,5 @@
 import { type FC, type RefObject } from "react";
-import { formatTanggalPanjang } from "../../../utils/formatDate";
+import { formatTanggalPanjang } from "../../../../utils/formatDate";
 type Props = {
   isShowModal: {
     data: {

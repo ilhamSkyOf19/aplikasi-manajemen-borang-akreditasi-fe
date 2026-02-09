@@ -1,11 +1,11 @@
-import { Plus } from "lucide-react";
 import { type FC } from "react";
 import InputFieldSearch from "../../../components/InputFieldSearch";
 import TableData from "../../../components/TableData";
 import useDaftarKriteria from "./useDaftarKriteria";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
-import ModalDaftarKriteria from "./ModalDaftarKriteria";
 import Pagination from "../../../components/Pagination";
+import TitlePage from "../../../components/TitlePage";
+import ModalDaftarKriteria from "./ModalDaftarKriteria";
 
 const DaftarKriteria: FC = () => {
   // call use
@@ -21,39 +21,22 @@ const DaftarKriteria: FC = () => {
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
       <div className="w-full flex flex-col justify-start items-start">
-        {/* header */}
-        <div className="w-full flex flex-row justify-between items-start">
-          <div className="flex flex-col justify-start items-start">
-            {/* title */}
-            <h2 className="text-lg font-medium">Kelola Daftar Kriteria</h2>
+        {/* title page */}
+        <TitlePage
+          bigTitle="Kelola Daftar Kriteria"
+          smallTitle="Halaman untuk mengelola daftar kriteria"
+          linkAdd="/dashboard/daftar-kriteria/tambah-kriteria"
+          labelAdd="Tambah Kriteria"
+        />
 
-            {/* deskripsi */}
-            <p className="text-xs text-primary-black/80">
-              Halaman untuk mengelola daftar kriteria
-            </p>
-          </div>
-
-          {/* btn */}
-          <button
-            type="button"
-            className="bg-primary-purple rounded-full w-10 h-10 flex justify-center items-center hover-overlay lg:w-auto lg:rounded-md lg:px-3 lg:gap-2"
-          >
-            <Plus className="size-5 text-primary-white lg" />
-
-            <span className="text-sm text-primary-white hidden lg:block">
-              Tambah Kriteria
-            </span>
-          </button>
-        </div>
-
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg min-h-[65vh]">
+        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
           {/* input field  search */}
           <div className="w-full flex flex-row justify-start items-center">
-            <div className="flex-1">
+            <div className="w-full lg:flex-1">
               <InputFieldSearch />
             </div>
 
-            <div className="flex-1 flex flex-row justify-end items-center" />
+            <div className="flex-1 hidden lg:flex flex-row justify-end items-center" />
           </div>
 
           {/* table data */}
@@ -86,9 +69,6 @@ const DaftarKriteria: FC = () => {
                   tanggalUbah: formatTanggalPanjang(item.data.tanggalUbah),
                 },
               }))}
-              aksiModal={true}
-              handleModal={handleShowModal}
-              isDataModalActive={isShowModal.data.id}
               aksi={true}
             />
           </div>

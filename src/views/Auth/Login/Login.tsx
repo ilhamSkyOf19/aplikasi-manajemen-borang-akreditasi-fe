@@ -1,10 +1,10 @@
 import { type FC } from "react";
 import logoFikom from "../../../assets/logos/logo-fikom.webp";
-import InputFieldText from "../../../components/InputFieldText";
-import InputFieldPassword from "../../../components/InputFieldPassword";
+import InputFieldWithIconPassword from "../../../components/InputFieldWithIconPassword";
 import ButtonSubmit from "../../../components/ButtonSubmit";
 import useLogin from "./useLogin";
 import { cn } from "../../../utils/cn";
+import InputFieldWithIconText from "../../../components/InputFieldWithIconText";
 
 const Login: FC = () => {
   // use login
@@ -63,7 +63,7 @@ const Login: FC = () => {
               )}
             >
               {/* input identifier */}
-              <InputFieldText
+              <InputFieldWithIconText
                 register={register("identifier")}
                 errorMessage={errors.identifier?.message}
                 name="identifier"
@@ -71,7 +71,7 @@ const Login: FC = () => {
               />
 
               {/* input password  */}
-              <InputFieldPassword
+              <InputFieldWithIconPassword
                 register={register("password")}
                 errorMessage={errors.password?.message}
                 name="password"

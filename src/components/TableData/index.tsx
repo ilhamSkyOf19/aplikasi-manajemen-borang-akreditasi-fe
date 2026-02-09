@@ -48,7 +48,8 @@ const TableData: FC<Props> = ({
             <tr
               key={index}
               className={cn(
-                "hover:bg-primary-purple transition-all duration-150 group",
+                aksiModal &&
+                  "hover:bg-primary-purple transition-all duration-150 group",
                 isDataModalActive &&
                   isDataModalActive === row.fields.id &&
                   "lg:bg-primary-purple",

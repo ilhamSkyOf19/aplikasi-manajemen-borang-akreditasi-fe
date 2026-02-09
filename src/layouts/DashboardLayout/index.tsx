@@ -1,33 +1,11 @@
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import SidebarDesktop from "../../fragments/SidebarDesktop";
-import { Outlet, useLoaderData, useLocation } from "react-router-dom";
-import type { PayloadUserType } from "../../models/user.model";
-import { useAuth } from "../../contexts/AuthContext";
+import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import useDashboardLayout from "./useDashboardLayout";
 
 const DashboardLayout: FC = () => {
-  // pathname
-  const pathname = useLocation().pathname;
-
-  // destructure pathname
-  const path = pathname
-    .split("/")
-    .filter((item) => item !== "" && item !== "dashboard")
-    .pop()
-    ?.split("-")
-    .join(" ");
-
-  // loader
-  const user = useLoaderData() as PayloadUserType;
-
-  // set auth context
-  const { handleUser } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      handleUser(user);
-    }
-  }, [user]);
+  const { handleSidebar, isClose, path } = useDashboardLayout();
 
   return (
     <div className="drawer lg:drawer-open">
@@ -38,17 +16,21 @@ const DashboardLayout: FC = () => {
         {/* Page content here */}
         <div className="w-full max-h-screen overflow-hidden">
           {/* navbar */}
-          <Navbar title={pathname === "/dashboard" ? "Dashboard" : `${path}`} />
+          <Navbar
+            handleSidebar={handleSidebar}
+            isClose={isClose}
+            title={path === "/dashboard" ? "Dashboard" : `${path}`}
+          />
 
           {/* content */}
-          <main className="w-full h-screen overflow-y-auto p-4">
+          <main className="w-full h-screen overflow-y-auto p-4 pb-4">
             <Outlet />
           </main>
         </div>
       </div>
 
       {/* sidebar */}
-      <SidebarDesktop />
+      <SidebarDesktop isClose={isClose} />
     </div>
   );
 };

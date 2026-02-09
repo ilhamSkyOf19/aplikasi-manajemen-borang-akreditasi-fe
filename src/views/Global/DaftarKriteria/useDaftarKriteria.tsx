@@ -5,6 +5,7 @@ const dataDummy = [
   {
     data: {
       id: 1,
+      kriteria: "C1",
       namaKriteria: "Budaya Mutu",
       tanggalBuat: "2026-02-08T14:30:45.123Z",
       tanggalUbah: "2026-02-08T14:30:45.123Z",
@@ -14,6 +15,7 @@ const dataDummy = [
   {
     data: {
       id: 2,
+      kriteria: "C2",
       namaKriteria: "Relevansi Pendidikan",
       tanggalBuat: "2026-02-08T14:30:45.123Z",
       tanggalUbah: "2026-02-08T14:30:45.123Z",
@@ -82,11 +84,13 @@ const useDaftarKriteria = () => {
   };
 
   //   header
-  const header = Object.keys(dataDummy[0].data).map((key) => ({
-    label: key,
-    key: key,
-    size: 18,
-  }));
+  const header = [
+    { label: "Kriteria", key: "kriteria", size: 18 },
+    { label: "Nama Kriteria", key: "namaKriteria", size: 18 },
+    { label: "Tanggal Buat", key: "tanggalBuat", size: 18 },
+    { label: "Tanggal Ubah", key: "tanggalUbah", size: 18 },
+    { label: "Status", key: "status", size: 18 },
+  ];
 
   return {
     isShowModal,
