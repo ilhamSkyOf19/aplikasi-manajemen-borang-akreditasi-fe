@@ -1,22 +1,24 @@
 import { type FC } from "react";
 import InputFieldSearch from "../../../components/InputFieldSearch";
 import TableData from "../../../components/TableData";
-import useDaftarKriteria from "./useDaftarKriteria";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import Pagination from "../../../components/Pagination";
 import TitlePage from "../../../components/TitlePage";
 import ModalDaftarKriteria from "./ModalDaftarKriteria";
+import UseDaftarKriteria from "./useDaftarKriteria";
 
 const DaftarKriteria: FC = () => {
   // call use
   const {
-    dataDummy,
     handleCloseModal,
     handleShowModal,
     isShowModal,
     header,
     modalRef,
-  } = useDaftarKriteria();
+    dataKriteria,
+    handleSearch,
+    isLoading,
+  } = UseDaftarKriteria();
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
@@ -33,45 +35,68 @@ const DaftarKriteria: FC = () => {
           {/* input field  search */}
           <div className="w-full flex flex-row justify-start items-center">
             <div className="w-full lg:flex-1">
-              <InputFieldSearch />
+              <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
             <div className="flex-1 hidden lg:flex flex-row justify-end items-center" />
           </div>
 
-          {/* table data */}
-          <div className="w-full lg:hidden">
-            {/* table data for sm */}
-            <TableData
-              header={[
-                { label: "nama kriteria", size: 80, key: "namaKriteria" },
-              ]}
-              datas={dataDummy.map((item) => ({
-                fields: {
-                  id: item.data.id,
-                  namaKriteria: item.data.namaKriteria,
-                },
-              }))}
-              aksiModal={true}
-              handleModal={handleShowModal}
-              isDataModalActive={isShowModal.data.id}
-            />
-          </div>
+          {/* check data */}
+          {isLoading ? (
+            <div className="w-full flex flex-col justify-start items-start gap-2 mt-4">
+              <div className="w-full h-11 skeleton" />
+              <div className="w-full h-11 skeleton" />
+              <div className="w-full h-11 skeleton" />
+              <div className="w-full h-11 skeleton" />
+              <div className="w-full h-11 skeleton" />
+            </div>
+          ) : dataKriteria?.data && dataKriteria.data.data.length > 0 ? (
+            <>
+              {/* table data */}
+              <div className="w-full lg:hidden">
+                {/* table data for sm */}
+                <TableData
+                  header={[
+                    { label: "nama kriteria", size: 80, key: "namaKriteria" },
+                  ]}
+                  datas={dataKriteria?.data.data.map((item) => ({
+                    fields: {
+                      id: item.id,
+                      namaKriteria: item.namaKriteria,
+                    },
+                  }))}
+                  aksiModal={true}
+                  handleModal={handleShowModal}
+                  isDataModalActive={isShowModal.data.id}
+                />
+              </div>
 
-          {/* table data for lg */}
-          <div className="w-full hidden lg:flex">
-            <TableData
-              header={header}
-              datas={dataDummy.map((item, _index) => ({
-                fields: {
-                  ...item.data,
-                  tanggalBuat: formatTanggalPanjang(item.data.tanggalBuat),
-                  tanggalUbah: formatTanggalPanjang(item.data.tanggalUbah),
-                },
-              }))}
-              aksi={true}
-            />
-          </div>
+              {/* table data for lg */}
+              <div className="w-full hidden lg:flex">
+                <TableData
+                  header={header}
+                  datas={dataKriteria?.data.data.map((item, _index) => ({
+                    fields: {
+                      ...item,
+                      kriteria: `C${item.kriteria}`,
+                      tanggalBuat: formatTanggalPanjang(item.createdAt),
+                      tanggalUbah: formatTanggalPanjang(item.updatedAt),
+                      status:
+                        item.revisi > 1 ? `Revisi ke-${item.revisi}` : "Baru",
+                    },
+                  }))}
+                  aksi={true}
+                  linkUpdate={"daftar-kriteria/update-kriteria"}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="w-full flex flex-row justify-center items-center">
+              <p className="text-sm text-primary-black/80">
+                Data kriteria tidak ditemukan
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

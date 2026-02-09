@@ -14,10 +14,7 @@ const useDashboardLayout = () => {
   const pathname = useLocation().pathname;
 
   // destructure pathname
-  const lastSegment = pathname
-    .split("/")
-    .filter((item) => item !== "" && item !== "dashboard")
-    .pop();
+  const lastSegment = pathname.split("/").pop();
 
   const path = isNaN(Number(lastSegment))
     ? lastSegment?.split("-").join(" ")

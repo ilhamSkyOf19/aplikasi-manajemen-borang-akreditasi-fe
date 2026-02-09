@@ -10,7 +10,7 @@ const ButtonBackBox: FC<Props> = ({ label }: Props) => {
   return (
     <button
       className="w-full h-10 bg-gray-300 rounded-md flex justify-center items-center hover:bg-gray-400 transition-all duration-300 ease-in-out"
-      type="submit"
+      type="button"
       onClick={() => navigate(-1)}
     >
       <span className="text-primary-black text-sm font-medium uppercase">

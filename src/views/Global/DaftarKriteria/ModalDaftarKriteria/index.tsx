@@ -1,5 +1,5 @@
 import { type FC, type RefObject } from "react";
-import { formatTanggalPanjang } from "../../../../utils/formatDate";
+import { Link } from "react-router-dom";
 type Props = {
   isShowModal: {
     data: {
@@ -37,17 +37,11 @@ const ModalDaftarKriteria: FC<Props> = ({
             />
             <FieldDataModal
               typeData="Tanggal Buat"
-              value={
-                isShowModal.data.tanggalBuat &&
-                formatTanggalPanjang(isShowModal.data.tanggalBuat)
-              }
+              value={isShowModal.data.tanggalBuat}
             />
             <FieldDataModal
               typeData="Tanggal Ubah"
-              value={
-                isShowModal.data.tanggalUbah &&
-                formatTanggalPanjang(isShowModal.data.tanggalUbah)
-              }
+              value={isShowModal.data.tanggalUbah}
             />
             <FieldDataModal typeData="Status" value={isShowModal.data.status} />
           </div>
@@ -63,11 +57,15 @@ const ModalDaftarKriteria: FC<Props> = ({
             </div>
 
             {/* button update */}
-            <button type="button" className="btn btn-info">
+            <Link
+              to={`/dashboard/daftar-kriteria/update-kriteria/${isShowModal.data.id}`}
+              type="button"
+              className="btn btn-info"
+            >
               <span className="text-xs lg:text-sm text-primary-white">
                 Update
               </span>
-            </button>
+            </Link>
 
             {/* button delete */}
             <button type="button" className="btn btn-error">

@@ -1,6 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
-const useHasScroll = () => {
+type UseHasScrollTypeReturn = {
+  divRef: RefObject<HTMLDivElement | null>;
+  hasScroll: boolean;
+};
+
+const UseHasScroll = (): UseHasScrollTypeReturn => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const [hasScroll, setHasScroll] = useState<boolean>(false);
@@ -22,4 +27,4 @@ const useHasScroll = () => {
   return { divRef, hasScroll };
 };
 
-export default useHasScroll;
+export default UseHasScroll;

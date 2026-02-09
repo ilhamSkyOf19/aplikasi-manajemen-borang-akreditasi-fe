@@ -5,7 +5,7 @@ type UseClickOutsideProps = {
   onOutsideClick: () => void;
 };
 
-const useClickOutside = ({ refs, onOutsideClick }: UseClickOutsideProps) => {
+const UseClickOutside = ({ refs, onOutsideClick }: UseClickOutsideProps) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const isOutside = refs.every(
@@ -24,4 +24,4 @@ const useClickOutside = ({ refs, onOutsideClick }: UseClickOutsideProps) => {
   }, [refs, onOutsideClick]);
 };
 
-export default useClickOutside;
+export default UseClickOutside;

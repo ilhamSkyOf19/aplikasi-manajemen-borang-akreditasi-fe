@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import { cn } from "../../utils/cn";
 import { Pencil, Trash2Icon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type Props = {
   header: { key: string; label: string; size: number }[];
@@ -9,6 +10,7 @@ type Props = {
   aksi?: boolean;
   handleModal?: (index: number) => void;
   isDataModalActive?: number;
+  linkUpdate?: string;
 };
 const TableData: FC<Props> = ({
   header,
@@ -16,11 +18,12 @@ const TableData: FC<Props> = ({
   aksiModal,
   handleModal,
   isDataModalActive,
+  linkUpdate,
   aksi,
 }) => {
   return (
     <div className="w-full overflow-x-auto mt-4">
-      <table className="table w-full">
+      <table className="table table-md lg:table-sm w-full">
         {/* head */}
         <thead>
           <tr>
@@ -72,7 +75,7 @@ const TableData: FC<Props> = ({
                   <td
                     key={index}
                     className={cn(
-                      "group-hover:text-primary-white transition-all duration-150",
+                      "group-hover:text-primary-white transition-all duration-15",
                       isDataModalActive &&
                         isDataModalActive === row.fields.id &&
                         "lg:text-primary-white",
@@ -93,7 +96,8 @@ const TableData: FC<Props> = ({
                 <div className="flex flex-row justify-start items-center gap-2">
                   {/* update */}
                   <div className="tooltip" data-tip="edit">
-                    <button
+                    <Link
+                      to={`/dashboard/${linkUpdate}/${row.fields.id}`}
                       type="button"
                       className="btn btn-info px-3 btn-soft"
                       onClick={(e) => {
@@ -102,7 +106,7 @@ const TableData: FC<Props> = ({
                       }}
                     >
                       <Pencil className="w-4 h-4" />
-                    </button>
+                    </Link>
                   </div>
 
                   {/* delete */}

@@ -21,6 +21,7 @@ const useFormulirKriteria = () => {
     queryKey: ["formulir-kriteria", id],
     queryFn: async () => KriteriaService.readById(+id),
     enabled: !!id,
+    refetchOnWindowFocus: false,
   });
 
   // pathname

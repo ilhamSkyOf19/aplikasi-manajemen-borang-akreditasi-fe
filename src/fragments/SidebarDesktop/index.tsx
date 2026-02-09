@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { cn } from "../../utils/cn";
 import useSidebarDekstop from "./useSidebarDesktop";
 import { LogOut, PanelLeftClose } from "lucide-react";
-import useHasScroll from "../../hooks/useHasScroll";
 import { Tooltip } from "react-tooltip";
+import UseHasScroll from "../../hooks/useHasScroll";
 
 type Props = {
   isClose: boolean;
@@ -15,7 +15,7 @@ const SidebarDesktop: FC<Props> = ({ isClose }) => {
   const { isNavigation, pathname, handleLogout } = useSidebarDekstop();
 
   // use has scroll
-  const { divRef, hasScroll } = useHasScroll();
+  const { divRef, hasScroll } = UseHasScroll();
   return (
     <div className="drawer-side is-drawer-close:overflow-visible border-r border-primary-black/10">
       <label
