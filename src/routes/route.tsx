@@ -6,7 +6,12 @@ import HomePage from "../pages/Homepage";
 import KelolaTimAkreditasiPage from "../pages/KelolaTimAkreditasiPage";
 import DaftarKriteriaPage from "../pages/DaftarKriteriaPage";
 import FormulirDaftarKriteriaPage from "../pages/FormulirDaftarKriteriaPage";
+import NotFoundPage from "../pages/NotFoundPage";
 const route = createBrowserRouter([
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
   {
     path: "/",
     loader: () => redirect("/dashboard"),
