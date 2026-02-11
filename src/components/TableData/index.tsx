@@ -13,6 +13,12 @@ type Props = {
   linkUpdate?: string;
   handleShowModalDelete?: (id: number) => void;
   size?: string;
+  fieldAksi?: {
+    label: string;
+    size: number;
+    header: string;
+    handleAksi: () => void;
+  }[];
 };
 const TableData: FC<Props> = ({
   header,
@@ -24,6 +30,7 @@ const TableData: FC<Props> = ({
   aksi,
   handleShowModalDelete,
   size,
+  fieldAksi,
 }) => {
   return (
     <div className="w-full overflow-x-auto mt-4">
@@ -37,12 +44,28 @@ const TableData: FC<Props> = ({
             {header
               .filter((item) => item.key !== "id")
               .map(({ label, size }, index) => (
-                <th key={index} className={`w-[${size}%] capitalize`}>
+                <th
+                  key={index}
+                  className={`capitalize`}
+                  style={{ width: `${size}%` }}
+                >
                   {label}
                 </th>
               ))}
 
-            <th className={cn("w-[10%] lg:hidden", !aksiModal && "hidden")} />
+            {!aksiModal && <th className={cn("w-[10%] lg:hidden")} />}
+
+            {/* field aksi lainnya */}
+            {fieldAksi &&
+              fieldAksi.map((item, index) => (
+                <th
+                  key={index}
+                  className={`capitalize`}
+                  style={{ width: `${size}%` }}
+                >
+                  {item.header}
+                </th>
+              ))}
 
             {/* aksi */}
             {aksi && (
@@ -62,7 +85,9 @@ const TableData: FC<Props> = ({
                     isDataModalActive === row.fields.id &&
                     "lg:bg-primary-purple",
                 )}
-                onClick={() => aksiModal && handleModal && handleModal(index)}
+                onClick={() =>
+                  aksiModal && handleModal && handleModal(row.fields.id)
+                }
               >
                 <th
                   className={cn(
@@ -95,6 +120,18 @@ const TableData: FC<Props> = ({
                     <span className="text-xs text-primary-purple">Lihat</span>
                   </div>
                 </td>
+
+                {/* field aksi lainnya */}
+                {fieldAksi &&
+                  fieldAksi.map((item, idx) => (
+                    <td key={idx}>
+                      <button type="button" onClick={item.handleAksi}>
+                        <span className="text-primary-purple hover:underline">
+                          {item.label}
+                        </span>
+                      </button>
+                    </td>
+                  ))}
 
                 {/* aksi */}
                 {aksi && (

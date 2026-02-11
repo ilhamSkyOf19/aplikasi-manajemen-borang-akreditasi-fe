@@ -46,8 +46,8 @@ export const NAVIGATION_LIST_WD: {
     icon: FileCog,
   },
   {
-    label: "kelola anggota",
-    link: "/dashboard/kelola-anggota",
+    label: "kelola user",
+    link: "/dashboard/kelola-user",
     icon: UsersRound,
   },
   {

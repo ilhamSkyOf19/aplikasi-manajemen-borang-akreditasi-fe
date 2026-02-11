@@ -9,6 +9,8 @@ import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/ModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
+import SkeletonTable from "../../../components/SkeletonTable";
+import DropDown from "../../../components/DropDown";
 
 const DaftarKriteria: FC = () => {
   // call use
@@ -84,36 +86,24 @@ const DaftarKriteria: FC = () => {
 
         <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
           {/* input field  search */}
-          <div className="w-full flex flex-row justify-between items-center">
-            <div className="w-full lg:flex-1">
+          <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
+            <div className="w-full lg:w-1/2">
               {/* input search */}
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
-            <div className="w-full lg:flex-1 flex flex-row justify-end items-center ">
-              {/* filter status */}
-              <select
-                defaultValue="Pilih status"
-                className="select w-40 border-primary-purple"
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option disabled={true}>Pilih status</option>
-                <option>Baru</option>
-                <option>Revisi</option>
-                <option>Semua</option>
-              </select>
+            <div className="w-30 lg:w-40">
+              <DropDown
+                handleChange={(e) => setFilterStatus(e.target.value)}
+                listChoose={["Baru", "Revisi", "Semua"]}
+                placeholder="Pilih status"
+              />
             </div>
           </div>
 
           {/* check data */}
           {isLoading ? (
-            <div className="w-full flex flex-col justify-start items-start gap-2 mt-4">
-              <div className="w-full h-11 skeleton" />
-              <div className="w-full h-11 skeleton" />
-              <div className="w-full h-11 skeleton" />
-              <div className="w-full h-11 skeleton" />
-              <div className="w-full h-11 skeleton" />
-            </div>
+            <SkeletonTable />
           ) : (
             dataKriteria?.data && (
               <>
@@ -195,7 +185,28 @@ const DaftarKriteria: FC = () => {
       <ModalDaftarKriteria
         modalRef={modalRef}
         handleCloseModal={handleCloseModal}
-        isShowModal={isShowModal}
+        isShowModal={{
+          active: isShowModal.active,
+          data: {
+            kriteria: `C-${isShowModal.data.kriteria}`,
+            namaKriteria: isShowModal.data.namaKriteria,
+            createdAt: formatTanggalPanjang(isShowModal.data.createdAt),
+            updatedAt: formatTanggalPanjang(isShowModal.data.updatedAt),
+            revisi:
+              isShowModal.data.revisi > 0
+                ? `Revisi ke-${isShowModal.data.revisi}`
+                : "Baru",
+          },
+          id: isShowModal.data.id,
+          label: [
+            { key: "kriteria", label: "Kriteria" },
+            { key: "namaKriteria", label: "Nama Kriteria" },
+            { key: "createdAt", label: "Tanggal Buat" },
+            { key: "updatedAt", label: "Tanggal Ubah" },
+            { key: "revisi", label: "Status" },
+          ],
+        }}
+        linkUpdate={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal.data.id}`}
         handleShowModalDelete={handleModalDeleteShow}
       />
 

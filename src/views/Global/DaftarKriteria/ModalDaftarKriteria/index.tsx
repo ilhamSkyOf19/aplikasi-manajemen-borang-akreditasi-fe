@@ -1,21 +1,24 @@
 import { type FC, type RefObject } from "react";
 import { Link } from "react-router-dom";
-import type { ResponseKriteriaType } from "../../../../models/kriteria.model";
-import { formatTanggalPanjang } from "../../../../utils/formatDate";
+
 type Props = {
   isShowModal: {
-    data: ResponseKriteriaType;
+    id: number;
+    label: { key: string; label: string }[];
+    data: Record<string, any>;
     active: boolean;
   };
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
   handleShowModalDelete: (id: number) => void;
+  linkUpdate: string;
 };
-const ModalDaftarKriteria: FC<Props> = ({
+const ModalDetailData: FC<Props> = ({
   handleCloseModal,
   isShowModal,
   modalRef,
   handleShowModalDelete,
+  linkUpdate,
 }) => {
   return (
     <>
@@ -29,30 +32,15 @@ const ModalDaftarKriteria: FC<Props> = ({
           <h3 className="font-bold text-base lg:text-lg">Data Kriteria</h3>
 
           <div className="w-full flex flex-col justify-start items-stary mt-4 gap-3">
-            <FieldDataModal
-              typeData="Kriteria"
-              value={`C${isShowModal.data.kriteria}`}
-            />
-            <FieldDataModal
-              typeData="Nama Kriteria"
-              value={isShowModal.data.namaKriteria}
-            />
-            <FieldDataModal
-              typeData="Tanggal Buat"
-              value={formatTanggalPanjang(isShowModal.data.createdAt)}
-            />
-            <FieldDataModal
-              typeData="Tanggal Ubah"
-              value={formatTanggalPanjang(isShowModal.data.updatedAt)}
-            />
-            <FieldDataModal
-              typeData="Status"
-              value={
-                isShowModal.data.revisi > 0
-                  ? `Revisi ke-${isShowModal.data.revisi}`
-                  : "Baru"
-              }
-            />
+            {/* field data modal */}
+
+            {isShowModal.label.map((item, index) => (
+              <FieldDataModal
+                key={index}
+                typeData={item.label}
+                value={isShowModal.data[item.key]}
+              />
+            ))}
           </div>
 
           <div className="w-full flex flex-row justify-end items-end gap-2 mt-2">
@@ -66,11 +54,7 @@ const ModalDaftarKriteria: FC<Props> = ({
             </div>
 
             {/* button update */}
-            <Link
-              to={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal.data.id}`}
-              type="button"
-              className="btn btn-info"
-            >
+            <Link to={linkUpdate} type="button" className="btn btn-info">
               <span className="text-xs lg:text-sm text-primary-white">
                 Ubah
               </span>
@@ -80,7 +64,7 @@ const ModalDaftarKriteria: FC<Props> = ({
             <button
               type="button"
               className="btn btn-error"
-              onClick={() => handleShowModalDelete(isShowModal.data.id)}
+              onClick={() => handleShowModalDelete(isShowModal.id)}
             >
               <span className="text-xs lg:text-sm text-primary-white">
                 Hapus
@@ -109,4 +93,4 @@ const FieldDataModal: FC<FieldDataModalProps> = ({ typeData, value }) => {
   );
 };
 
-export default ModalDaftarKriteria;
+export default ModalDetailData;

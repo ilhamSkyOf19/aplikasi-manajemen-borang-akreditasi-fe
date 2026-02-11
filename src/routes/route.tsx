@@ -9,6 +9,7 @@ import FormulirDaftarKriteriaPage from "../pages/FormulirDaftarKriteriaPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RoleGuard from "../guards/RoleGuard";
 import GuardLoginPage from "../guards/GuardLoginPage";
+import KelolaUser from "../views/WakilDekan/KelolaUser";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -73,6 +74,16 @@ const route = createBrowserRouter([
           }
         },
         element: <FormulirDaftarKriteriaPage />,
+      },
+
+      // kelola user
+      {
+        path: "kelola-user",
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <KelolaUser />
+          </RoleGuard>
+        ),
       },
 
       // kelola tim akreditasi

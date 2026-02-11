@@ -48,15 +48,13 @@ const UseDaftarKriteria = () => {
   });
 
   // handle show modal
-  const handleShowModal = (index: number) => {
+  const handleShowModal = (id: number) => {
     if (
       dataKriteria &&
       dataKriteria.data &&
       dataKriteria.data?.data.length > 0
     ) {
-      const findData = dataKriteria.data.data.find(
-        (_item, idx) => idx === index,
-      );
+      const findData = dataKriteria.data.data.find((item) => item.id === id);
 
       if (findData) {
         setIsShowModal({
