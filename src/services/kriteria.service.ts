@@ -35,7 +35,9 @@ export class KriteriaService {
 
   // read all with pagination
   static async readAll(
-    query: PaginationType,
+    query: PaginationType & {
+      status?: "baru" | "revisi";
+    },
   ): Promise<ResponseStructure<ResponseKriteriaWithMetaType | null>> {
     // call api
     const result = await instanceAxios.get<

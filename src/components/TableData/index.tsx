@@ -12,6 +12,7 @@ type Props = {
   isDataModalActive?: number;
   linkUpdate?: string;
   handleShowModalDelete?: (id: number) => void;
+  size?: string;
 };
 const TableData: FC<Props> = ({
   header,
@@ -22,10 +23,13 @@ const TableData: FC<Props> = ({
   linkUpdate,
   aksi,
   handleShowModalDelete,
+  size,
 }) => {
   return (
     <div className="w-full overflow-x-auto mt-4">
-      <table className="table table-md lg:table-sm w-full">
+      <table
+        className={cn("table w-full", size ? size : "table-md lg:table-sm")}
+      >
         {/* head */}
         <thead>
           <tr>
@@ -41,11 +45,9 @@ const TableData: FC<Props> = ({
             <th className={cn("w-[10%] lg:hidden", !aksiModal && "hidden")} />
 
             {/* aksi */}
-            <th
-              className={cn("w-[5%] hidden lg:table-cell", !aksi && "hidden")}
-            >
-              Aksi
-            </th>
+            {aksi && (
+              <th className={cn("w-[5%] hidden lg:table-cell")}>Aksi</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -95,40 +97,42 @@ const TableData: FC<Props> = ({
                 </td>
 
                 {/* aksi */}
-                <td className={cn("hidden lg:block", !aksi && "hidden")}>
-                  <div className="flex flex-row justify-start items-center gap-2">
-                    {/* update */}
-                    <div className="tooltip" data-tip="ubah">
-                      <Link
-                        to={`/dashboard/${linkUpdate}/${row.fields.id}`}
-                        type="button"
-                        className="btn btn-info px-3 btn-soft"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // logic update
-                        }}
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Link>
-                    </div>
+                {aksi && (
+                  <td className={cn("hidden lg:block")}>
+                    <div className="flex flex-row justify-start items-center gap-2">
+                      {/* update */}
+                      <div className="tooltip" data-tip="ubah">
+                        <Link
+                          to={`/dashboard/${linkUpdate}/${row.fields.id}`}
+                          type="button"
+                          className="btn btn-info px-3 btn-soft"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // logic update
+                          }}
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Link>
+                      </div>
 
-                    {/* delete */}
-                    <div className="tooltip" data-tip="hapus">
-                      <button
-                        type="button"
-                        className="btn btn-error px-3 btn-soft"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // logic delete
-                          handleShowModalDelete &&
-                            handleShowModalDelete(row.fields.id);
-                        }}
-                      >
-                        <Trash2Icon className="w-5 h-5" />
-                      </button>
+                      {/* delete */}
+                      <div className="tooltip" data-tip="hapus">
+                        <button
+                          type="button"
+                          className="btn btn-error px-3 btn-soft"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // logic delete
+                            handleShowModalDelete &&
+                              handleShowModalDelete(row.fields.id);
+                          }}
+                        >
+                          <Trash2Icon className="w-5 h-5" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
+                )}
               </tr>
             ))
           ) : (

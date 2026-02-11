@@ -18,10 +18,12 @@ instanceAxios.interceptors.response.use(
     }
 
     // autorized
-    // if (error.response?.status === 401) {
-    //   // redirect ke halaman login
-    //   window.location.href = "/login";
-    // }
+    if (
+      error.response?.status === 401 &&
+      !error.config.url?.includes("/auth/me")
+    ) {
+      window.location.href = "/login";
+    }
 
     if (!error.response) {
       console.error("Network error:", error.message);

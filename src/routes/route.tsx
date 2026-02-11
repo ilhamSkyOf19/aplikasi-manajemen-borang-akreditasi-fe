@@ -7,9 +7,15 @@ import KelolaTimAkreditasiPage from "../pages/KelolaTimAkreditasiPage";
 import DaftarKriteriaPage from "../pages/DaftarKriteriaPage";
 import FormulirDaftarKriteriaPage from "../pages/FormulirDaftarKriteriaPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import RoleGuard from "../guards/RoleGuard";
+import GuardLoginPage from "../guards/GuardLoginPage";
 const route = createBrowserRouter([
   {
     path: "*",
+    element: <NotFoundPage />,
+  },
+  {
+    path: "/404",
     element: <NotFoundPage />,
   },
   {
@@ -23,7 +29,7 @@ const route = createBrowserRouter([
       try {
         const result = await AuthService.me();
 
-        if (result.meta.statusCode === 200) {
+        if (result && result.meta.statusCode === 200) {
           return result.data;
         }
 
@@ -36,6 +42,7 @@ const route = createBrowserRouter([
         throw err;
       }
     },
+    shouldRevalidate: () => false,
     element: <DashboardLayout />,
     children: [
       {
@@ -52,7 +59,11 @@ const route = createBrowserRouter([
       // tambah kriteria
       {
         path: "daftar-kriteria/tambah-kriteria",
-        element: <FormulirDaftarKriteriaPage />,
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirDaftarKriteriaPage />
+          </RoleGuard>
+        ),
       },
       {
         path: "daftar-kriteria/ubah-kriteria/:id",
@@ -74,24 +85,11 @@ const route = createBrowserRouter([
 
   {
     path: "/login",
-    loader: async () => {
-      try {
-        const result = await AuthService.me();
-
-        if (result.meta.statusCode === 200) {
-          return redirect("/");
-        }
-
-        return null;
-      } catch (err: any) {
-        if (err.response?.status === 401) {
-          return null; // tetap di login
-        }
-
-        throw err;
-      }
-    },
-    element: <LoginPage />,
+    element: (
+      <GuardLoginPage>
+        <LoginPage />
+      </GuardLoginPage>
+    ),
   },
 ]);
 

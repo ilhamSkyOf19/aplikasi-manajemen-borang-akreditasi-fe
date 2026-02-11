@@ -5,29 +5,29 @@ import type { ResponseStructure } from "../types/response";
 export class AuthService {
   // login
   static async login(data: LoginUserType): Promise<ResponseStructure<null>> {
-    const result = await instanceAxios
-      .post<ResponseStructure<null>>("/auth/login", data)
-      .then((res) => res.data);
+    const result = await instanceAxios.post<ResponseStructure<null>>(
+      "/auth/login",
+      data,
+    );
 
-    return result;
+    return result.data;
   }
 
   //   me
   static async me(): Promise<ResponseStructure<PayloadUserType | null>> {
-    const result = await instanceAxios
-      .get<ResponseStructure<PayloadUserType | null>>("/auth/me")
-      .then((res) => res.data);
+    const result =
+      await instanceAxios.get<ResponseStructure<PayloadUserType | null>>(
+        "/auth/me",
+      );
 
     //   return
-    return result;
+    return result.data;
   }
 
   // logout
   static async logout(): Promise<ResponseStructure<null>> {
-    const result = await instanceAxios
-      .post("/auth/logout")
-      .then((res) => res.data);
+    const result = await instanceAxios.post("/auth/logout");
 
-    return result;
+    return result.data;
   }
 }

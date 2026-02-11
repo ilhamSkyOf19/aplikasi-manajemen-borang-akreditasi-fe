@@ -7,11 +7,12 @@ import {
 import { AuthService } from "../../services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuthStore } from "../../stores/authStore";
 
 const useSidebarDekstop = () => {
   // get auth context
-  const { user, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   // navigate
   const navigate = useNavigate();

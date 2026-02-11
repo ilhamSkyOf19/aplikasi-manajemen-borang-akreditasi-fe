@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import { useLoaderData, useLocation } from "react-router-dom";
 import type { PayloadUserType } from "../../models/user.model";
+import { useAuthStore } from "../../stores/authStore";
 
 const useDashboardLayout = () => {
+  // get loadet
+  const user = useLoaderData() as PayloadUserType;
+
+  // set user
+  const setUser = useAuthStore((state) => state.setUser);
+
   // state is close
   const [isClose, setIsClose] = useState<boolean>(false);
 
@@ -20,15 +26,9 @@ const useDashboardLayout = () => {
     ? lastSegment?.split("-").join(" ")
     : "Ubah Data";
 
-  // loader
-  const user = useLoaderData() as PayloadUserType;
-
-  // set auth context
-  const { handleUser } = useAuth();
-
   useEffect(() => {
     if (user) {
-      handleUser(user);
+      setUser(user);
     }
   }, [user]);
 

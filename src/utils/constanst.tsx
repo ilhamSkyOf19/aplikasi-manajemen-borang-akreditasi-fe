@@ -46,6 +46,11 @@ export const NAVIGATION_LIST_WD: {
     icon: FileCog,
   },
   {
+    label: "kelola anggota",
+    link: "/dashboard/kelola-anggota",
+    icon: UsersRound,
+  },
+  {
     label: "daftar kebutuhan & PIC",
     link: "/dashboard/daftar-kebutuhan-pic",
     icon: ScrollText,

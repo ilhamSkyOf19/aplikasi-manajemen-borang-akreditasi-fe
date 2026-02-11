@@ -8,6 +8,7 @@ import ModalDaftarKriteria from "./ModalDaftarKriteria";
 import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/ModalDelete";
+import { useAuthStore } from "../../../stores/authStore";
 
 const DaftarKriteria: FC = () => {
   // call use
@@ -27,51 +28,81 @@ const DaftarKriteria: FC = () => {
     isLoadingDelete,
     handleModalDeleteClose,
     handleModalDeleteShow,
+    setFilterStatus,
   } = UseDaftarKriteria();
+
+  // user
+  const user = useAuthStore((state) => state.user);
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
-      {/* toast update */}
-      <Toast
-        toast={isToast === "updated"}
-        isAnimationOut={isAnimationOut}
-        label={"Data Kriteria berhasil diubah"}
-        color="info"
-      />
+      {user?.role === "wakil_dekan_1" && (
+        <>
+          {/* toast create */}
+          <Toast
+            toast={isToast === "created"}
+            isAnimationOut={isAnimationOut}
+            label={"Data Kriteria berhasil ditambahkan"}
+            color="success"
+          />
+          {/* toast update */}
+          <Toast
+            toast={isToast === "updated"}
+            isAnimationOut={isAnimationOut}
+            label={"Data Kriteria berhasil diubah"}
+            color="info"
+          />
 
-      {/* toast not updated */}
-      <Toast
-        toast={isToast === "notUpdated"}
-        isAnimationOut={isAnimationOut}
-        label={"Data Kriteria tidak ada perubahan"}
-        color="warning"
-      />
+          {/* toast not updated */}
+          <Toast
+            toast={isToast === "notUpdated"}
+            isAnimationOut={isAnimationOut}
+            label={"Data Kriteria tidak ada perubahan"}
+            color="warning"
+          />
 
-      {/* toast delete */}
-      <Toast
-        toast={isToast === "deleted"}
-        isAnimationOut={isAnimationOut}
-        label={"Data Kriteria berhasil dihapus"}
-        color="error"
-      />
+          {/* toast delete */}
+          <Toast
+            toast={isToast === "deleted"}
+            isAnimationOut={isAnimationOut}
+            label={"Data Kriteria berhasil dihapus"}
+            color="error"
+          />
+        </>
+      )}
 
       <div className="w-full flex flex-col justify-start items-start">
         {/* title page */}
         <TitlePage
           bigTitle="Kelola Daftar Kriteria"
           smallTitle="Halaman untuk mengelola daftar kriteria"
-          linkAdd="/dashboard/daftar-kriteria/tambah-kriteria"
-          labelAdd="Tambah Kriteria"
+          {...(user?.role === "wakil_dekan_1" && {
+            labelAdd: "Tambah Kriteria",
+            linkAdd: "/dashboard/daftar-kriteria/tambah-kriteria",
+          })}
         />
 
         <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
           {/* input field  search */}
-          <div className="w-full flex flex-row justify-start items-center">
+          <div className="w-full flex flex-row justify-between items-center">
             <div className="w-full lg:flex-1">
+              {/* input search */}
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
-            <div className="flex-1 hidden lg:flex flex-row justify-end items-center" />
+            <div className="w-full lg:flex-1 flex flex-row justify-end items-center ">
+              {/* filter status */}
+              <select
+                defaultValue="Pilih status"
+                className="select w-40 border-primary-purple"
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
+                <option disabled={true}>Pilih status</option>
+                <option>Baru</option>
+                <option>Revisi</option>
+                <option>Semua</option>
+              </select>
+            </div>
           </div>
 
           {/* check data */}
@@ -108,20 +139,47 @@ const DaftarKriteria: FC = () => {
                 {/* table data for lg */}
                 <div className="w-full hidden lg:flex">
                   <TableData
-                    header={header}
-                    datas={dataKriteria?.data.data.map((item, _index) => ({
-                      fields: {
-                        ...item,
-                        kriteria: `C${item.kriteria}`,
-                        tanggalBuat: formatTanggalPanjang(item.createdAt),
-                        tanggalUbah: formatTanggalPanjang(item.updatedAt),
-                        status:
-                          item.revisi > 0 ? `Revisi ke-${item.revisi}` : "Baru",
-                      },
+                    header={
+                      user?.role === "kaprodi" ||
+                      user?.role === "tim_akreditasi"
+                        ? header.filter((item) => item.key === "namaKriteria")
+                        : user?.role === "wakil_dekan_1"
+                          ? header
+                          : []
+                    }
+                    datas={dataKriteria?.data.data.map((item) => ({
+                      fields:
+                        user?.role === "kaprodi" ||
+                        user?.role === "tim_akreditasi"
+                          ? {
+                              namaKriteria: item.namaKriteria,
+                            }
+                          : user?.role === "wakil_dekan_1"
+                            ? {
+                                ...item,
+                                kriteria: `C${item.kriteria}`,
+                                tanggalBuat: formatTanggalPanjang(
+                                  item.createdAt,
+                                ),
+                                tanggalUbah: formatTanggalPanjang(
+                                  item.updatedAt,
+                                ),
+                                status:
+                                  item.revisi > 0
+                                    ? `Revisi ke-${item.revisi}`
+                                    : "Baru",
+                              }
+                            : [],
                     }))}
-                    aksi={true}
-                    handleShowModalDelete={handleModalDeleteShow}
-                    linkUpdate={"daftar-kriteria/ubah-kriteria"}
+                    {...(user?.role === "wakil_dekan_1" && {
+                      aksi: true,
+                      handleShowModalDelete: handleModalDeleteShow,
+                      linkUpdate: "daftar-kriteria/ubah-kriteria",
+                    })}
+                    {...((user?.role === "tim_akreditasi" ||
+                      user?.role === "kaprodi") && {
+                      size: "table-md lg:table-md",
+                    })}
                   />
                 </div>
               </>

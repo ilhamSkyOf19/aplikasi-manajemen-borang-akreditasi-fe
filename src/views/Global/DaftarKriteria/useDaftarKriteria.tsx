@@ -4,8 +4,12 @@ import { KriteriaService } from "../../../services/kriteria.service";
 import { useSearch } from "../../../hooks/useSearch";
 import type { ResponseKriteriaType } from "../../../models/kriteria.model";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
+import { useFilter } from "../../../hooks/useFilter";
 
 const UseDaftarKriteria = () => {
+  // use filter
+  const { filter: filterStatus, setFilter: setFilterStatus } =
+    useFilter("status");
   // query client
   const queryClient = useQueryClient();
   //   modal ref
@@ -18,10 +22,11 @@ const UseDaftarKriteria = () => {
 
   // use query
   const { data: dataKriteria, isLoading } = useQuery({
-    queryKey: ["daftar-kriteria", search],
+    queryKey: ["daftar-kriteria", search, filterStatus],
     queryFn: async () =>
       KriteriaService.readAll({
         search,
+        status: filterStatus as "baru" | "revisi",
       }),
     refetchOnWindowFocus: false,
   });
@@ -159,6 +164,8 @@ const UseDaftarKriteria = () => {
     handleModalDeleteShow,
     handleModalDeleteClose,
     modalDeleteRef,
+    filterStatus,
+    setFilterStatus,
   };
 };
 
