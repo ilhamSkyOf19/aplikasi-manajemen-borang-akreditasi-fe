@@ -22,7 +22,7 @@ const useKelolaUser = () => {
   // use query
   const { data: dataKelolaUser, isLoading } = useQuery({
     queryKey: ["kelola-user", filterRole],
-    queryFn: () => UserService.read({}),
+    queryFn: () => UserService.read({ role: filterRole }),
     refetchOnWindowFocus: false,
   });
 

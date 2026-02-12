@@ -25,7 +25,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({
       user,
       isAuthenticated: !!user,
-      isInitialized: true, // Set true setelah user di-set
+      isInitialized: true,
     }),
 
   logout: () =>
