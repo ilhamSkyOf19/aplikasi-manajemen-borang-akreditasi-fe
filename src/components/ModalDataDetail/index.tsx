@@ -13,7 +13,7 @@ type Props = {
   handleShowModalDelete: (id: number) => void;
   linkUpdate: string;
 };
-const ModalDetailData: FC<Props> = ({
+const ModalDataDetail: FC<Props> = ({
   handleCloseModal,
   isShowModal,
   modalRef,
@@ -43,15 +43,11 @@ const ModalDetailData: FC<Props> = ({
             ))}
           </div>
 
-          <div className="w-full flex flex-row justify-end items-end gap-2 mt-2">
+          <div className="w-full flex flex-row justify-end items-end gap-2 mt-6">
             {/* button close */}
-            <div className="modal-action">
-              <form method="dialog">
-                <button className="btn" onClick={() => handleCloseModal()}>
-                  <span className="text-xs lg:text-sm">Close</span>
-                </button>
-              </form>
-            </div>
+            <button className="btn" onClick={() => handleCloseModal()}>
+              <span className="text-xs lg:text-sm">Close</span>
+            </button>
 
             {/* button update */}
             <Link to={linkUpdate} type="button" className="btn btn-info">
@@ -93,4 +89,4 @@ const FieldDataModal: FC<FieldDataModalProps> = ({ typeData, value }) => {
   );
 };
 
-export default ModalDetailData;
+export default ModalDataDetail;

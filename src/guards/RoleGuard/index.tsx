@@ -7,15 +7,22 @@ type Props = {
   children: JSX.Element;
   allowedRoles: UserRole[];
 };
+
 const RoleGuard: FC<Props> = ({ children, allowedRoles }) => {
   const user = useAuthStore((s) => s.user);
+  const isInitialized = useAuthStore((s) => s.isInitialized);
 
-  // belum login
+  // TUNGGU sampai initialized
+  if (!isInitialized) {
+    return null;
+  }
+
+  // Setelah initialized, cek user
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // role tidak sesuai
+  // Role tidak sesuai
   if (!allowedRoles.includes(user.role)) {
     return <Navigate to="/404" replace />;
   }

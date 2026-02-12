@@ -4,19 +4,19 @@ import TableData from "../../../components/TableData";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import Pagination from "../../../components/Pagination";
 import TitlePage from "../../../components/TitlePage";
-import ModalDaftarKriteria from "./ModalDaftarKriteria";
 import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/ModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import SkeletonTable from "../../../components/SkeletonTable";
 import DropDown from "../../../components/DropDown";
+import ModalDataDetail from "../../../components/ModalDataDetail";
 
 const DaftarKriteria: FC = () => {
   // call use
   const {
-    handleCloseModal,
-    handleShowModal,
+    handleCloseModalDetail,
+    handleShowModalDetail,
     isShowModal,
     header,
     modalRef,
@@ -28,8 +28,8 @@ const DaftarKriteria: FC = () => {
     modalDeleteRef,
     handleDelete,
     isLoadingDelete,
-    handleModalDeleteClose,
-    handleModalDeleteShow,
+    handleShowModalDelete,
+    handleCloseModalDelete,
     setFilterStatus,
   } = UseDaftarKriteria();
 
@@ -95,7 +95,11 @@ const DaftarKriteria: FC = () => {
             <div className="w-30 lg:w-40">
               <DropDown
                 handleChange={(e) => setFilterStatus(e.target.value)}
-                listChoose={["Baru", "Revisi", "Semua"]}
+                listChoose={[
+                  { value: "baru", label: "Baru" },
+                  { value: "revisi", label: "Revisi" },
+                  { value: "semua", label: "Semua" },
+                ]}
                 placeholder="Pilih status"
               />
             </div>
@@ -121,8 +125,8 @@ const DaftarKriteria: FC = () => {
                       },
                     }))}
                     aksiModal={true}
-                    handleModal={handleShowModal}
-                    isDataModalActive={isShowModal.data.id}
+                    handleModal={handleShowModalDetail}
+                    isDataModalActive={isShowModal && isShowModal?.data?.id}
                   />
                 </div>
 
@@ -163,7 +167,7 @@ const DaftarKriteria: FC = () => {
                     }))}
                     {...(user?.role === "wakil_dekan_1" && {
                       aksi: true,
-                      handleShowModalDelete: handleModalDeleteShow,
+                      handleShowModalDelete: handleCloseModalDelete,
                       linkUpdate: "daftar-kriteria/ubah-kriteria",
                     })}
                     {...((user?.role === "tim_akreditasi" ||
@@ -182,22 +186,26 @@ const DaftarKriteria: FC = () => {
       <Pagination />
 
       {/* modal detail */}
-      <ModalDaftarKriteria
+      <ModalDataDetail
         modalRef={modalRef}
-        handleCloseModal={handleCloseModal}
+        handleCloseModal={handleCloseModalDetail}
         isShowModal={{
           active: isShowModal.active,
           data: {
-            kriteria: `C-${isShowModal.data.kriteria}`,
-            namaKriteria: isShowModal.data.namaKriteria,
-            createdAt: formatTanggalPanjang(isShowModal.data.createdAt),
-            updatedAt: formatTanggalPanjang(isShowModal.data.updatedAt),
+            kriteria: `C-${isShowModal?.data?.kriteria || ""}`,
+            namaKriteria: isShowModal?.data?.namaKriteria,
+            createdAt:
+              isShowModal.data &&
+              formatTanggalPanjang(isShowModal.data.createdAt),
+            updatedAt:
+              isShowModal.data &&
+              formatTanggalPanjang(isShowModal.data.updatedAt),
             revisi:
-              isShowModal.data.revisi > 0
+              isShowModal.data && isShowModal.data.revisi > 0
                 ? `Revisi ke-${isShowModal.data.revisi}`
                 : "Baru",
           },
-          id: isShowModal.data.id,
+          id: isShowModal?.data?.id || 0,
           label: [
             { key: "kriteria", label: "Kriteria" },
             { key: "namaKriteria", label: "Nama Kriteria" },
@@ -206,15 +214,15 @@ const DaftarKriteria: FC = () => {
             { key: "revisi", label: "Status" },
           ],
         }}
-        linkUpdate={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal.data.id}`}
-        handleShowModalDelete={handleModalDeleteShow}
+        linkUpdate={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal?.data?.id}`}
+        handleShowModalDelete={handleShowModalDelete}
       />
 
       {/* modal delete  */}
       <ModalDelete
         handleDelete={handleDelete}
         isLoadingDelete={isLoadingDelete}
-        handleCloseModal={handleModalDeleteClose}
+        handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
       />
     </div>

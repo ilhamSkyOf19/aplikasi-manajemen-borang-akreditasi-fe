@@ -3,12 +3,25 @@ import TitlePage from "../../../components/TitlePage";
 import TableData from "../../../components/TableData";
 import InputFieldSearch from "../../../components/InputFieldSearch";
 import DropDown from "../../../components/DropDown";
-import userKelolaUser from "./useKelolaUser";
 import SkeletonTable from "../../../components/SkeletonTable";
+import ModalDataDetail from "../../../components/ModalDataDetail";
+import ModalDelete from "../../../components/ModalDelete";
+import useKelolaUser from "./useKelolaUser";
 
 const KelolaUser: FC = () => {
   // call use
-  const { dataKelolaUser, isLoading } = userKelolaUser();
+  const {
+    dataKelolaUser,
+    isLoading,
+    handleCloseModalDetail,
+    handleShowModalDetail,
+    isShowModal,
+    modalDeleteRef,
+    modalRef,
+    handleShowModalDelete,
+    handleCloseModalDelete,
+    setFilterRole,
+  } = useKelolaUser();
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
@@ -32,14 +45,14 @@ const KelolaUser: FC = () => {
             {/* filter role */}
             <div className="w-35 lg:w-50">
               <DropDown
-                handleChange={() => {}}
+                handleChange={(e) => setFilterRole(e.target.value)}
                 listChoose={[
-                  "Wakil Dekan 1",
-                  "Kaprodi",
-                  "Tim Akreditasi",
-                  "Semua",
+                  { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
+                  { value: "kaprodi", label: "kaprodi" },
+                  { value: "tim_akreditasi", label: "Tim Akreditasi" },
+                  { value: "semua", label: "Semua" },
                 ]}
-                placeholder="Pilih role"
+                placeholder="Pilih status"
               />
             </div>
           </div>
@@ -60,7 +73,7 @@ const KelolaUser: FC = () => {
                       })) || []
                     }
                     aksiModal={true}
-                    handleModal={() => {}}
+                    handleModal={handleShowModalDetail}
                     isDataModalActive={0}
                   />
                 </div>
@@ -120,33 +133,42 @@ const KelolaUser: FC = () => {
       </div>
 
       {/* modal */}
-      {/* <ModalDaftarKriteria  
+      <ModalDataDetail
         modalRef={modalRef}
-        handleCloseModal={handleCloseModal}
+        handleCloseModal={handleCloseModalDetail}
         isShowModal={{
           active: isShowModal.active,
           data: {
-            kriteria: `C-${isShowModal.data.kriteria}`,
-            namaKriteria: isShowModal.data.namaKriteria,
-            createdAt: formatTanggalPanjang(isShowModal.data.createdAt),
-            updatedAt: formatTanggalPanjang(isShowModal.data.updatedAt),
-            revisi:
-              isShowModal.data.revisi > 0
-                ? `Revisi ke-${isShowModal.data.revisi}`
-                : "Baru",
+            nama: isShowModal?.data?.nama || "",
+            email: isShowModal?.data?.email || "",
+            role:
+              isShowModal?.data?.role &&
+              (isShowModal?.data?.role === "wakil_dekan_1"
+                ? "Wakil Dekan 1"
+                : isShowModal?.data?.role === "kaprodi"
+                  ? "Kaprodi"
+                  : isShowModal?.data?.role === "tim_akreditasi"
+                    ? "Tim Akreditasi"
+                    : ""),
           },
-          id: isShowModal.data.id,
+          id: isShowModal?.data?.id || 0,
           label: [
-            { key: "kriteria", label: "Kriteria" },
-            { key: "namaKriteria", label: "Nama Kriteria" },
-            { key: "createdAt", label: "Tanggal Buat" },
-            { key: "updatedAt", label: "Tanggal Ubah" },
-            { key: "revisi", label: "Status" },
+            { key: "nama", label: "Nama" },
+            { key: "email", label: "Email" },
+            { key: "role", label: "Role" },
           ],
         }}
-        linkUpdate={`/dashboard/daftar-kriteria/ubah-kriteria/${isShowModal.data.id}`}
-        handleShowModalDelete={handleModalDeleteShow}
-      /> */}
+        linkUpdate={`/dashboard/kelola-user/ubah-user/${isShowModal?.data?.id || 0}`}
+        handleShowModalDelete={handleShowModalDelete}
+      />
+
+      {/* modal delete */}
+      <ModalDelete
+        handleDelete={() => {}}
+        isLoadingDelete={false}
+        handleCloseModal={handleCloseModalDelete}
+        modalRef={modalDeleteRef}
+      />
     </div>
   );
 };

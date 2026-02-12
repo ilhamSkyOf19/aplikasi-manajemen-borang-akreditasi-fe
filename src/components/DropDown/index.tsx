@@ -2,7 +2,7 @@ import { type ChangeEvent, type FC } from "react";
 
 type Props = {
   handleChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  listChoose: string[];
+  listChoose: { value: string; label: string }[];
   placeholder: string;
 };
 const DropDown: FC<Props> = ({ handleChange, listChoose, placeholder }) => {
@@ -16,7 +16,9 @@ const DropDown: FC<Props> = ({ handleChange, listChoose, placeholder }) => {
       >
         <option disabled={true}>{placeholder}</option>
         {listChoose.map((item, index) => (
-          <option key={index}>{item}</option>
+          <option key={index} value={item.value}>
+            {item.label}
+          </option>
         ))}
       </select>
     </div>

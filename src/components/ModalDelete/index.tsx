@@ -33,7 +33,7 @@ const ModalDelete: FC<Props> = ({
           Data yang telah dihapus tidak dapat dikembalikan
         </p>
 
-        <div className="w-full flex flex-row justify-end items-end gap-2 mt-2">
+        <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
           {/* button close */}
           <div className="modal-action">
             <form method="dialog">
@@ -49,7 +49,7 @@ const ModalDelete: FC<Props> = ({
             type="button"
             className="btn btn-error"
             onClick={() => {
-              (handleDelete(), handleCloseModal());
+              handleDelete();
             }}
           >
             {isLoadingDelete ? (
