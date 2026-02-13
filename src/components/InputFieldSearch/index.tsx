@@ -5,9 +5,10 @@ import { useSearchParams } from "react-router-dom";
 
 type Props = {
   handleSearch: (value: string) => void;
+  placeholder?: string;
 };
 
-const InputFieldSearch: FC<Props> = ({ handleSearch }) => {
+const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
   const [searchParams] = useSearchParams();
 
   // ambil dari URL
@@ -36,7 +37,7 @@ const InputFieldSearch: FC<Props> = ({ handleSearch }) => {
           // {...register}
           type="text"
           id={"name"}
-          placeholder={"Search"}
+          placeholder={placeholder || "Search"}
           className="w-full h-full bg-transparent outline-none text-xs placeholder:text-xs placeholder:text-gray-400 placeholder:font-light lg:text-sm lg:placeholder:text-sm"
           autoComplete="off"
           minLength={1}

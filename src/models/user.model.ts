@@ -41,7 +41,13 @@ export interface PayloadUserType extends Omit<
 export interface ResponseUserType extends Omit<IUser, "password"> {}
 
 // response with meta
+// response kriteria model with meta
 export interface ResponseUserWithMetaType {
+  meta: {
+    totalData: number;
+    currentPage: number;
+    totalPage: number;
+    limit: number;
+  };
   data: ResponseUserType[];
-  meta: HdrMetadataType;
 }

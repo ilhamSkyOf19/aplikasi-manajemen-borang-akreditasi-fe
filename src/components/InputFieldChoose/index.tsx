@@ -33,7 +33,7 @@ export default function InputFieldChoose<T extends FieldValues = any>({
       {/* label */}
       <div className="w-full text-base relative flex flex-row justify-between items-center">
         <div className="flex-2 relative">
-          <label htmlFor={"nama"} className="capitalize">
+          <label htmlFor={"nama"} className="capitalize text-sm">
             {label}
           </label>
 
@@ -45,13 +45,14 @@ export default function InputFieldChoose<T extends FieldValues = any>({
 
       <div
         className={clsx(
-          "mt-2 h-11 flex flex-row justify-start items-stretch gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out focus-within:border-primary-purple",
+          "mt-2 h-10 flex flex-row justify-start items-stretch gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out focus-within:border-primary-purple overflow-hidden ",
           fieldState.error && "border-error",
           disabled && "cursor-not-allowed border-primary-black/10",
+          field.value ? "text-primary-black" : "text-primary-black/50",
         )}
       >
         <select
-          className="select select-bordered w-full outline-none border-none rounded-md"
+          className="select select-bordered w-full h-10 outline-none border-none rounded-md text-sm"
           value={field.value || ""}
           onChange={(e) => field.onChange(e.target.value)}
           disabled={disabled}
@@ -60,7 +61,7 @@ export default function InputFieldChoose<T extends FieldValues = any>({
             {placeholder}
           </option>
           {chooseList.map((item, idx) => (
-            <option key={idx} value={item.value}>
+            <option key={idx} value={item.value} className="text-black text-sm">
               {item.label}
             </option>
           ))}

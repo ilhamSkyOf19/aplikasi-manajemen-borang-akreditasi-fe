@@ -25,6 +25,7 @@ const FormulirKelolaUser: FC = () => {
     dataUser,
     formulirUpdate,
     roleController,
+    handlePasswordOtomatis,
   } = useFormulirKelolaUser();
   return (
     <div className="w-full flex flex-col justify-start items-start pb-40">
@@ -114,11 +115,22 @@ const FormulirKelolaUser: FC = () => {
                 placeholder="masukan konfirmasi password user"
                 errorMessage={errors.confirmPassword?.message}
               />
+
+              {/* generate password  */}
+              <div className="w-full flex flex-row justify-end items-center">
+                <button
+                  type="button"
+                  className="text-sm text-primary-purple hover:underline"
+                  onClick={handlePasswordOtomatis}
+                >
+                  Buat password otomatis
+                </button>
+              </div>
             </>
           )}
 
           {/* action */}
-          <div className="w-full mt-6 flex flex-row justify-center items-center gap-4">
+          <div className="w-full mt-8 flex flex-row justify-center items-center gap-4">
             {/* button back */}
             <ButtonBackBox label="KEMBALI" />
             {/* button submit */}

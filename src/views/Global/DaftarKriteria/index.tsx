@@ -31,6 +31,7 @@ const DaftarKriteria: FC = () => {
     handleShowModalDelete,
     handleCloseModalDelete,
     setFilterStatus,
+    setPage,
   } = UseDaftarKriteria();
 
   // user
@@ -93,15 +94,17 @@ const DaftarKriteria: FC = () => {
             </div>
 
             <div className="w-30 lg:w-40">
-              <DropDown
-                handleChange={(e) => setFilterStatus(e.target.value)}
-                listChoose={[
-                  { value: "baru", label: "Baru" },
-                  { value: "revisi", label: "Revisi" },
-                  { value: "semua", label: "Semua" },
-                ]}
-                placeholder="Pilih status"
-              />
+              <div className="w-full flex flex-row justify-end items-center">
+                <DropDown
+                  handleChange={(e) => setFilterStatus(e.target.value)}
+                  listChoose={[
+                    { value: "baru", label: "Baru" },
+                    { value: "revisi", label: "Revisi" },
+                    { value: "semua", label: "Semua" },
+                  ]}
+                  placeholder="Pilih status"
+                />
+              </div>
             </div>
           </div>
 
@@ -115,6 +118,7 @@ const DaftarKriteria: FC = () => {
                 <div className="w-full lg:hidden">
                   {/* table data for sm */}
                   <TableData
+                    currentPage={dataKriteria.data.meta.currentPage || 1}
                     header={[
                       { label: "nama kriteria", size: 80, key: "namaKriteria" },
                     ]}
@@ -133,6 +137,7 @@ const DaftarKriteria: FC = () => {
                 {/* table data for lg */}
                 <div className="w-full hidden lg:flex">
                   <TableData
+                    currentPage={dataKriteria.data.meta.currentPage || 1}
                     header={
                       user?.role === "kaprodi" ||
                       user?.role === "tim_akreditasi"
@@ -183,7 +188,11 @@ const DaftarKriteria: FC = () => {
       </div>
 
       {/* paginaton */}
-      <Pagination />
+      <Pagination
+        currentPage={dataKriteria?.data?.meta.currentPage || 1}
+        totalPage={dataKriteria?.data?.meta.totalPage || 0}
+        setPage={setPage}
+      />
 
       {/* modal detail */}
       <ModalDataDetail

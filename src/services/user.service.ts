@@ -15,7 +15,12 @@ export class UserService {
   ): Promise<ResponseStructure<ResponseUserWithMetaType | null>> {
     const result = await instanceAxios.get<ResponseStructure<null>>(
       "/user/read-all",
-      { params: query },
+      {
+        params: {
+          ...query,
+          limit: 10,
+        },
+      },
     );
 
     return result.data;

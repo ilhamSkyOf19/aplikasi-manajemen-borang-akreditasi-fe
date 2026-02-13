@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 
 type Props = {
   header: { key: string; label: string; size: number }[];
-  datas: { fields: Record<string, any> }[];
+  datas: {
+    fields: Record<string, any> & {
+      disableAksi?: { update?: boolean; delete?: boolean };
+    };
+  }[];
   aksiModal?: boolean;
   aksi?: boolean;
   handleModal?: (index: number) => void;
@@ -20,6 +24,7 @@ type Props = {
     handleAksi: () => void;
   }[];
   emptyMessage?: string;
+  currentPage: number;
 };
 const TableData: FC<Props> = ({
   header,
@@ -33,7 +38,11 @@ const TableData: FC<Props> = ({
   size,
   fieldAksi,
   emptyMessage,
+  currentPage,
 }) => {
+  // first number
+  const firstNumber = currentPage * 10 - 9;
+
   return (
     <div className="w-full overflow-x-auto mt-4">
       <table
@@ -91,6 +100,7 @@ const TableData: FC<Props> = ({
                   aksiModal && handleModal && handleModal(row.fields.id)
                 }
               >
+                {/* number */}
                 <th
                   className={cn(
                     "group-hover:text-primary-white transition-all duration-150",
@@ -99,7 +109,7 @@ const TableData: FC<Props> = ({
                       "lg:text-primary-white",
                   )}
                 >
-                  {index + 1}
+                  {firstNumber + index}
                 </th>
                 {header
                   .filter((item) => item.key !== "id")
@@ -140,35 +150,39 @@ const TableData: FC<Props> = ({
                   <td className={cn("hidden lg:block")}>
                     <div className="flex flex-row justify-start items-center gap-2">
                       {/* update */}
-                      <div className="tooltip" data-tip="ubah">
-                        <Link
-                          to={`/dashboard/${linkUpdate}/${row.fields.id}`}
-                          type="button"
-                          className="btn btn-info px-3 btn-soft"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // logic update
-                          }}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Link>
-                      </div>
+                      {!row.fields.disableAksi?.update && (
+                        <div className="tooltip" data-tip="ubah">
+                          <Link
+                            to={`/dashboard/${linkUpdate}/${row.fields.id}`}
+                            type="button"
+                            className="btn btn-info px-3 btn-soft"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // logic update
+                            }}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      )}
 
                       {/* delete */}
-                      <div className="tooltip" data-tip="hapus">
-                        <button
-                          type="button"
-                          className="btn btn-error px-3 btn-soft"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // logic delete
-                            handleShowModalDelete &&
-                              handleShowModalDelete(row.fields.id);
-                          }}
-                        >
-                          <Trash2Icon className="w-5 h-5" />
-                        </button>
-                      </div>
+                      {!row.fields.disableAksi?.delete && (
+                        <div className="tooltip" data-tip="hapus">
+                          <button
+                            type="button"
+                            className="btn btn-error px-3 btn-soft"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // logic delete
+                              handleShowModalDelete &&
+                                handleShowModalDelete(row.fields.id);
+                            }}
+                          >
+                            <Trash2Icon className="w-5 h-5" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </td>
                 )}

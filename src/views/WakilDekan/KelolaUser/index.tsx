@@ -8,6 +8,7 @@ import ModalDataDetail from "../../../components/ModalDataDetail";
 import ModalDelete from "../../../components/ModalDelete";
 import useKelolaUser from "./useKelolaUser";
 import Toast from "../../../components/Toast";
+import Pagination from "../../../components/Pagination";
 
 const KelolaUser: FC = () => {
   // call use
@@ -27,10 +28,11 @@ const KelolaUser: FC = () => {
     isLoadingDelete,
     isToast,
     handleSearch,
+    setPage,
   } = useKelolaUser();
 
   return (
-    <div className="w-full flex flex-col justify-between items-start pb-20">
+    <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
       {/* toast create */}
       <Toast
         toast={isToast === "created"}
@@ -76,21 +78,26 @@ const KelolaUser: FC = () => {
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
               {/* input search */}
-              <InputFieldSearch handleSearch={handleSearch} />
+              <InputFieldSearch
+                handleSearch={handleSearch}
+                placeholder="Cari berdasarkan nama"
+              />
             </div>
 
             {/* filter role */}
             <div className="w-35 lg:w-50">
-              <DropDown
-                handleChange={(e) => setFilterRole(e.target.value)}
-                listChoose={[
-                  { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
-                  { value: "kaprodi", label: "kaprodi" },
-                  { value: "tim_akreditasi", label: "Tim Akreditasi" },
-                  { value: "semua", label: "Semua" },
-                ]}
-                placeholder="Pilih status"
-              />
+              <div className="w-full flex flex-row justify-end items-center">
+                <DropDown
+                  handleChange={(e) => setFilterRole(e.target.value)}
+                  listChoose={[
+                    { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
+                    { value: "kaprodi", label: "kaprodi" },
+                    { value: "tim_akreditasi", label: "Tim Akreditasi" },
+                    { value: "semua", label: "Semua" },
+                  ]}
+                  placeholder="Pilih status"
+                />
+              </div>
             </div>
           </div>
 
@@ -103,6 +110,7 @@ const KelolaUser: FC = () => {
                 {/* table data for sm */}
                 <div className="w-full lg:hidden">
                   <TableData
+                    currentPage={dataKelolaUser?.data?.meta?.currentPage || 1}
                     header={[{ label: "nama", size: 80, key: "nama" }]}
                     datas={
                       dataKelolaUser?.data?.data.map((item) => ({
@@ -115,9 +123,10 @@ const KelolaUser: FC = () => {
                   />
                 </div>
 
-                {/* table  */}
+                {/* table for lg  */}
                 <div className="w-full hidden lg:flex">
                   <TableData
+                    currentPage={dataKelolaUser?.data?.meta?.currentPage || 1}
                     header={[
                       {
                         key: "nama",
@@ -148,6 +157,9 @@ const KelolaUser: FC = () => {
                               : item.role === "tim_akreditasi"
                                 ? "Tim Akreditasi"
                                 : "",
+                        disableAksi: {
+                          delete: item?.role === "wakil_dekan_1",
+                        },
                       },
                     }))}
                     aksi={true}
@@ -168,6 +180,13 @@ const KelolaUser: FC = () => {
           )}
         </div>
       </div>
+
+      {/* pagination */}
+      <Pagination
+        currentPage={dataKelolaUser?.data?.meta.currentPage || 1}
+        totalPage={dataKelolaUser?.data?.meta.totalPage || 0}
+        setPage={setPage}
+      />
 
       {/* modal */}
       <ModalDataDetail

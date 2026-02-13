@@ -6,12 +6,8 @@ import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetai
 import useModalDelete from "../../../hooks/useModalDelete";
 import { useFilter } from "../../../hooks/useFilter";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
-import { useSearch } from "../../../hooks/useSearch";
 
 const useKelolaUser = () => {
-  // call use search
-  const { handleSearch, search } = useSearch();
-
   // use modal delete
   const {
     handleCloseModalDelete,
@@ -34,10 +30,17 @@ const useKelolaUser = () => {
     "semua",
   ]);
 
+  // use page
+  const { filter: page, setFilter: setPage } = useFilter("page");
+
+  // use page
+  const { filter: search, setFilter: handleSearch } = useFilter("search");
+
   // use query
   const { data: dataKelolaUser, isLoading } = useQuery({
-    queryKey: ["kelola-user", filterRole, search],
-    queryFn: () => UserService.read({ search: search, role: filterRole }),
+    queryKey: ["kelola-user", filterRole, search, page],
+    queryFn: () =>
+      UserService.read({ search: search, role: filterRole, page: page }),
     refetchOnWindowFocus: false,
   });
 
@@ -108,6 +111,7 @@ const useKelolaUser = () => {
     isAnimationOut,
     handleDelete,
     handleSearch,
+    setPage,
   };
 };
 

@@ -1,32 +1,39 @@
-import { useState, type FC } from "react";
+import { type FC } from "react";
 import { cn } from "../../utils/cn";
 
-// max
-const max = 5;
-
-const Pagination: FC = () => {
-  // state count
-  const [isCount, setIsCount] = useState<number>(1);
+type Props = {
+  currentPage: number;
+  setPage: (page: string) => void;
+  totalPage: number;
+};
+const Pagination: FC<Props> = ({ currentPage, setPage, totalPage }) => {
   return (
     <div
       className={cn(
         "w-full flex flex-row justify-center items-center py-4 lg:justify-end",
-        isCount === 1 && "hidden",
       )}
     >
       <div className="join">
         <button
-          disabled={isCount === 1}
+          disabled={currentPage === 1}
           className="join-item btn"
-          onClick={() => isCount > 1 && setIsCount((prev) => prev - 1)}
+          onClick={() => {
+            if (currentPage > 1) {
+              setPage((currentPage - 1).toString());
+            }
+          }}
         >
           «
         </button>
-        <button className="join-item btn">Page {isCount}</button>
+        <button className="join-item btn">Page {currentPage}</button>
         <button
-          disabled={isCount === max}
+          disabled={currentPage === totalPage}
           className="join-item btn"
-          onClick={() => isCount < max && setIsCount((prev) => prev + 1)}
+          onClick={() => {
+            if (currentPage < totalPage) {
+              setPage((currentPage + 1).toString());
+            }
+          }}
         >
           »
         </button>

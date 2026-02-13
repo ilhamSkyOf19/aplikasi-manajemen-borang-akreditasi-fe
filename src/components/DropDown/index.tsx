@@ -7,11 +7,11 @@ type Props = {
 };
 const DropDown: FC<Props> = ({ handleChange, listChoose, placeholder }) => {
   return (
-    <div className="w-full flex flex-row justify-end items-center ">
+    <div className="w-80 h-10 overflow-hidden border border-primary-purple rounded-md focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-200 ease-in-out">
       {/* filter status */}
       <select
         defaultValue={placeholder}
-        className="select w-full border-primary-purple select-sm lg:select-md"
+        className="select w-full border-none outline-none rounded-md"
         onChange={handleChange}
       >
         <option disabled={true}>{placeholder}</option>

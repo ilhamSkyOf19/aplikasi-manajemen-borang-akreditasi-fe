@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { KriteriaService } from "../../../services/kriteria.service";
-import { useSearch } from "../../../hooks/useSearch";
 import type { ResponseKriteriaType } from "../../../models/kriteria.model";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import { useFilter } from "../../../hooks/useFilter";
@@ -20,25 +19,29 @@ const UseDaftarKriteria = () => {
     modalDeleteRef,
   } = useModalDelete();
 
-  // use filter
+  // use filter status
   const { filter: filterStatus, setFilter: setFilterStatus } = useFilter(
     "status",
     ["baru", "revisi", "semua"],
   );
 
+  // use filter page
+  const { filter: page, setFilter: setPage } = useFilter("page");
+
+  // use search
+  const { filter: search, setFilter: handleSearch } = useFilter("search");
+
   // call use animation toast
   const { isAnimationOut, isToast, handleSetToast } = useToastAnimation();
 
-  // call use search
-  const { handleSearch, search } = useSearch();
-
   // use query
   const { data: dataKriteria, isLoading } = useQuery({
-    queryKey: ["daftar-kriteria", search, filterStatus],
+    queryKey: ["daftar-kriteria", search, filterStatus, page],
     queryFn: async () =>
       KriteriaService.readAll({
         search,
         status: filterStatus as "baru" | "revisi",
+        page,
       }),
     refetchOnWindowFocus: false,
   });
@@ -123,6 +126,7 @@ const UseDaftarKriteria = () => {
     modalDeleteRef,
     filterStatus,
     setFilterStatus,
+    setPage,
   };
 };
 

@@ -10,6 +10,7 @@ import type {
 } from "../../../../models/user.model";
 import { UserValidation } from "../../../../validations/user.validation";
 import { AxiosError } from "axios";
+import { generatePassword } from "../../../../utils/generate";
 
 const useFormulirKelolaUser = () => {
   // navigate
@@ -36,6 +37,7 @@ const useFormulirKelolaUser = () => {
     control,
     setError,
     clearErrors,
+    setValue,
   } = useForm<CreateUserType | UpdateUserType>({
     resolver: zodResolver(id ? UserValidation.UPDATE : UserValidation.CREATE),
   });
@@ -133,6 +135,15 @@ const useFormulirKelolaUser = () => {
     control,
   });
 
+  // handle password otomatis
+  const handlePasswordOtomatis = () => {
+    const passwordRandom = generatePassword();
+
+    // set value
+    setValue("password", passwordRandom);
+    setValue("confirmPassword", passwordRandom);
+  };
+
   //
   return {
     register,
@@ -145,6 +156,7 @@ const useFormulirKelolaUser = () => {
     formulirUpdate: id,
     roleController,
     clearErrors,
+    handlePasswordOtomatis,
   };
 };
 

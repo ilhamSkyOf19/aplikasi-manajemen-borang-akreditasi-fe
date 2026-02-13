@@ -1,5 +1,5 @@
 export interface PaginationType {
-  page?: number;
-  limit?: number;
+  page?: string;
+  limit?: string;
   search?: string;
 }

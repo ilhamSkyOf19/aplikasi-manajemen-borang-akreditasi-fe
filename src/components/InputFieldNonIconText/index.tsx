@@ -45,7 +45,7 @@ const InputFieldNonIconText: FC<Props> = ({
       {/* label */}
       <div className="w-full text-base relative flex flex-row justify-between items-center">
         <div className="flex-2 relative">
-          <label htmlFor={name} className="capitalize">
+          <label htmlFor={name} className="capitalize text-sm">
             {label}
           </label>
 
@@ -62,7 +62,7 @@ const InputFieldNonIconText: FC<Props> = ({
 
       <div
         className={clsx(
-          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
+          "mt-2 h-10 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
           errorMessage && "border-error",
         )}
       >
@@ -72,7 +72,7 @@ const InputFieldNonIconText: FC<Props> = ({
           name={name}
           id={name}
           placeholder={placeholder}
-          className="w-full h-full border-none outline-none text-base placeholder:text-sm"
+          className="w-full h-full border-none outline-none text-sm placeholder:text-sm"
           maxLength={max}
           onChange={(e) => {
             let value = e.target.value;
