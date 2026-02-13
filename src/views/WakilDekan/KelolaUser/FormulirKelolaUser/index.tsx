@@ -27,7 +27,7 @@ const FormulirKelolaUser: FC = () => {
     roleController,
   } = useFormulirKelolaUser();
   return (
-    <div className="w-full flex flex-col justify-start items-start">
+    <div className="w-full flex flex-col justify-start items-start pb-40">
       {/* breadcrumbs */}
       <div className="w-full mb-2">
         <BreadCrumbs

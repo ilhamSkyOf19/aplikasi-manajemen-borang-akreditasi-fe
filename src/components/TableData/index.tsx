@@ -19,6 +19,7 @@ type Props = {
     header: string;
     handleAksi: () => void;
   }[];
+  emptyMessage?: string;
 };
 const TableData: FC<Props> = ({
   header,
@@ -31,6 +32,7 @@ const TableData: FC<Props> = ({
   handleShowModalDelete,
   size,
   fieldAksi,
+  emptyMessage,
 }) => {
   return (
     <div className="w-full overflow-x-auto mt-4">
@@ -74,7 +76,7 @@ const TableData: FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {datas.length > 0 ? (
+          {datas.length > 0 &&
             datas.map((row, index) => (
               <tr
                 key={index}
@@ -171,20 +173,18 @@ const TableData: FC<Props> = ({
                   </td>
                 )}
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td className="text-center" colSpan={header.length + 1}>
-                <div className="w-full flex flex-row justify-center items-center my-12">
-                  <p className="text-sm text-primary-black/80 font-semibold lg:text-base">
-                    Data kriteria tidak ditemukan
-                  </p>
-                </div>
-              </td>
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
+
+      {/* empty data */}
+      {datas.length === 0 && (
+        <div className="w-full flex flex-row justify-center items-center my-12">
+          <p className="text-sm text-primary-black/80 font-semibold lg:text-base">
+            {emptyMessage || "Tidak ada data"}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

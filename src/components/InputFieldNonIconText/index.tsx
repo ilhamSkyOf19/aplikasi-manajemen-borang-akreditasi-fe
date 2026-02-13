@@ -62,7 +62,7 @@ const InputFieldNonIconText: FC<Props> = ({
 
       <div
         className={clsx(
-          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
+          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
           errorMessage && "border-error",
         )}
       >
