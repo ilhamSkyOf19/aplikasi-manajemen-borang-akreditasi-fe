@@ -44,10 +44,7 @@ const FormulirKriteria: FC = () => {
         {/* form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={cn(
-            "w-full flex flex-col justify-start items-center mt-4",
-            Object.keys(errors).length > 0 && "gap-3",
-          )}
+          className={cn("w-full flex flex-col justify-start items-center mt-4")}
         >
           {/* input kriteria */}
           <InputFieldNonIconNumber

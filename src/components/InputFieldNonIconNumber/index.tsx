@@ -2,6 +2,7 @@ import { useEffect, useState, type FC } from "react";
 import clsx from "clsx";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import ErrorFieldInput from "../ErrorFieldInput";
+import { cn } from "../../utils/cn";
 
 type Props = {
   name: string;
@@ -34,7 +35,12 @@ const InputFieldNonIconNumber: FC<Props> = ({
     }
   }, [defaultValue]);
   return (
-    <div className="w-full flex flex-col justify-start items-start">
+    <div
+      className={cn(
+        "w-full flex flex-col justify-start items-start",
+        errorMessage && "mb-3",
+      )}
+    >
       {/* label */}
       <div className="w-full text-base relative flex flex-row justify-between items-center">
         <div className="flex-2 relative">
@@ -55,7 +61,7 @@ const InputFieldNonIconNumber: FC<Props> = ({
 
       <div
         className={clsx(
-          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out",
+          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
           errorMessage && "border-error",
         )}
       >

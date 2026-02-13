@@ -10,6 +10,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import RoleGuard from "../guards/RoleGuard";
 import GuardLoginPage from "../guards/GuardLoginPage";
 import KelolaUserPage from "../pages/KelolaUser";
+import FormulirKelolaUserPage from "../pages/FormulirKelolaUserPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -82,6 +83,31 @@ const route = createBrowserRouter([
         element: (
           <RoleGuard allowedRoles={["wakil_dekan_1"]}>
             <KelolaUserPage />
+          </RoleGuard>
+        ),
+      },
+
+      // tambah user
+      {
+        path: "kelola-user/tambah-user",
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirKelolaUserPage />
+          </RoleGuard>
+        ),
+      },
+
+      // update user
+      {
+        path: "kelola-user/ubah-user/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-user");
+          }
+        },
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirKelolaUserPage />
           </RoleGuard>
         ),
       },

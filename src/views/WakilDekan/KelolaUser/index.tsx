@@ -7,6 +7,7 @@ import SkeletonTable from "../../../components/SkeletonTable";
 import ModalDataDetail from "../../../components/ModalDataDetail";
 import ModalDelete from "../../../components/ModalDelete";
 import useKelolaUser from "./useKelolaUser";
+import Toast from "../../../components/Toast";
 
 const KelolaUser: FC = () => {
   // call use
@@ -21,17 +22,53 @@ const KelolaUser: FC = () => {
     handleShowModalDelete,
     handleCloseModalDelete,
     setFilterRole,
+    handleDelete,
+    isAnimationOut,
+    isLoadingDelete,
+    isToast,
+    handleSearch,
   } = useKelolaUser();
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
+      {/* toast create */}
+      <Toast
+        toast={isToast === "created"}
+        isAnimationOut={isAnimationOut}
+        label={"Data User berhasil ditambahkan"}
+        color="success"
+      />
+      {/* toast update */}
+      <Toast
+        toast={isToast === "updated"}
+        isAnimationOut={isAnimationOut}
+        label={"Data User berhasil diubah"}
+        color="info"
+      />
+
+      {/* toast not updated */}
+      <Toast
+        toast={isToast === "notUpdated"}
+        isAnimationOut={isAnimationOut}
+        label={"Data User tidak ada perubahan"}
+        color="warning"
+      />
+
+      {/* toast delete */}
+      <Toast
+        toast={isToast === "deleted"}
+        isAnimationOut={isAnimationOut}
+        label={"Data User berhasil dihapus"}
+        color="error"
+      />
+
       <div className="w-full flex flex-col justify-start items-start">
         {/* title page */}
         <TitlePage
           bigTitle="Kelola Daftar User"
           smallTitle="Halaman untuk mengelola daftar user pada aplikasi."
           labelAdd="Tambah User"
-          linkAdd="/dashboard/daftar-user/tambah-user"
+          linkAdd="/dashboard/kelola-user/tambah-user"
         />
 
         <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
@@ -39,7 +76,7 @@ const KelolaUser: FC = () => {
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
               {/* input search */}
-              <InputFieldSearch handleSearch={() => {}} />
+              <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
             {/* filter role */}
@@ -134,6 +171,8 @@ const KelolaUser: FC = () => {
 
       {/* modal */}
       <ModalDataDetail
+        disableDelete={isShowModal?.data?.role === "wakil_dekan_1"}
+        title="Data Detail User"
         modalRef={modalRef}
         handleCloseModal={handleCloseModalDetail}
         isShowModal={{
@@ -164,8 +203,8 @@ const KelolaUser: FC = () => {
 
       {/* modal delete */}
       <ModalDelete
-        handleDelete={() => {}}
-        isLoadingDelete={false}
+        handleDelete={handleDelete}
+        isLoadingDelete={isLoadingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
       />

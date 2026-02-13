@@ -1,5 +1,10 @@
 import z from "zod";
-import type { CreateUserType, LoginUserType } from "../models/user.model";
+import type {
+  CreateUserType,
+  LoginUserType,
+  UpdateUserType,
+} from "../models/user.model";
+import type { UserRole } from "../types/constanst.type";
 
 export class UserValidation {
   // only char schema
@@ -25,22 +30,26 @@ export class UserValidation {
     return z
       .string(`${field} harus berupa karakter`)
       .trim()
-      .min(min, `${field} minimal ${min} karakter`)
+      .min(min, `${field} harus di isi`)
       .max(max, `${field} maksimal ${max} karakter`);
   }
 
   // email schema
   private static emailSchema() {
-    return z.email(`Email harus berupa karakter`);
+    return z.email(`Email tidak valid`);
   }
 
   // password schema
-  private static passwordSchema(min: number = 6, max: number = 50) {
+  private static passwordSchema(
+    field: string = "Password",
+    min: number = 1,
+    max: number = 50,
+  ) {
     return z
       .string(`Password harus berupa karakter`)
       .trim()
-      .min(min, `Password minimal ${min} karakter`)
-      .max(max, `Password maksimal ${max} karakter`);
+      .min(min, `${field} minimal ${min} karakter`)
+      .max(max, `${field} maksimal ${max} karakter`);
   }
 
   // create user schema
@@ -48,8 +57,31 @@ export class UserValidation {
     .object({
       nama: this.onlyCharSchema("Nama"),
       email: this.emailSchema(),
-      password: this.passwordSchema(),
+      password: this.passwordSchema("Password", 6, 50),
+      confirmPassword: this.passwordSchema("Confirm Password", 6, 50),
+      role: z.enum(
+        ["kaprodi", "tim_akreditasi"] as Exclude<UserRole, "wakil_dekan_1">[],
+        "Role KAPRODI atau TIM AKREDITASI",
+      ),
     })
+    .superRefine((data, ctx) => {
+      if (data.password !== data.confirmPassword) {
+        // error untuk field password
+        ctx.addIssue({
+          code: "custom",
+          message: "password tidak sama",
+          path: ["password"],
+        });
+
+        // error untuk field confirmPassword
+        ctx.addIssue({
+          code: "custom",
+          message: "password tidak sama",
+          path: ["confirmPassword"],
+        });
+      }
+    })
+
     .strict() satisfies z.ZodType<CreateUserType>;
 
   // login
@@ -59,4 +91,19 @@ export class UserValidation {
       password: this.passwordSchema(),
     })
     .strict() satisfies z.ZodType<LoginUserType>;
+
+  // update
+  static readonly UPDATE = z
+    .object({
+      nama: this.onlyCharSchema("Nama").optional(),
+      email: this.emailSchema().optional(),
+      password: this.passwordSchema().optional(),
+      role: z
+        .enum(
+          ["kaprodi", "tim_akreditasi"] as Exclude<UserRole, "wakil_dekan_1">[],
+          "Role KAPRODI atau TIM AKREDITASI",
+        )
+        .optional(),
+    })
+    .strict() satisfies z.ZodType<UpdateUserType>;
 }

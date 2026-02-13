@@ -187,6 +187,7 @@ const DaftarKriteria: FC = () => {
 
       {/* modal detail */}
       <ModalDataDetail
+        title="Data Detail Kriteria"
         modalRef={modalRef}
         handleCloseModal={handleCloseModalDetail}
         isShowModal={{

@@ -12,6 +12,8 @@ type Props = {
   handleCloseModal: () => void;
   handleShowModalDelete: (id: number) => void;
   linkUpdate: string;
+  title: string;
+  disableDelete?: boolean;
 };
 const ModalDataDetail: FC<Props> = ({
   handleCloseModal,
@@ -19,6 +21,8 @@ const ModalDataDetail: FC<Props> = ({
   modalRef,
   handleShowModalDelete,
   linkUpdate,
+  title,
+  disableDelete,
 }) => {
   return (
     <>
@@ -29,7 +33,7 @@ const ModalDataDetail: FC<Props> = ({
         onCancel={() => handleCloseModal()}
       >
         <div className="modal-box">
-          <h3 className="font-bold text-base lg:text-lg">Data Kriteria</h3>
+          <h3 className="font-bold text-base lg:text-lg">{title}</h3>
 
           <div className="w-full flex flex-col justify-start items-stary mt-4 gap-3">
             {/* field data modal */}
@@ -57,15 +61,17 @@ const ModalDataDetail: FC<Props> = ({
             </Link>
 
             {/* button delete */}
-            <button
-              type="button"
-              className="btn btn-error"
-              onClick={() => handleShowModalDelete(isShowModal.id)}
-            >
-              <span className="text-xs lg:text-sm text-primary-white">
-                Hapus
-              </span>
-            </button>
+            {disableDelete !== true && (
+              <button
+                type="button"
+                className="btn btn-error"
+                onClick={() => handleShowModalDelete(isShowModal.id)}
+              >
+                <span className="text-xs lg:text-sm text-primary-white">
+                  Hapus
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </dialog>

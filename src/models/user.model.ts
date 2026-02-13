@@ -15,8 +15,16 @@ export interface IUser {
 // create user model
 export interface CreateUserType extends Omit<
   IUser,
-  "id" | "createdAt" | "updatedAt" | "tims"
-> {}
+  "id" | "createdAt" | "updatedAt" | "tims" | "role"
+> {
+  confirmPassword: string;
+  role: Exclude<UserRole, "wakil_dekan_1">;
+}
+
+// update user model
+export interface UpdateUserType extends Partial<Omit<CreateUserType, "role">> {
+  role?: Exclude<UserRole, "wakil_dekan_1">;
+}
 
 // login type
 export interface LoginUserType extends Pick<IUser, "password"> {
