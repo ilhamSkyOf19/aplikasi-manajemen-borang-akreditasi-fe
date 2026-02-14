@@ -1,8 +1,8 @@
-import { Eye, EyeOff, KeyRound } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState, type FC } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
-import ErrorFieldInput from "../ErrorFieldInput";
-import { cn } from "../../utils/cn";
+import ErrorFieldInput from "../../ErrorFieldInput";
+import { cn } from "../../../utils/cn";
 
 // props
 type Props = {
@@ -12,18 +12,28 @@ type Props = {
   minLength?: number;
   placeholder: string;
   maxLength?: number;
+  label: string;
+  required?: boolean;
+  max: number;
+  clearError?: () => void;
 };
 
-const InputFieldWithIconPassword: FC<Props> = ({
+const InputFieldNonIconPassword: FC<Props> = ({
   name,
   register,
   errorMessage,
   maxLength,
   minLength,
   placeholder,
+  label,
+  required,
+  max,
 }) => {
   // state show password
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // is value
+  const [isValue, setIsValue] = useState<string>("");
   return (
     <div
       className={cn(
@@ -31,22 +41,42 @@ const InputFieldWithIconPassword: FC<Props> = ({
         errorMessage && "mb-3",
       )}
     >
-      <div className="h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out ">
-        {/* icon */}
-        <label htmlFor={name}>
-          <KeyRound className="w-4 h-4" />
-        </label>
+      {/* label */}
+      <div className="w-full text-base relative flex flex-row justify-between items-center">
+        <div className="flex-2 relative">
+          <label htmlFor={name} className="capitalize text-sm">
+            {label}
+          </label>
 
+          <span className="absolute -top-1 ml-1 text-error">
+            {required && "*"}
+          </span>
+        </div>
+
+        {/* MAX BERDASARKAN NILAI ANGKA */}
+        <span className="text-xs">
+          {isValue.length || 0} / {max}
+        </span>
+      </div>
+      <div className="mt-2 h-10 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out ">
         {/* input */}
         <input
           {...register}
           type={showPassword ? "text" : "password"}
           id={name}
           placeholder={placeholder}
-          className="w-full bg-transparent outline-none text-sm placeholder:text-sm placeholder:text-gray-400  placeholder:font-light lg:text-sm lg:placeholder:text-sm"
+          className="w-full bg-transparent outline-none text-sm placeholder:text-sm placeholder:text-gray-400  placeholder:font-light"
           autoComplete="off"
           minLength={minLength || 6}
           maxLength={maxLength || 100}
+          onChange={(e) => {
+            let value = e.target.value;
+            // set value
+            setIsValue(value);
+
+            // set value
+            register.onChange(e);
+          }}
         />
 
         {/* eye */}
@@ -75,4 +105,4 @@ const InputFieldWithIconPassword: FC<Props> = ({
   );
 };
 
-export default InputFieldWithIconPassword;
+export default InputFieldNonIconPassword;

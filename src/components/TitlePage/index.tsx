@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import ButtonAdd from "../ButtonAdd";
+import ButtonAdd from "../buttonComponents/ButtonAdd";
 
 type Props = {
   bigTitle: string;

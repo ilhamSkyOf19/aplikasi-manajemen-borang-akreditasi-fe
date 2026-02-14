@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { FieldValues, UseControllerReturn } from "react-hook-form";
-import ErrorFieldInput from "../ErrorFieldInput";
-import { cn } from "../../utils/cn";
+import ErrorFieldInput from "../../ErrorFieldInput";
+import { cn } from "../../../utils/cn";
 
 type Props<T extends FieldValues = any> = {
   label: string;

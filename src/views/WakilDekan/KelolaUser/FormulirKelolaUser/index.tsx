@@ -1,17 +1,17 @@
 import { type FC } from "react";
 import TitlePage from "../../../../components/TitlePage";
-import InputFieldNonIconText from "../../../../components/InputFieldNonIconText";
-import ButtonSubmit from "../../../../components/ButtonSubmit";
+import InputFieldNonIconText from "../../../../components/inputComponents/InputFieldNonIconText";
+import ButtonSubmit from "../../../../components/buttonComponents/ButtonSubmit";
 import BreadCrumbs from "../../../../components/BreadCrumbs";
 import { cn } from "../../../../utils/cn";
-import ButtonBackBox from "../../../../components/ButtonBackBox";
+import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
 import useFormulirKelolaUser from "./useFormulirKelolaUser";
-import InputFieldChoose from "../../../../components/InputFieldChoose";
+import InputFieldChoose from "../../../../components/inputComponents/InputFieldChoose";
 import type {
   CreateUserType,
   UpdateUserType,
 } from "../../../../models/user.model";
-import InputFieldNonIconPassword from "../../../../components/InputFieldNonIconPassword";
+import InputFieldNonIconPassword from "../../../../components/inputComponents/InputFieldNonIconPassword";
 
 const FormulirKelolaUser: FC = () => {
   // use formulir kriteria

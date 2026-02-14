@@ -1,14 +1,16 @@
 import { type FC } from "react";
 import TitlePage from "../../../components/TitlePage";
 import TableData from "../../../components/TableData";
-import InputFieldSearch from "../../../components/InputFieldSearch";
+import InputFieldSearch from "../../../components/inputComponents/InputFieldSearch";
 import DropDown from "../../../components/DropDown";
 import SkeletonTable from "../../../components/SkeletonTable";
-import ModalDataDetail from "../../../components/ModalDataDetail";
-import ModalDelete from "../../../components/ModalDelete";
+import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
+import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import useKelolaUser from "./useKelolaUser";
 import Toast from "../../../components/Toast";
 import Pagination from "../../../components/Pagination";
+import { formatTanggalPanjang } from "../../../utils/formatDate";
+import ModalDaftarTim from "../../../components/modalComponents/ModalDaftarTim";
 
 const KelolaUser: FC = () => {
   // call use
@@ -29,6 +31,9 @@ const KelolaUser: FC = () => {
     isToast,
     handleSearch,
     setPage,
+    handleCloseModalDaftarTim,
+    handleShowModalDaftarTim,
+    modalDaftarTimRef,
   } = useKelolaUser();
 
   return (
@@ -163,14 +168,14 @@ const KelolaUser: FC = () => {
                       },
                     }))}
                     aksi={true}
-                    handleShowModalDelete={() => {}}
+                    handleShowModalDelete={handleShowModalDelete}
                     linkUpdate={"kelola-user/ubah-user"}
                     fieldAksi={[
                       {
                         header: "Tim Akreditasi",
                         label: "Lihat selengkapnya",
                         size: 19,
-                        handleAksi: () => {},
+                        handleAksiWithParams: handleShowModalDaftarTim,
                       },
                     ]}
                   />
@@ -188,11 +193,11 @@ const KelolaUser: FC = () => {
         setPage={setPage}
       />
 
-      {/* modal */}
+      {/* modal data detail for sm */}
       <ModalDataDetail
+        modalRef={modalRef}
         disableDelete={isShowModal?.data?.role === "wakil_dekan_1"}
         title="Data Detail User"
-        modalRef={modalRef}
         handleCloseModal={handleCloseModalDetail}
         isShowModal={{
           active: isShowModal.active,
@@ -208,16 +213,30 @@ const KelolaUser: FC = () => {
                   : isShowModal?.data?.role === "tim_akreditasi"
                     ? "Tim Akreditasi"
                     : ""),
+            tims:
+              isShowModal?.data?.tims.map((item) => item.namaTimAkreditasi) ||
+              [],
+            createdAt: formatTanggalPanjang(isShowModal?.data?.createdAt || ""),
           },
           id: isShowModal?.data?.id || 0,
           label: [
             { key: "nama", label: "Nama" },
             { key: "email", label: "Email" },
             { key: "role", label: "Role" },
+            { key: "createdAt", label: "Tanggal Dibuat" },
+            { key: "tims", label: "Daftar Tim", list: true },
           ],
         }}
         linkUpdate={`/dashboard/kelola-user/ubah-user/${isShowModal?.data?.id || 0}`}
         handleShowModalDelete={handleShowModalDelete}
+      />
+
+      {/* modal daftar tim */}
+      <ModalDaftarTim
+        modalRef={modalDaftarTimRef}
+        handleCloseModal={handleCloseModalDaftarTim}
+        datas={isShowModal?.data?.tims || []}
+        nama={isShowModal?.data?.nama || ""}
       />
 
       {/* modal delete */}

@@ -1,6 +1,6 @@
 import { Search, X } from "lucide-react";
 import { useEffect, useState, type FC } from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "../../../utils/cn";
 import { useSearchParams } from "react-router-dom";
 
 type Props = {

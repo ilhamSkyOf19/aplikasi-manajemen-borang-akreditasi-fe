@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import loadingWhite from "../../assets/animations/loading-white.svg";
+import loadingWhite from "../../../assets/animations/loading-white.svg";
 
 type Props = {
   isLoading: boolean;

@@ -1,16 +1,16 @@
 import { type FC } from "react";
-import InputFieldSearch from "../../../components/InputFieldSearch";
+import InputFieldSearch from "../../../components/inputComponents/InputFieldSearch";
 import TableData from "../../../components/TableData";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import Pagination from "../../../components/Pagination";
 import TitlePage from "../../../components/TitlePage";
 import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
-import ModalDelete from "../../../components/ModalDelete";
+import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import SkeletonTable from "../../../components/SkeletonTable";
 import DropDown from "../../../components/DropDown";
-import ModalDataDetail from "../../../components/ModalDataDetail";
+import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
 
 const DaftarKriteria: FC = () => {
   // call use

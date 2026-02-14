@@ -1,12 +1,12 @@
 import { type FC } from "react";
 import TitlePage from "../../../../components/TitlePage";
 import useFormulirKriteria from "./useFormulirKriteria";
-import InputFieldNonIconNumber from "../../../../components/InputFieldNonIconNumber";
-import InputFieldNonIconText from "../../../../components/InputFieldNonIconText";
-import ButtonSubmit from "../../../../components/ButtonSubmit";
+import InputFieldNonIconNumber from "../../../../components/inputComponents/InputFieldNonIconNumber";
+import InputFieldNonIconText from "../../../../components/inputComponents/InputFieldNonIconText";
+import ButtonSubmit from "../../../../components/buttonComponents/ButtonSubmit";
 import BreadCrumbs from "../../../../components/BreadCrumbs";
 import { cn } from "../../../../utils/cn";
-import ButtonBackBox from "../../../../components/ButtonBackBox";
+import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
 
 const FormulirKriteria: FC = () => {
   // use formulir kriteria

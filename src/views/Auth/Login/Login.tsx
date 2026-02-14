@@ -1,10 +1,10 @@
 import { type FC } from "react";
 import logoFikom from "../../../assets/logos/logo-fikom.webp";
-import InputFieldWithIconPassword from "../../../components/InputFieldWithIconPassword";
-import ButtonSubmit from "../../../components/ButtonSubmit";
+import InputFieldWithIconPassword from "../../../components/inputComponents/InputFieldWithIconPassword";
+import ButtonSubmit from "../../../components/buttonComponents/ButtonSubmit";
 import useLogin from "./useLogin";
 import { cn } from "../../../utils/cn";
-import InputFieldWithIconText from "../../../components/InputFieldWithIconText";
+import InputFieldWithIconText from "../../../components/inputComponents/InputFieldWithIconText";
 
 const Login: FC = () => {
   // use login

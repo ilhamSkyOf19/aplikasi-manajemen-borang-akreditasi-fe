@@ -1,7 +1,7 @@
 import { UserRound } from "lucide-react";
 import { type FC } from "react";
 import { type UseFormRegisterReturn } from "react-hook-form";
-import ErrorFieldInput from "../ErrorFieldInput";
+import ErrorFieldInput from "../../ErrorFieldInput";
 
 // Props
 type Props = {
@@ -34,7 +34,7 @@ const InputFieldWithIconText: FC<Props> = ({
           type="text"
           id={name}
           placeholder={placeholder}
-          className="w-full bg-transparent outline-none text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:font-light lg:text-sm lg:placeholder:text-sm"
+          className="w-full h-full bg-transparent outline-none text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:font-light lg:text-sm lg:placeholder:text-sm"
           autoComplete="off"
           minLength={minLength || 1}
           maxLength={maxLength || 100}

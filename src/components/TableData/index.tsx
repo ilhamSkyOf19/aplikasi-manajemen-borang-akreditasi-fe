@@ -21,7 +21,8 @@ type Props = {
     label: string;
     size: number;
     header: string;
-    handleAksi: () => void;
+    handleAksiWithParams?: (params: number) => void;
+    handleAksiNonParams?: () => void;
   }[];
   emptyMessage?: string;
   currentPage: number;
@@ -137,7 +138,15 @@ const TableData: FC<Props> = ({
                 {fieldAksi &&
                   fieldAksi.map((item, idx) => (
                     <td key={idx}>
-                      <button type="button" onClick={item.handleAksi}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          item.handleAksiWithParams &&
+                            item.handleAksiWithParams(row.fields.id);
+                          item.handleAksiNonParams &&
+                            item.handleAksiNonParams();
+                        }}
+                      >
                         <span className="text-primary-purple hover:underline">
                           {item.label}
                         </span>

@@ -31,6 +31,7 @@ const useLogin = () => {
       }
     },
     onError: (error) => {
+      console.log(error);
       if (error instanceof AxiosError) {
         if (error.status === 400) {
           // set error

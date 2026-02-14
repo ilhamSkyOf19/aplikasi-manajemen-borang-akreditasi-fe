@@ -1,8 +1,8 @@
 import { useEffect, useState, type FC } from "react";
 import clsx from "clsx";
 import type { UseFormRegisterReturn } from "react-hook-form";
-import ErrorFieldInput from "../ErrorFieldInput";
-import { cn } from "../../utils/cn";
+import ErrorFieldInput from "../../ErrorFieldInput";
+import { cn } from "../../../utils/cn";
 
 type Props = {
   name: string;
@@ -12,10 +12,10 @@ type Props = {
   errorMessage?: string;
   register: UseFormRegisterReturn;
   max: number;
-  defaultValue?: number;
+  defaultValue?: string;
 };
 
-const InputFieldNonIconNumber: FC<Props> = ({
+const InputFieldNonIconText: FC<Props> = ({
   label,
   name,
   placeholder,
@@ -26,7 +26,7 @@ const InputFieldNonIconNumber: FC<Props> = ({
   defaultValue,
 }) => {
   // simpan sebagai number | null
-  const [isValue, setIsValue] = useState<number | "">("");
+  const [isValue, setIsValue] = useState<string>("");
 
   // set default value
   useEffect(() => {
@@ -34,6 +34,7 @@ const InputFieldNonIconNumber: FC<Props> = ({
       setIsValue(defaultValue);
     }
   }, [defaultValue]);
+
   return (
     <div
       className={cn(
@@ -44,7 +45,7 @@ const InputFieldNonIconNumber: FC<Props> = ({
       {/* label */}
       <div className="w-full text-base relative flex flex-row justify-between items-center">
         <div className="flex-2 relative">
-          <label htmlFor={name} className="capitalize">
+          <label htmlFor={name} className="capitalize text-sm">
             {label}
           </label>
 
@@ -55,44 +56,30 @@ const InputFieldNonIconNumber: FC<Props> = ({
 
         {/* MAX BERDASARKAN NILAI ANGKA */}
         <span className="text-xs">
-          {isValue || 0} / {max}
+          {isValue.length} / {max}
         </span>
       </div>
 
       <div
         className={clsx(
-          "mt-2 h-11 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
+          "mt-2 h-10 px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple focus-within:border-primary-purple transition-all duration-300 ease-in-out",
           errorMessage && "border-error",
         )}
       >
         <input
           {...register}
-          type="number"
+          type={"text"}
           name={name}
           id={name}
           placeholder={placeholder}
-          className="w-full h-full bg-transparent outline-none text-sm placeholder:text-sm placeholder:text-gray-400 placeholder:font-light lg:text-sm lg:placeholder:text-sm"
-          min={0}
-          max={max}
-          onKeyDown={(e) => {
-            // Cegah minus & e (scientific notation)
-            if (["-", "e", "E"].includes(e.key)) {
-              e.preventDefault();
-            }
-          }}
+          className="w-full h-full border-none outline-none text-sm placeholder:text-sm"
+          maxLength={max}
           onChange={(e) => {
-            let value: number | "" =
-              e.target.value === "" ? "" : Number(e.target.value);
-
-            // Cegah NaN & negatif
-            if (typeof value === "number") {
-              if (value < 0) value = 0;
-              if (value > max) value = max;
-
-              e.target.value = String(value);
-            }
-
+            let value = e.target.value;
+            // set value
             setIsValue(value);
+
+            // set value
             register.onChange(e);
           }}
         />
@@ -104,4 +91,4 @@ const InputFieldNonIconNumber: FC<Props> = ({
   );
 };
 
-export default InputFieldNonIconNumber;
+export default InputFieldNonIconText;

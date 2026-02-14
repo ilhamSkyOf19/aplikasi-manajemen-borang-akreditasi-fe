@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { UserService } from "../../../services/user.service";
 import { useState } from "react";
-import type { PayloadUserType } from "../../../models/user.model";
+import type { ResponseUserType } from "../../../models/user.model";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
 import useModalDelete from "../../../hooks/useModalDelete";
 import { useFilter } from "../../../hooks/useFilter";
@@ -46,7 +46,7 @@ const useKelolaUser = () => {
 
   // state modal show
   const [isShowModal, setIsShowModal] = useState<{
-    data: PayloadUserType | null;
+    data: ResponseUserType | null;
     active: boolean;
   }>({
     data: {
@@ -54,16 +54,29 @@ const useKelolaUser = () => {
       email: "",
       nama: "",
       role: "tim_akreditasi",
+      tims: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     active: false,
   });
 
   // use handle modal data detail
   const { handleCloseModalDetail, handleShowModalDetail, modalRef } =
-    useHandleModalDataDetail<PayloadUserType>({
+    useHandleModalDataDetail<ResponseUserType>({
       dataList: dataKelolaUser?.data?.data,
       setIsShowModal,
     });
+
+  // use handle modal data detail
+  const {
+    handleCloseModalDetail: handleCloseModalDaftarTim,
+    handleShowModalDetail: handleShowModalDaftarTim,
+    modalRef: modalDaftarTimRef,
+  } = useHandleModalDataDetail<ResponseUserType>({
+    dataList: dataKelolaUser?.data?.data,
+    setIsShowModal,
+  });
 
   // handle delete
   const { mutateAsync: mutateDelete, isPending: isLoadingDelete } = useMutation(
@@ -112,6 +125,9 @@ const useKelolaUser = () => {
     handleDelete,
     handleSearch,
     setPage,
+    handleShowModalDaftarTim,
+    handleCloseModalDaftarTim,
+    modalDaftarTimRef,
   };
 };
 

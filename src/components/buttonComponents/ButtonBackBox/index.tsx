@@ -9,7 +9,7 @@ const ButtonBackBox: FC<Props> = ({ label }: Props) => {
   const navigate = useNavigate();
   return (
     <button
-      className="w-full h-10 bg-gray-300 rounded-md flex justify-center items-center hover:bg-gray-400 transition-all duration-300 ease-in-out"
+      className="w-full h-10 bg-gray-300/70 rounded-md flex justify-center items-center hover:bg-gray-300 transition-all duration-300 ease-in-out"
       type="button"
       onClick={() => navigate(-1)}
     >
