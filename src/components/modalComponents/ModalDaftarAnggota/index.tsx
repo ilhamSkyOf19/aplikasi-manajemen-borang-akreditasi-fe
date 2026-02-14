@@ -1,20 +1,20 @@
 import { type FC, type RefObject } from "react";
 import { cn } from "../../../utils/cn";
-import type { ITimAkreditasi } from "../../../models/timAkreditasi.model";
 import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import type { PayloadUserType } from "../../../models/user.model";
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
   customClassName?: string;
-  datas: Omit<ITimAkreditasi, "user">[];
-  nama: string;
+  datas: PayloadUserType[];
+  namaTim: string;
 };
-const ModalDaftarTim: FC<Props> = ({
+const ModalDaftarAnggota: FC<Props> = ({
   handleCloseModal,
   modalRef,
   customClassName,
-  nama,
+  namaTim,
   datas,
 }) => {
   return (
@@ -26,7 +26,9 @@ const ModalDaftarTim: FC<Props> = ({
     >
       <div className={cn("modal-box w-[80vw] lg:w-xl", customClassName)}>
         {/* icon alert */}
-        <h3 className="font-bold text-base lg:text-lg">Daftar Tim - {nama}</h3>
+        <h3 className="font-bold text-base lg:text-lg">
+          Daftar Anggota - {namaTim}
+        </h3>
 
         {datas.length > 0 ? (
           <div className="w-full flex flex-row justify-start items-start gap-2 mt-2 pl-4">
@@ -45,15 +47,15 @@ const ModalDaftarTim: FC<Props> = ({
                       <span className="text-sm">{index + 1}.</span>
 
                       {/* nama */}
-                      <span className="text-sm">{item.namaTimAkreditasi}</span>
+                      <span className="text-sm">{item.nama}</span>
                     </div>
 
                     {/* aksi */}
                     <Link
-                      to={`/dashboard/kelola-tim-akreditasi?search=${item.namaTimAkreditasi}`}
+                      to={`/dashboard/kelola-user?search=${item.email}`}
                       className="text-sm text-primary-purple hover:underline"
                     >
-                      Kelola
+                      Lihat
                     </Link>
                   </div>
                 ))}
@@ -62,7 +64,7 @@ const ModalDaftarTim: FC<Props> = ({
           </div>
         ) : (
           <div className="w-full flex flex-row justify-center items-center mt-4">
-            <span className="text-sm">Belum ada tim akreditasi</span>
+            <span className="text-sm">Belum ada anggota</span>
           </div>
         )}
 
@@ -81,4 +83,4 @@ const ModalDaftarTim: FC<Props> = ({
   );
 };
 
-export default ModalDaftarTim;
+export default ModalDaftarAnggota;

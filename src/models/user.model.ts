@@ -1,4 +1,4 @@
-import type { UserRole } from "../types/constanst.type";
+import type { MetaType, UserRole } from "../types/constanst.type";
 import type { ITimAkreditasi } from "./timAkreditasi.model";
 
 export interface IUser {
@@ -43,11 +43,6 @@ export interface ResponseUserType extends Omit<IUser, "password"> {}
 // response with meta
 // response kriteria model with meta
 export interface ResponseUserWithMetaType {
-  meta: {
-    totalData: number;
-    currentPage: number;
-    totalPage: number;
-    limit: number;
-  };
+  meta: MetaType;
   data: ResponseUserType[];
 }

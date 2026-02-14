@@ -85,7 +85,7 @@ const KelolaUser: FC = () => {
               {/* input search */}
               <InputFieldSearch
                 handleSearch={handleSearch}
-                placeholder="Cari berdasarkan nama"
+                placeholder="Cari berdasarkan nama atau email"
               />
             </div>
 

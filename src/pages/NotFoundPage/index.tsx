@@ -1,7 +1,8 @@
 import { type FC } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const NotFoundPage: FC = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-primary-white relative">
       {/* content */}
@@ -24,9 +25,19 @@ const NotFoundPage: FC = () => {
           </p>
 
           {/* button back home */}
-          <Link to="/" className="btn btn-soft text-sm font-medium">
+          <button
+            type="button"
+            className="btn btn-soft text-sm font-medium"
+            onClick={() => {
+              if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate("/");
+              }
+            }}
+          >
             Kembali
-          </Link>
+          </button>
         </div>
       </div>
 

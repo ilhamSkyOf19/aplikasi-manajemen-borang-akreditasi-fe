@@ -1,3 +1,4 @@
+import type { MetaType } from "../types/constanst.type";
 import type { PayloadUserType } from "./user.model";
 
 export interface ITimAkreditasi {
@@ -23,5 +24,5 @@ export interface ResponseTimAkreditasiType extends ITimAkreditasi {}
 // response with meta
 export interface ResponseTimAkreditasiWithMetaType {
   data: ResponseTimAkreditasiType[];
-  meta: HdrMetadataType;
+  meta: MetaType;
 }

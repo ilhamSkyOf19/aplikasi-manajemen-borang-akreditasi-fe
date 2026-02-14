@@ -1,3 +1,5 @@
+import type { MetaType } from "../types/constanst.type";
+
 // kriteria model
 export interface IKriteria {
   id: number;
@@ -31,11 +33,6 @@ export const toKriteriaResponse = (
 
 // response kriteria model with meta
 export interface ResponseKriteriaWithMetaType {
-  meta: {
-    totalData: number;
-    currentPage: number;
-    totalPage: number;
-    limit: number;
-  };
+  meta: MetaType;
   data: IKriteria[];
 }

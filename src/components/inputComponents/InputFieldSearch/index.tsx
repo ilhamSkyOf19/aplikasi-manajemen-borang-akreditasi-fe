@@ -25,7 +25,13 @@ const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
   }, [urlSearch]);
 
   return (
-    <div className="w-full h-10 lg:h-11 flex flex-row justify-start items-center">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSearch(inputValue);
+      }}
+      className="w-full h-10 lg:h-11 flex flex-row justify-start items-center"
+    >
       <div className="h-full px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-tl-md rounded-bl-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out border-r-primary-purple">
         {/* icon */}
         <label htmlFor={"name"}>
@@ -64,16 +70,15 @@ const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
 
       {/* btn */}
       <button
-        type="button"
+        type="submit"
         className={cn(
           "h-full w-18 bg-primary-purple rounded-tr-md rounded-br-md flex justify-center items-center",
           "hover-overlay",
         )}
-        onClick={() => handleSearch(inputValue)}
       >
         <span className="text-xs lg:text-sm text-primary-white">Cari</span>
       </button>
-    </div>
+    </form>
   );
 };
 

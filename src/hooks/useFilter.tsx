@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 type FilterTypeReturn = {
@@ -12,25 +11,30 @@ export const useFilter = (
 ): FilterTypeReturn => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // raw filter
   const rawFilter = (searchParams.get(paramName) ?? "").toLowerCase();
 
-  // ✅ hanya validasi kalau allowQuery ada & tidak kosong
+  // check whitelist
   const isWhitelistActive = allowQuery && allowQuery.length > 0;
 
+  // check filter
   const filter = isWhitelistActive
     ? allowQuery.includes(rawFilter)
       ? rawFilter
       : ""
     : rawFilter;
 
+  // set filter
   const setFilter = (val: string) => {
+    // convert to lowercase
     const valLower = val.toLowerCase();
 
-    // ✅ validasi hanya jika whitelist aktif
+    // check whitelist
     if (isWhitelistActive && !allowQuery.includes(valLower)) return;
 
     const params = new URLSearchParams(searchParams);
 
+    // check "semua"
     if (valLower === "semua") {
       params.delete(paramName);
     } else {
@@ -39,15 +43,6 @@ export const useFilter = (
 
     setSearchParams(params);
   };
-
-  // ✅ perbaiki URL saat mount hanya jika whitelist aktif
-  useEffect(() => {
-    if (isWhitelistActive && rawFilter && !allowQuery.includes(rawFilter)) {
-      const params = new URLSearchParams(searchParams);
-      params.delete(paramName);
-      setSearchParams(params);
-    }
-  }, []);
 
   return { filter, setFilter };
 };
