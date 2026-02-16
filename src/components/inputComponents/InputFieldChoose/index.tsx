@@ -45,7 +45,7 @@ export default function InputFieldChoose<T extends FieldValues = any>({
 
       <div
         className={clsx(
-          "mt-2 h-10 flex flex-row justify-start items-stretch gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out focus-within:border-primary-purple overflow-hidden ",
+          "mt-2 h-10 flex flex-row justify-start items-stretch gap-2 border border-primary-black/40 rounded-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out focus-within:border-primary-purple overflow-hidden",
           fieldState.error && "border-error",
           disabled && "cursor-not-allowed border-primary-black/10",
           field.value ? "text-primary-black" : "text-primary-black/50",

@@ -19,20 +19,22 @@ export class TimAkreditasivalidation {
   }
 
   //   json schema
-  private static numberArraySchema(field: string) {
+  private static numberArraySchema() {
     return z
-      .array(z.number().int().positive())
-      .nonempty({ message: `${field} harus berupa array yang tidak kosong` })
-      .refine((arr) => arr.every((n) => typeof n === "number"), {
-        message: `${field} harus berupa array of number`,
-      });
+      .array(
+        z
+          .number("Anggota harus di isi")
+          .int("Anggota harus di isi")
+          .positive("Anggota harus di isi"),
+      )
+      .nonempty("Anggota harus di isi");
   }
 
   // create
   static readonly CREATE = z
     .object({
       namaTimAkreditasi: this.stringSchema("namaTimAkreditasi"),
-      users: this.numberArraySchema("users"),
+      users: this.numberArraySchema(),
     })
     .strict() satisfies z.ZodType<CreateTimAkreditasiType>;
 
@@ -40,7 +42,7 @@ export class TimAkreditasivalidation {
   static readonly UPDATE = z
     .object({
       namaTimAkreditasi: this.stringSchema("namaTimAkreditasi").optional(),
-      users: this.numberArraySchema("users").optional(),
+      users: z.array(z.number().int().positive()).optional(),
     })
     .strict() satisfies z.ZodType<UpdateTimAkreditasiType>;
 }

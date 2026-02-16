@@ -8,9 +8,10 @@ import DaftarKriteriaPage from "../pages/DaftarKriteriaPage";
 import FormulirDaftarKriteriaPage from "../pages/FormulirDaftarKriteriaPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RoleGuard from "../guards/RoleGuard";
-import GuardLoginPage from "../guards/GuardLoginPage";
 import KelolaUserPage from "../pages/KelolaUser";
 import FormulirKelolaUserPage from "../pages/FormulirKelolaUserPage";
+import { useAuthStore } from "../stores/authStore";
+import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasi";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -32,7 +33,10 @@ const route = createBrowserRouter([
         const result = await AuthService.me();
 
         if (result && result.meta.statusCode === 200) {
-          return result.data;
+          // set user context
+          useAuthStore.getState().setUser(result.data);
+
+          return null;
         }
 
         return null;
@@ -44,7 +48,7 @@ const route = createBrowserRouter([
         throw err;
       }
     },
-    shouldRevalidate: () => false,
+    shouldRevalidate: () => true,
     element: <DashboardLayout />,
     children: [
       {
@@ -117,16 +121,28 @@ const route = createBrowserRouter([
         path: "kelola-tim-akreditasi",
         element: <KelolaTimAkreditasiPage />,
       },
+
+      // tambah tim akreditasi
+      {
+        path: "kelola-tim-akreditasi/tambah-tim-akreditasi",
+        element: <FormulirTimAkreditasiPage />,
+      },
+      // update tim akreditasi
+      {
+        path: "kelola-tim-akreditasi/ubah-tim-akreditasi/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-tim-akreditasi");
+          }
+        },
+        element: <FormulirTimAkreditasiPage />,
+      },
     ],
   },
 
   {
     path: "/login",
-    element: (
-      <GuardLoginPage>
-        <LoginPage />
-      </GuardLoginPage>
-    ),
+    element: <LoginPage />,
   },
 ]);
 

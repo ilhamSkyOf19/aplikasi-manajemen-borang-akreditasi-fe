@@ -6,10 +6,10 @@ import InputFieldSearch from "../../../components/inputComponents/InputFieldSear
 import SkeletonTable from "../../../components/SkeletonTable";
 import TableData from "../../../components/TableData";
 import Pagination from "../../../components/Pagination";
-import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
+import ModalDataDetailTimAkreditasi from "../../../components/modalComponents/ModalDataDetailTimAkreditasi";
 
 const KelolaTimAkreditasi: FC = () => {
   // call use
@@ -120,7 +120,10 @@ const KelolaTimAkreditasi: FC = () => {
                     ]}
                     datas={
                       dataTimAkreditasi?.data?.data.map((item) => ({
-                        fields: { id: item.id, nama: item.namaTimAkreditasi },
+                        fields: {
+                          id: item.id,
+                          namaTimAkreditasi: item.namaTimAkreditasi,
+                        },
                       })) || []
                     }
                     aksiModal={true}
@@ -182,28 +185,11 @@ const KelolaTimAkreditasi: FC = () => {
       />
 
       {/* modal data detail for sm */}
-      <ModalDataDetail
+      <ModalDataDetailTimAkreditasi
         modalRef={modalDataDetailRef}
         title="Data Detail Tim Akreditasi"
         handleCloseModal={handleCloseModalDataDetail}
-        isShowModal={{
-          active: isShowModalDataDetail.active,
-          data: {
-            nama: isShowModalDataDetail?.data?.namaTimAkreditasi || "",
-            tanggalDiBuat: formatTanggalPanjang(
-              isShowModalDataDetail?.data?.createdAt || "",
-            ),
-            users:
-              isShowModalDataDetail?.data?.user.map((item) => item.nama) || [],
-          },
-          id: isShowModalDataDetail?.data?.id || 0,
-          label: [
-            { key: "nama", label: "Nama" },
-            { key: "tanggalDiBuat", label: "Tanggal Dibuat" },
-            { key: "users", label: "Daftar Anggota", list: true },
-          ],
-        }}
-        linkUpdate={`/dashboard/kelola-tim-akreditasi/ubah-tim-akreditasi/${isShowModalDataDetail?.data?.id || 0}`}
+        datas={isShowModalDataDetail?.data}
         handleShowModalDelete={handleShowModalDelete}
       />
 

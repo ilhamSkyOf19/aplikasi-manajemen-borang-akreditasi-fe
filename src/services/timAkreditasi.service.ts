@@ -1,9 +1,9 @@
 import instanceAxios from "../libs/axios";
-import type { UpdateKriteriaType } from "../models/kriteria.model";
 import type {
   CreateTimAkreditasiType,
   ResponseTimAkreditasiType,
   ResponseTimAkreditasiWithMetaType,
+  UpdateTimAkreditasiType,
 } from "../models/timAkreditasi.model";
 import type { PaginationType } from "../types/pagination.type";
 import type { ResponseStructure } from "../types/response";
@@ -52,7 +52,7 @@ export class TimAkreditasiService {
   // update
   static async update(
     id: number,
-    data: UpdateKriteriaType,
+    data: UpdateTimAkreditasiType,
   ): Promise<ResponseStructure<ResponseTimAkreditasiType | null>> {
     const result = await instanceAxios.patch<ResponseStructure<null>>(
       `/tim-akreditasi/update/${id}`,

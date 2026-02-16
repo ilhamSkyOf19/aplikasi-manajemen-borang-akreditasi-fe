@@ -25,13 +25,7 @@ const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
   }, [urlSearch]);
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSearch(inputValue);
-      }}
-      className="w-full h-10 lg:h-11 flex flex-row justify-start items-center"
-    >
+    <div className="w-full h-10 lg:h-11 flex flex-row justify-start items-center bg-primary-white">
       <div className="h-full px-3 flex flex-row justify-start items-center gap-2 border border-primary-black/40 rounded-tl-md rounded-bl-md w-full focus-within:ring-1 focus-within:ring-primary-purple transition-all duration-300 ease-in-out border-r-primary-purple">
         {/* icon */}
         <label htmlFor={"name"}>
@@ -50,6 +44,12 @@ const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
           maxLength={100}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSearch(inputValue);
+            }
+          }}
         />
 
         {/* button clear */}
@@ -70,15 +70,16 @@ const InputFieldSearch: FC<Props> = ({ handleSearch, placeholder }) => {
 
       {/* btn */}
       <button
-        type="submit"
+        type="button"
         className={cn(
           "h-full w-18 bg-primary-purple rounded-tr-md rounded-br-md flex justify-center items-center",
           "hover-overlay",
         )}
+        onClick={() => handleSearch(inputValue)}
       >
         <span className="text-xs lg:text-sm text-primary-white">Cari</span>
       </button>
-    </form>
+    </div>
   );
 };
 

@@ -47,7 +47,7 @@ export const useHandleModalDataDetail = <T extends { id: number }>(params: {
           data: defaultData || null,
           active: false,
         });
-      }, 100);
+      }, 200);
 
       return () => clearTimeout(timer);
     },

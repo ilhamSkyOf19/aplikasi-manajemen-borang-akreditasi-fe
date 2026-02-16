@@ -1,15 +1,7 @@
-import { useEffect, useState } from "react";
-import { useLoaderData, useLocation } from "react-router-dom";
-import type { PayloadUserType } from "../../models/user.model";
-import { useAuthStore } from "../../stores/authStore";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const useDashboardLayout = () => {
-  // get loadet
-  const user = useLoaderData() as PayloadUserType;
-
-  // set user
-  const setUser = useAuthStore((state) => state.setUser);
-
   // state is close
   const [isClose, setIsClose] = useState<boolean>(false);
 
@@ -25,12 +17,6 @@ const useDashboardLayout = () => {
   const path = isNaN(Number(lastSegment))
     ? lastSegment?.split("-").join(" ")
     : "Ubah Data";
-
-  useEffect(() => {
-    if (user) {
-      setUser(user);
-    }
-  }, [user]);
 
   return { handleSidebar, isClose, path };
 };

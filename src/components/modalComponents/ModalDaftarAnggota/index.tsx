@@ -24,14 +24,19 @@ const ModalDaftarAnggota: FC<Props> = ({
       className="modal"
       onCancel={() => handleCloseModal()}
     >
-      <div className={cn("modal-box w-[80vw] lg:w-xl", customClassName)}>
+      <div
+        className={cn(
+          "modal-box w-[92vw] max-h-[70vh] lg:w-xl",
+          customClassName,
+        )}
+      >
         {/* icon alert */}
         <h3 className="font-bold text-base lg:text-lg">
           Daftar Anggota - {namaTim}
         </h3>
 
         {datas.length > 0 ? (
-          <div className="w-full flex flex-row justify-start items-start gap-2 mt-2 pl-4">
+          <div className="w-full flex flex-row justify-start items-start gap-2 mt-2 pl-4 pr-2 lg:pr-0">
             {/* arrow corner down */}
             <div className="flex-1">
               <CornerDownRight />
@@ -40,7 +45,13 @@ const ModalDaftarAnggota: FC<Props> = ({
             <div className="flex-12 w-full flex flex-col justify-start items-start pt-0.5">
               <ol className="w-full">
                 {datas.map((item, index) => (
-                  <div className="w-full  flex flex-row justify-between items-center pb-2 border-b border-primary-black/30">
+                  <div
+                    key={index}
+                    className={cn(
+                      "w-full flex flex-row justify-between items-center pb-2 border-b border-primary-black/30",
+                      index > 0 && "pt-2",
+                    )}
+                  >
                     {/* nama */}
                     <div className="flex flex-row justify-start items-start gap-2">
                       {/* number */}
@@ -68,7 +79,7 @@ const ModalDaftarAnggota: FC<Props> = ({
           </div>
         )}
 
-        <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
+        <div className="w-full flex flex-row justify-end items-end gap-2 mt-4 pr-2 lg:pr-0">
           {/* button close */}
           <div className="modal-action">
             <form method="dialog">
