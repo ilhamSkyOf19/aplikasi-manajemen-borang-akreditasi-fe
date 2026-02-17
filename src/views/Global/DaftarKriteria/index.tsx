@@ -7,10 +7,10 @@ import TitlePage from "../../../components/TitlePage";
 import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
-import { useAuthStore } from "../../../stores/authStore";
 import SkeletonTable from "../../../components/SkeletonTable";
 import DropDown from "../../../components/DropDown";
 import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
+import { cn } from "../../../utils/cn";
 
 const DaftarKriteria: FC = () => {
   // call use
@@ -32,10 +32,8 @@ const DaftarKriteria: FC = () => {
     handleCloseModalDelete,
     setFilterStatus,
     setPage,
+    user,
   } = UseDaftarKriteria();
-
-  // user
-  const user = useAuthStore((state) => state.user);
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
@@ -93,7 +91,12 @@ const DaftarKriteria: FC = () => {
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
-            <div className="w-30 lg:w-40">
+            <div
+              className={cn(
+                "w-30 lg:w-40",
+                user?.role !== "wakil_dekan_1" && "hidden",
+              )}
+            >
               <div className="w-full flex flex-row justify-end items-center">
                 <DropDown
                   handleChange={(e) => setFilterStatus(e.target.value)}
@@ -141,7 +144,11 @@ const DaftarKriteria: FC = () => {
                     header={
                       user?.role === "kaprodi" ||
                       user?.role === "tim_akreditasi"
-                        ? header.filter((item) => item.key === "namaKriteria")
+                        ? header.filter(
+                            (item) =>
+                              item.key === "namaKriteria" ||
+                              item.key === "kriteria",
+                          )
                         : user?.role === "wakil_dekan_1"
                           ? header
                           : []
@@ -151,6 +158,7 @@ const DaftarKriteria: FC = () => {
                         user?.role === "kaprodi" ||
                         user?.role === "tim_akreditasi"
                           ? {
+                              kriteria: `C${item.kriteria}`,
                               namaKriteria: item.namaKriteria,
                             }
                           : user?.role === "wakil_dekan_1"

@@ -4,6 +4,7 @@ import {
   ChartArea,
   ClipboardList,
   FileCog,
+  FileStack,
   LayoutDashboard,
   ScrollText,
   UserCog,
@@ -73,6 +74,7 @@ export const NAVIGATION_LIST_KAPRODI: {
   link: string;
   icon: ElementType;
 }[] = [
+  // ===== OVERVIEW =====
   {
     label: "dashboard",
     link: "/dashboard",
@@ -83,31 +85,44 @@ export const NAVIGATION_LIST_KAPRODI: {
     link: "/dashboard/pengumpulan",
     icon: ChartArea,
   },
+
+  // ===== REFERENSI / DAFTAR =====
   {
     label: "daftar kriteria",
     link: "/dashboard/daftar-kriteria",
     icon: ScrollText,
   },
   {
+    label: "kelola kebutuhan dokumentasi",
+    link: "/dashboard/kelola-kebutuhan-dokumentasi",
+    icon: FileStack,
+  },
+  {
     label: "daftar dokumentasi borang",
     link: "/dashboard/daftar-dokumentasi-borang",
     icon: ScrollText,
   },
+
+  // ===== KELOLA =====
   {
     label: "kelola dokumentasi borang",
     link: "/dashboard/kelola-dokumentasi-borang",
     icon: FileCog,
   },
+
+  // ===== PIC =====
   {
-    label: "daftar kebutuhan & PIC",
-    link: "/dashboard/daftar-kebutuhan-pic",
+    label: "daftar PIC",
+    link: "/dashboard/daftar-pic",
     icon: ScrollText,
   },
   {
-    label: "kelola kebutuhan & PIC",
-    link: "/dashboard/kelola-kebutuhan-pic",
+    label: "kelola PIC",
+    link: "/dashboard/kelola-pic",
     icon: ClipboardList,
   },
+
+  // ===== LAINNYA =====
   {
     label: "pemberitahuan",
     link: "/dashboard/pemberitahuan",

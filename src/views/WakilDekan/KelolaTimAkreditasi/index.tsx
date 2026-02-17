@@ -191,6 +191,7 @@ const KelolaTimAkreditasi: FC = () => {
         handleCloseModal={handleCloseModalDataDetail}
         datas={isShowModalDataDetail?.data}
         handleShowModalDelete={handleShowModalDelete}
+        limit={dataTimAkreditasi?.data?.meta?.limit || 0}
       />
 
       {/* modal daftar anggota */}

@@ -6,3 +6,6 @@ export type MetaType = {
   totalPage: number;
   limit: number;
 };
+
+// status type
+export type Status = "menunggu" | "revisi" | "disetujui";

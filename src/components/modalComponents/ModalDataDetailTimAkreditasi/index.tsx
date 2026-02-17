@@ -14,6 +14,7 @@ type Props = {
   title: string;
   disableDelete?: boolean;
   customClassName?: string;
+  limit: number;
 };
 const ModalDataDetailTimAkreditasi: FC<Props> = ({
   handleCloseModal,
@@ -23,6 +24,7 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
   disableDelete,
   customClassName,
   datas,
+  limit,
 }) => {
   // ref modal daftar anggota
   const modalRefDaftarAnggota = useRef<HTMLDialogElement | null>(null);
@@ -71,7 +73,7 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
             value={formatTanggalPanjang(datas?.createdAt || "")}
           />
 
-          {datas?.user && datas.user.length > 10 ? (
+          {datas?.user && datas.user.length > limit ? (
             <FieldAction
               typeData={"Tanggal Dibuat"}
               placeholder="lihat selengkapnya"

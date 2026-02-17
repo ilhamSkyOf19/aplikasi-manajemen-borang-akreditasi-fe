@@ -6,8 +6,12 @@ import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import { useFilter } from "../../../hooks/useFilter";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
 import useModalDelete from "../../../hooks/useModalDelete";
+import { useAuthStore } from "../../../stores/authStore";
 
 const UseDaftarKriteria = () => {
+  // user
+  const user = useAuthStore((state) => state.user);
+
   // query client
   const queryClient = useQueryClient();
 
@@ -101,8 +105,16 @@ const UseDaftarKriteria = () => {
 
   //   header
   const header = [
-    { label: "Kriteria", key: "kriteria", size: 18 },
-    { label: "Nama Kriteria", key: "namaKriteria", size: 18 },
+    {
+      label: "Kriteria",
+      key: "kriteria",
+      size: user?.role === "wakil_dekan_1" ? 18 : 18,
+    },
+    {
+      label: "Nama Kriteria",
+      key: "namaKriteria",
+      size: user?.role === "wakil_dekan_1" ? 18 : 67,
+    },
     { label: "Tanggal Buat", key: "tanggalBuat", size: 18 },
     { label: "Tanggal Ubah", key: "tanggalUbah", size: 18 },
     { label: "Status", key: "status", size: 18 },
@@ -127,6 +139,7 @@ const UseDaftarKriteria = () => {
     filterStatus,
     setFilterStatus,
     setPage,
+    user,
   };
 };
 

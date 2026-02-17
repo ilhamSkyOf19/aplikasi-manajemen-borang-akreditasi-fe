@@ -11,7 +11,8 @@ import RoleGuard from "../guards/RoleGuard";
 import KelolaUserPage from "../pages/KelolaUser";
 import FormulirKelolaUserPage from "../pages/FormulirKelolaUserPage";
 import { useAuthStore } from "../stores/authStore";
-import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasi";
+import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasiPage";
+import KelolaKebutuhanDokumentasiPage from "../pages/KelolaKebutuhanDokumentasiPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -136,6 +137,12 @@ const route = createBrowserRouter([
           }
         },
         element: <FormulirTimAkreditasiPage />,
+      },
+
+      // kelola kebutuhan dokumen
+      {
+        path: "kelola-kebutuhan-dokumentasi",
+        element: <KelolaKebutuhanDokumentasiPage />,
       },
     ],
   },
