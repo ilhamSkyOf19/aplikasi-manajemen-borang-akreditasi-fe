@@ -1,4 +1,4 @@
-import type { MetaType } from "../types/constanst.type";
+import type { MetaType, Status } from "../types/constanst.type";
 import type { ResponseKriteriaType } from "./kriteria.model";
 import type { IPendekatan } from "./pendekatan.model";
 
@@ -11,19 +11,28 @@ export interface IKebutuhanDokumen {
   //   pic: [];
   createdAt: Date;
   updatedAt: Date;
+  status: Status;
 }
 
 // create
 export interface CreateKebutuhanDokumenType extends Omit<
   IKebutuhanDokumen,
-  "id" | "pic" | "kriteria" | "pendekatan" | "createdAt" | "updatedAt"
+  | "id"
+  | "pic"
+  | "kriteria"
+  | "pendekatan"
+  | "createdAt"
+  | "updatedAt"
+  | "statsus"
 > {
   kriteriaId: number;
   pendekatanId: number;
 }
 
 // update
-export interface UpdateKebutuhanDokumenType extends Partial<CreateKebutuhanDokumenType> {}
+export interface UpdateKebutuhanDokumenType extends Partial<CreateKebutuhanDokumenType> {
+  status?: Status;
+}
 
 // response
 export interface ResponseKebutuhanDokumenType extends IKebutuhanDokumen {}

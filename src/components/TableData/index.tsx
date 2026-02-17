@@ -24,6 +24,13 @@ type Props = {
     handleAksiWithParams?: (params: number) => void;
     handleAksiNonParams?: () => void;
   }[];
+  fieldColor?: {
+    header: string;
+    key: string;
+    size: number;
+    color?: string;
+    colorFn?: (item: any) => string;
+  }[];
   emptyMessage?: string;
   currentPage: number;
 };
@@ -40,6 +47,7 @@ const TableData: FC<Props> = ({
   fieldAksi,
   emptyMessage,
   currentPage,
+  fieldColor,
 }) => {
   // first number
   const firstNumber = currentPage * 10 - 9;
@@ -52,7 +60,7 @@ const TableData: FC<Props> = ({
         {/* head */}
         <thead>
           <tr>
-            <th className="w-[10%]">#</th>
+            <th className="w-[5%]">#</th>
             {header
               .filter((item) => item.key !== "id")
               .map(({ label, size }, index) => (
@@ -79,9 +87,21 @@ const TableData: FC<Props> = ({
                 </th>
               ))}
 
+            {/* field color */}
+            {fieldColor &&
+              fieldColor.map((item, index) => (
+                <th
+                  key={index}
+                  className={`capitalize`}
+                  style={{ width: `${size}%` }}
+                >
+                  {item.header}
+                </th>
+              ))}
+
             {/* aksi */}
             {aksi && (
-              <th className={cn("w-[5%] hidden lg:table-cell")}>Aksi</th>
+              <th className={cn("w-[10%] hidden lg:table-cell")}>Aksi</th>
             )}
           </tr>
         </thead>
@@ -134,6 +154,24 @@ const TableData: FC<Props> = ({
                   </div>
                 </td>
 
+                {/* field color */}
+                {fieldColor &&
+                  fieldColor.map((item, idx) => (
+                    <td key={idx}>
+                      <div className="w-full flex flex-row justify-start items-center">
+                        <span
+                          className={cn(
+                            "text-primary-black py-0.5 px-3 rounded-full",
+                            item.color && item.color,
+                            item.colorFn && item.colorFn(row.fields[item.key]),
+                          )}
+                        >
+                          {row.fields[item.key]}
+                        </span>
+                      </div>
+                    </td>
+                  ))}
+
                 {/* field aksi lainnya */}
                 {fieldAksi &&
                   fieldAksi.map((item, idx) => (
@@ -156,7 +194,7 @@ const TableData: FC<Props> = ({
 
                 {/* aksi */}
                 {aksi && (
-                  <td className={cn("hidden lg:block")}>
+                  <td className={cn("hidden lg:table-cell")}>
                     <div className="flex flex-row justify-start items-center gap-2">
                       {/* update */}
                       {!row.fields.disableAksi?.update && (

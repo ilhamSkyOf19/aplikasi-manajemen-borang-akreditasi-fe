@@ -16,7 +16,7 @@ export class KebutuhanDokumentasiService {
     // call api
     const result = await instanceAxios.post<
       ResponseStructure<ResponseKebutuhanDokumenType | null>
-    >("/kebutuhan-dokumentasi/create", data);
+    >("/kebutuhan-dokumen/create", data);
 
     return result.data;
   }
@@ -28,7 +28,7 @@ export class KebutuhanDokumentasiService {
     // call api
     const result = await instanceAxios.get<
       ResponseStructure<ResponseKebutuhanDokumenType | null>
-    >(`/kebutuhan-dokumentasi/read-by-id/${id}`);
+    >(`/kebutuhan-dokumen/read-by-id/${id}`);
 
     return result.data;
   }
@@ -40,7 +40,7 @@ export class KebutuhanDokumentasiService {
     // call api
     const result = await instanceAxios.get<
       ResponseStructure<ResponseKebutuhanDokumenWithMetaType | null>
-    >("/kebutuhan-dokumentasi/read-all", { params: query });
+    >("/kebutuhan-dokumen/read-all", { params: query });
 
     return result.data;
   }
@@ -51,7 +51,7 @@ export class KebutuhanDokumentasiService {
     data: CreateKebutuhanDokumenType,
   ): Promise<ResponseStructure<ResponseKebutuhanDokumenType | null>> {
     const result = await instanceAxios.patch<ResponseStructure<null>>(
-      `/kebutuhan-dokumentasi/update/${id}`,
+      `/kebutuhan-dokumen/update/${id}`,
       data,
     );
     return result.data;
@@ -60,7 +60,7 @@ export class KebutuhanDokumentasiService {
   //   delete
   static async delete(id: number): Promise<ResponseStructure<null>> {
     const result = await instanceAxios.delete<ResponseStructure<null>>(
-      `/kebutuhan-dokumentasi/delete/${id}`,
+      `/kebutuhan-dokumen/delete/${id}`,
     );
     return result.data;
   }
