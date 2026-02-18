@@ -14,8 +14,8 @@ const BreadCrumbs: FC<Props> = ({ pathname, link }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="breadcrumbs text-sm">
-      <ul>
+    <div className="breadcrumbs text-sm ">
+      <ul className="flex flex-wrap">
         {path.map((item, index) => (
           <li key={index}>
             <button

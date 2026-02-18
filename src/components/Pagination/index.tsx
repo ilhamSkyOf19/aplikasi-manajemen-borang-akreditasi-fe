@@ -11,6 +11,7 @@ const Pagination: FC<Props> = ({ currentPage, setPage, totalPage }) => {
     <div
       className={cn(
         "w-full flex flex-row justify-center items-center py-4 lg:justify-end",
+        totalPage < 2 && "hidden",
       )}
     >
       <div className="join">

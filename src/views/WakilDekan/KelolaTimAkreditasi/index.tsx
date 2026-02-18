@@ -85,22 +85,6 @@ const KelolaTimAkreditasi: FC = () => {
                 placeholder="Cari berdasarkan nama"
               />
             </div>
-
-            {/* filter role */}
-            {/* <div className="w-35 lg:w-50">
-              <div className="w-full flex flex-row justify-end items-center">
-                <DropDown
-                  handleChange={(e) => setFilterRole(e.target.value)}
-                  listChoose={[
-                    { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
-                    { value: "kaprodi", label: "kaprodi" },
-                    { value: "tim_akreditasi", label: "Tim Akreditasi" },
-                    { value: "semua", label: "Semua" },
-                  ]}
-                  placeholder="Pilih status"
-                />
-              </div>
-            </div> */}
           </div>
 
           {/* table data */}

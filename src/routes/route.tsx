@@ -13,6 +13,7 @@ import FormulirKelolaUserPage from "../pages/FormulirKelolaUserPage";
 import { useAuthStore } from "../stores/authStore";
 import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasiPage";
 import KelolaKebutuhanDokumentasiPage from "../pages/KelolaKebutuhanDokumentasiPage";
+import FormulirKebutuhanDokumentasiPage from "../pages/FormulirKebutuhanDokumentasiPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -139,10 +140,25 @@ const route = createBrowserRouter([
         element: <FormulirTimAkreditasiPage />,
       },
 
-      // kelola kebutuhan dokumen
+      // kelola kebutuhan dokumentasi
       {
         path: "kelola-kebutuhan-dokumentasi",
         element: <KelolaKebutuhanDokumentasiPage />,
+      },
+      // tambah kebutuhan dokumentasi
+      {
+        path: "kelola-kebutuhan-dokumentasi/tambah-kebutuhan-dokumentasi",
+        element: <FormulirKebutuhanDokumentasiPage />,
+      },
+      // update kebutuhan dokumentasi
+      {
+        path: "kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-kebutuhan-dokumentasi");
+          }
+        },
+        element: <FormulirKebutuhanDokumentasiPage />,
       },
     ],
   },

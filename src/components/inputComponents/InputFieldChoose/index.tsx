@@ -5,7 +5,7 @@ import { cn } from "../../../utils/cn";
 
 type Props<T extends FieldValues = any> = {
   label: string;
-  chooseList: { label: string; value: string }[];
+  chooseList: { label: string; value: number | string }[];
   required: boolean;
   controller: UseControllerReturn<T>;
   placeholder: string;
@@ -54,7 +54,15 @@ export default function InputFieldChoose<T extends FieldValues = any>({
         <select
           className="select select-bordered w-full h-10 outline-none border-none rounded-md text-sm"
           value={field.value || ""}
-          onChange={(e) => field.onChange(e.target.value)}
+          onChange={(e) => {
+            const val = e.target.value;
+
+            const selected = chooseList.find(
+              (item) => String(item.value) === val,
+            );
+
+            field.onChange(selected?.value);
+          }}
           disabled={disabled}
         >
           <option value="" disabled>

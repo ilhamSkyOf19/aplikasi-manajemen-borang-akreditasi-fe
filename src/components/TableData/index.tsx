@@ -154,24 +154,6 @@ const TableData: FC<Props> = ({
                   </div>
                 </td>
 
-                {/* field color */}
-                {fieldColor &&
-                  fieldColor.map((item, idx) => (
-                    <td key={idx}>
-                      <div className="w-full flex flex-row justify-start items-center">
-                        <span
-                          className={cn(
-                            "text-primary-black py-0.5 px-3 rounded-full",
-                            item.color && item.color,
-                            item.colorFn && item.colorFn(row.fields[item.key]),
-                          )}
-                        >
-                          {row.fields[item.key]}
-                        </span>
-                      </div>
-                    </td>
-                  ))}
-
                 {/* field aksi lainnya */}
                 {fieldAksi &&
                   fieldAksi.map((item, idx) => (
@@ -189,6 +171,24 @@ const TableData: FC<Props> = ({
                           {item.label}
                         </span>
                       </button>
+                    </td>
+                  ))}
+
+                {/* field color */}
+                {fieldColor &&
+                  fieldColor.map((item, idx) => (
+                    <td key={idx}>
+                      <div className="w-full flex flex-row justify-start items-center">
+                        <span
+                          className={cn(
+                            "text-primary-black py-0.5 px-3 rounded-full",
+                            item.color && item.color,
+                            item.colorFn && item.colorFn(row.fields[item.key]),
+                          )}
+                        >
+                          {row.fields[item.key]}
+                        </span>
+                      </div>
                     </td>
                   ))}
 

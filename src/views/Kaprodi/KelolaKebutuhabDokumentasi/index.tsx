@@ -1,7 +1,6 @@
 import { type FC } from "react";
 import InputFieldSearch from "../../../components/inputComponents/InputFieldSearch";
 import TableData from "../../../components/TableData";
-import { formatTanggalPanjang } from "../../../utils/formatDate";
 import Pagination from "../../../components/Pagination";
 import TitlePage from "../../../components/TitlePage";
 import Toast from "../../../components/Toast";
@@ -25,27 +24,27 @@ const KelolaKebutuhanDokumentasi: FC = () => {
     isLoadingDelete,
     handleShowModalDelete,
     handleCloseModalDelete,
-    setFilterStatus,
+    setStatus,
     setPage,
     user,
   } = useKelolaKebutuhanDokumentasi();
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20">
-      {user?.role === "wakil_dekan_1" && (
+      {user?.role === "kaprodi" && (
         <>
           {/* toast create */}
           <Toast
             toast={isToast === "created"}
             isAnimationOut={isAnimationOut}
-            label={"Data Kriteria berhasil ditambahkan"}
+            label={"Data Kebutuhan Dokumentasi berhasil ditambahkan"}
             color="success"
           />
           {/* toast update */}
           <Toast
             toast={isToast === "updated"}
             isAnimationOut={isAnimationOut}
-            label={"Data Kriteria berhasil diubah"}
+            label={"Data Kebutuhan Dokumentasi berhasil diubah"}
             color="info"
           />
 
@@ -53,7 +52,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
           <Toast
             toast={isToast === "notUpdated"}
             isAnimationOut={isAnimationOut}
-            label={"Data Kriteria tidak ada perubahan"}
+            label={"Data Kebutuhan Dokumentasi tidak ada perubahan"}
             color="warning"
           />
 
@@ -61,7 +60,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
           <Toast
             toast={isToast === "deleted"}
             isAnimationOut={isAnimationOut}
-            label={"Data Kriteria berhasil dihapus"}
+            label={"Data Kebutuhan Dokumentasi berhasil dihapus"}
             color="error"
           />
         </>
@@ -70,11 +69,12 @@ const KelolaKebutuhanDokumentasi: FC = () => {
       <div className="w-full flex flex-col justify-start items-start">
         {/* title page */}
         <TitlePage
-          bigTitle="Kelola Daftar Kriteria"
-          smallTitle="Halaman untuk mengelola daftar kriteria"
-          {...(user?.role === "wakil_dekan_1" && {
-            labelAdd: "Tambah Kriteria",
-            linkAdd: "/dashboard/daftar-kriteria/tambah-kriteria",
+          bigTitle="Kelola Kebutuhan Dokumentasi"
+          smallTitle="Halaman untuk mengelola kebutuhan dokumentasi"
+          {...(user?.role === "kaprodi" && {
+            labelAdd: "Tambah Kebutuhan Dokumentasi",
+            linkAdd:
+              "/dashboard/kelola-kebutuhan-dokumentasi/tambah-kebutuhan-dokumentasi",
           })}
         />
 
@@ -86,6 +86,22 @@ const KelolaKebutuhanDokumentasi: FC = () => {
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
+            {/* filter status */}
+            <div className="w-35 lg:w-50">
+              <div className="w-full flex flex-row justify-end items-center">
+                <DropDown
+                  handleChange={(e) => setStatus(e.target.value)}
+                  listChoose={[
+                    { value: "menunggu", label: "Menunggu" },
+                    { value: "revisi", label: "Revisi" },
+                    { value: "disetujui", label: "Disetujui" },
+                    { value: "semua", label: "Semua" },
+                  ]}
+                  placeholder="Pilih status"
+                />
+              </div>
+            </div>
+
             <div
               className={cn(
                 "w-30 lg:w-40",
@@ -94,7 +110,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
             >
               <div className="w-full flex flex-row justify-end items-center">
                 <DropDown
-                  handleChange={(e) => setFilterStatus(e.target.value)}
+                  handleChange={(e) => setStatus(e.target.value)}
                   listChoose={[
                     { value: "baru", label: "Baru" },
                     { value: "revisi", label: "Revisi" },

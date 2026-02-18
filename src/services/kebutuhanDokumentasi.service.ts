@@ -3,6 +3,7 @@ import type {
   CreateKebutuhanDokumenType,
   ResponseKebutuhanDokumenType,
   ResponseKebutuhanDokumenWithMetaType,
+  UpdateKebutuhanDokumenType,
 } from "../models/kebutuhanDokumentasi.model";
 import type { Status } from "../types/constanst.type";
 import type { PaginationType } from "../types/pagination.type";
@@ -48,12 +49,11 @@ export class KebutuhanDokumentasiService {
   //   update
   static async update(
     id: number,
-    data: CreateKebutuhanDokumenType,
+    data: UpdateKebutuhanDokumenType,
   ): Promise<ResponseStructure<ResponseKebutuhanDokumenType | null>> {
-    const result = await instanceAxios.patch<ResponseStructure<null>>(
-      `/kebutuhan-dokumen/update/${id}`,
-      data,
-    );
+    const result = await instanceAxios.patch<
+      ResponseStructure<ResponseKebutuhanDokumenType | null>
+    >(`/kebutuhan-dokumen/update/${id}`, data);
     return result.data;
   }
 

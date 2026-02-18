@@ -23,16 +23,14 @@ export interface CreateKebutuhanDokumenType extends Omit<
   | "pendekatan"
   | "createdAt"
   | "updatedAt"
-  | "statsus"
+  | "status"
 > {
   kriteriaId: number;
   pendekatanId: number;
 }
 
 // update
-export interface UpdateKebutuhanDokumenType extends Partial<CreateKebutuhanDokumenType> {
-  status?: Status;
-}
+export interface UpdateKebutuhanDokumenType extends Partial<CreateKebutuhanDokumenType> {}
 
 // response
 export interface ResponseKebutuhanDokumenType extends IKebutuhanDokumen {}

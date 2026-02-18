@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { KriteriaService } from "../../../services/kriteria.service";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import { useFilter } from "../../../hooks/useFilter";
 import useModalDelete from "../../../hooks/useModalDelete";
@@ -23,10 +22,12 @@ const useKelolaKebutuhanDokumentasi = () => {
   } = useModalDelete();
 
   // use filter status
-  const { filter: filterStatus, setFilter: setFilterStatus } = useFilter(
-    "status",
-    ["menunggu", "revisi", "disetujui"],
-  );
+  const { filter: status, setFilter: setStatus } = useFilter("status", [
+    "menunggu",
+    "revisi",
+    "disetujui",
+    "semua",
+  ]);
 
   // use filter page
   const { filter: page, setFilter: setPage } = useFilter("page");
@@ -39,11 +40,11 @@ const useKelolaKebutuhanDokumentasi = () => {
 
   // use query
   const { data: dataKebutuhanDokumentasi, isLoading } = useQuery({
-    queryKey: ["kelola-kebutuhan-dokumentasi", search, filterStatus, page],
+    queryKey: ["kelola-kebutuhan-dokumentasi", search, status, page],
     queryFn: async () =>
       KebutuhanDokumentasiService.readAll({
         search,
-        status: filterStatus as Status,
+        status: status as Status,
         page,
       }),
     refetchOnWindowFocus: false,
@@ -53,7 +54,7 @@ const useKelolaKebutuhanDokumentasi = () => {
   const { mutateAsync: mutateDelete, isPending: isLoadingDelete } = useMutation(
     {
       mutationFn: async (id: number) => {
-        return KriteriaService.delete(id);
+        return KebutuhanDokumentasiService.delete(id);
       },
       onSuccess: () => {
         // show toast
@@ -63,7 +64,9 @@ const useKelolaKebutuhanDokumentasi = () => {
         handleCloseModalDelete();
 
         // refetch
-        queryClient.invalidateQueries({ queryKey: ["daftar-kriteria"] });
+        queryClient.invalidateQueries({
+          queryKey: ["kelola-kebutuhan-dokumentasi"],
+        });
       },
       onError: (error) => {
         console.log(error);
@@ -108,8 +111,8 @@ const useKelolaKebutuhanDokumentasi = () => {
     handleShowModalDelete,
     handleCloseModalDelete,
     modalDeleteRef,
-    filterStatus,
-    setFilterStatus,
+    status,
+    setStatus,
     setPage,
     user,
   };
