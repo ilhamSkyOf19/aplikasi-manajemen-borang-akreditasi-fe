@@ -45,7 +45,6 @@ const useFomulirKebutuhanDokumentasi = () => {
     formState: { errors },
     handleSubmit,
     reset,
-    clearErrors,
     control,
   } = useForm<CreateKebutuhanDokumenType | UpdateKebutuhanDokumenType>({
     resolver: zodResolver(
@@ -166,10 +165,10 @@ const useFomulirKebutuhanDokumentasi = () => {
     pathname,
     dataKebutuhanDokumentasi: dataKebutuhanDokumentasi?.data?.data,
     formulirUpdate: id,
-    clearErrors,
     dataKriteria: dataKriteria?.data?.data,
     kriteriaController,
     pendekatanController,
+    loadingData: dataKebutuhanDokumentasi?.isLoading,
   };
 };
 

@@ -14,6 +14,7 @@ import { useAuthStore } from "../stores/authStore";
 import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasiPage";
 import KelolaKebutuhanDokumentasiPage from "../pages/KelolaKebutuhanDokumentasiPage";
 import FormulirKebutuhanDokumentasiPage from "../pages/FormulirKebutuhanDokumentasiPage";
+import KebutuhanDokumentasiDetailPage from "../pages/KebutuhanDokumentasiDetailPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -159,6 +160,16 @@ const route = createBrowserRouter([
           }
         },
         element: <FormulirKebutuhanDokumentasiPage />,
+      },
+      // detail kebutuhan dokumentasi
+      {
+        path: "kelola-kebutuhan-dokumentasi/detail/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-kebutuhan-dokumentasi");
+          }
+        },
+        element: <KebutuhanDokumentasiDetailPage />,
       },
     ],
   },

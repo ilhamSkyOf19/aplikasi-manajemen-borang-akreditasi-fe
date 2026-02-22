@@ -203,13 +203,13 @@ const useFormulirTimAkreditasi = () => {
     dataTimAkreditasi: dataTimAkreditasi?.data?.data,
     formulirUpdate: id,
     usersController,
-    clearErrors,
     handleSearchUsers,
     dataUsers: dataUsers?.data?.data,
     handleChooseUser,
     handleRemoveUser,
     chooseUser,
     setPageUsers,
+    loadingDataTimAkreditasi: dataTimAkreditasi.isLoading,
   };
 };
 

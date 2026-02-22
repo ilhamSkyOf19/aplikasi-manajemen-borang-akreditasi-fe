@@ -123,6 +123,7 @@ const useFormulirKriteria = () => {
     kriteria: dataKriteria?.data?.kriteria,
     namaKriteria: dataKriteria?.data?.namaKriteria,
     formulirUpdate: id,
+    isLoading,
   };
 };
 

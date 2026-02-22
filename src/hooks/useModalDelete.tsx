@@ -22,6 +22,9 @@ const useModalDelete = () => {
   const handleCloseModalDelete = () => {
     if (modalDeleteRef.current) {
       modalDeleteRef.current.close();
+
+      // set state id
+      setIdDelete(0);
     }
   };
 

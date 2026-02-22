@@ -5,8 +5,10 @@ import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
 import type { Status } from "../../../types/constanst.type";
+import { useNavigate } from "react-router-dom";
 
 const useKelolaKebutuhanDokumentasi = () => {
+  const navigate = useNavigate();
   // user
   const user = useAuthStore((state) => state.user);
 
@@ -99,6 +101,11 @@ const useKelolaKebutuhanDokumentasi = () => {
     { label: "Status", key: "status", size: 13 },
   ];
 
+  // handle detail
+  const handleDetailPage = (id: number) => {
+    return navigate(`/dashboard/kelola-kebutuhan-dokumentasi/detail/${id}`);
+  };
+
   return {
     header,
     handleSearch,
@@ -115,6 +122,8 @@ const useKelolaKebutuhanDokumentasi = () => {
     setStatus,
     setPage,
     user,
+    handleDetailPage,
+    navigate,
   };
 };
 

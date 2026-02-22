@@ -7,6 +7,7 @@ import ButtonSubmit from "../../../../components/buttonComponents/ButtonSubmit";
 import BreadCrumbs from "../../../../components/BreadCrumbs";
 import { cn } from "../../../../utils/cn";
 import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
+import SkeletonForm from "../../../../components/SkeletonForm";
 
 const FormulirKriteria: FC = () => {
   // use formulir kriteria
@@ -20,6 +21,7 @@ const FormulirKriteria: FC = () => {
     kriteria,
     namaKriteria,
     formulirUpdate,
+    isLoading,
   } = useFormulirKriteria();
   return (
     <div className="w-full flex flex-col justify-start items-start">
@@ -46,40 +48,47 @@ const FormulirKriteria: FC = () => {
           onSubmit={handleSubmit(onSubmit)}
           className={cn("w-full flex flex-col justify-start items-center mt-4")}
         >
-          {/* input kriteria */}
-          <InputFieldNonIconNumber
-            register={register("kriteria", { valueAsNumber: true })}
-            label="kriteria"
-            max={30}
-            name="kriteria"
-            required={true}
-            placeholder="masukan kriteria"
-            errorMessage={errors.kriteria?.message}
-            defaultValue={kriteria}
-          />
+          {/* loading */}
+          {isLoading ? (
+            <SkeletonForm />
+          ) : (
+            <>
+              {/* input kriteria */}
+              <InputFieldNonIconNumber
+                register={register("kriteria", { valueAsNumber: true })}
+                label="kriteria"
+                max={30}
+                name="kriteria"
+                required={true}
+                placeholder="masukan kriteria"
+                errorMessage={errors.kriteria?.message}
+                defaultValue={kriteria}
+              />
 
-          {/* nama kriteria */}
-          <InputFieldNonIconText
-            register={register("namaKriteria")}
-            label="nama kriteria"
-            max={100}
-            name="namaKriteria"
-            required={true}
-            placeholder="masukan nama kriteria"
-            errorMessage={errors.namaKriteria?.message}
-            defaultValue={namaKriteria}
-          />
+              {/* nama kriteria */}
+              <InputFieldNonIconText
+                register={register("namaKriteria")}
+                label="nama kriteria"
+                max={100}
+                name="namaKriteria"
+                required={true}
+                placeholder="masukan nama kriteria"
+                errorMessage={errors.namaKriteria?.message}
+                defaultValue={namaKriteria}
+              />
 
-          {/* action */}
-          <div className="w-full mt-6 flex flex-row justify-center items-center gap-4">
-            {/* button back */}
-            <ButtonBackBox label="KEMBALI" />
-            {/* button submit */}
-            <ButtonSubmit
-              label={`${formulirUpdate ? "UBAH" : "SIMPAN"}`}
-              isLoading={isPending}
-            />
-          </div>
+              {/* action */}
+              <div className="w-full mt-6 flex flex-row justify-center items-center gap-4">
+                {/* button back */}
+                <ButtonBackBox label="KEMBALI" />
+                {/* button submit */}
+                <ButtonSubmit
+                  label={`${formulirUpdate ? "UBAH" : "SIMPAN"}`}
+                  isLoading={isPending}
+                />
+              </div>
+            </>
+          )}
         </form>
       </div>
     </div>

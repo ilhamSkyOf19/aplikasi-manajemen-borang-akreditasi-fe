@@ -7,8 +7,8 @@ const KelolaKebutuhanDokumentasiPage: FC = () => {
     <>
       {/* header page */}
       <HeaderPage
-        title="Dashboard | Kelola Kebutuhan Dokumen"
-        content="Daftar Kriteria"
+        title="Dashboard | Kelola Kebutuhan Dokumentasi"
+        content="Kelola Kebutuhan Dokumentasi"
       />
 
       {/* content */}

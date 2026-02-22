@@ -27,6 +27,8 @@ const KelolaKebutuhanDokumentasi: FC = () => {
     setStatus,
     setPage,
     user,
+    handleDetailPage,
+    navigate,
   } = useKelolaKebutuhanDokumentasi();
 
   return (
@@ -149,8 +151,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                       },
                     }))}
                     aksiModal={true}
-                    handleModal={() => {}}
-                    // isDataModalActive={isShowModal && isShowModal?.data?.id}
+                    handleModal={handleDetailPage}
                   />
                 </div>
 
@@ -184,7 +185,10 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                         header: "Detail",
                         label: "Lihat detail",
                         size: 13,
-                        handleAksiWithParams: () => {},
+                        handleAksiWithParams: (id: number) =>
+                          navigate(
+                            `/dashboard/kelola-kebutuhan-dokumentasi/detail/${id}`,
+                          ),
                       },
                     ]}
                     fieldColor={[

@@ -36,7 +36,6 @@ const useFormulirKelolaUser = () => {
     reset,
     control,
     setError,
-    clearErrors,
     setValue,
   } = useForm<CreateUserType | UpdateUserType>({
     resolver: zodResolver(id ? UserValidation.UPDATE : UserValidation.CREATE),
@@ -155,7 +154,7 @@ const useFormulirKelolaUser = () => {
     dataUser: dataUser?.data,
     formulirUpdate: id,
     roleController,
-    clearErrors,
+    isLoading,
     handlePasswordOtomatis,
   };
 };
