@@ -4,8 +4,10 @@ import type {
   UpdateTimAkreditasiType,
 } from "../models/timAkreditasi.model";
 
-export class TimAkreditasivalidation {
-  // string schema
+export class TimAkreditasiValidation {
+  // =============================
+  // STRING CREATE
+  // =============================
   private static stringSchema(
     field: string,
     min: number = 1,
@@ -18,31 +20,87 @@ export class TimAkreditasivalidation {
       .max(max, `${field} maksimal ${max} karakter`);
   }
 
-  //   json schema
+  // =============================
+  // STRING UPDATE
+  // =============================
+  private static stringUpdateSchema(
+    field: string,
+    min: number = 1,
+    max: number = 100,
+  ) {
+    return z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          if (val.length < min) return false;
+          if (val.length > max) return false;
+          return true;
+        },
+        {
+          message: `${field} minimal ${min} dan maksimal ${max} karakter`,
+        },
+      );
+  }
+
+  // =============================
+  // NUMBER ARRAY CREATE
+  // =============================
   private static numberArraySchema() {
     return z
       .array(
         z
           .number("Anggota harus di isi")
-          .int("Anggota harus di isi")
-          .positive("Anggota harus di isi"),
+          .int("Anggota harus berupa angka valid")
+          .positive("Anggota harus berupa angka positif"),
       )
       .nonempty("Anggota harus di isi");
   }
 
-  // create
+  // =============================
+  // NUMBER ARRAY UPDATE
+  // =============================
+  private static numberArrayUpdateSchema() {
+    return z
+      .array(
+        z
+          .number()
+          .int("Anggota harus berupa angka valid")
+          .positive("Anggota harus berupa angka positif"),
+      )
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true; // tidak dikirim → lolos
+          if (val.length === 0) return false; // kalau kirim [] → error
+          return true;
+        },
+        {
+          message: "Anggota tidak boleh kosong",
+        },
+      );
+  }
+
+  // =============================
+  // CREATE
+  // =============================
   static readonly CREATE = z
     .object({
-      namaTimAkreditasi: this.stringSchema("namaTimAkreditasi"),
+      namaTimAkreditasi: this.stringSchema("Nama Tim Akreditasi"),
       users: this.numberArraySchema(),
     })
     .strict() satisfies z.ZodType<CreateTimAkreditasiType>;
 
-  // update
+  // =============================
+  // UPDATE (FINAL VERSION)
+  // =============================
   static readonly UPDATE = z
     .object({
-      namaTimAkreditasi: this.stringSchema("namaTimAkreditasi").optional(),
-      users: z.array(z.number().int().positive()).optional(),
+      namaTimAkreditasi: this.stringUpdateSchema("Nama Tim Akreditasi", 1, 100),
+      users: this.numberArrayUpdateSchema(),
     })
     .strict() satisfies z.ZodType<UpdateTimAkreditasiType>;
 }

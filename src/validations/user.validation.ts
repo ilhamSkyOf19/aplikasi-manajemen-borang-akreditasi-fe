@@ -21,6 +21,31 @@ export class UserValidation {
       .regex(/^[A-Za-z\s]+$/, `${field} hanya boleh berisi huruf`);
   }
 
+  // only char schema update
+  private static onlyCharUpdateSchema(
+    field: string,
+    min: number = 1,
+    max: number = 100,
+  ) {
+    return z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true; // kalau undefined → lolos
+          if (val.length < min) return false;
+          if (val.length > max) return false;
+          if (!/^[A-Za-z\s]+$/.test(val)) return false;
+          return true;
+        },
+        {
+          message: `${field} minimal ${min} karakter dan hanya boleh huruf`,
+        },
+      );
+  }
+
   // string schema
   private static stringSchema(
     field: string,
@@ -37,6 +62,23 @@ export class UserValidation {
   // email schema
   private static emailSchema() {
     return z.email(`Email tidak valid`);
+  }
+
+  private static emailUpdateSchema() {
+    return z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          return z.string().email().safeParse(val).success;
+        },
+        {
+          message: "Email tidak valid",
+        },
+      );
   }
 
   // password schema
@@ -95,8 +137,8 @@ export class UserValidation {
   // update
   static readonly UPDATE = z
     .object({
-      nama: this.onlyCharSchema("Nama").optional(),
-      email: this.emailSchema().optional(),
+      nama: this.onlyCharUpdateSchema("Nama").optional(),
+      email: this.emailUpdateSchema().optional(),
       password: this.passwordSchema().optional(),
       role: z
         .enum(

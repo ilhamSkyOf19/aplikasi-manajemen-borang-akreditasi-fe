@@ -19,6 +19,32 @@ export class KebutuhanDokumenValidation {
       .max(max, `${field} maksimal ${max} karakter`);
   }
 
+  // =============================
+  // STRING UPDATE
+  // =============================
+  private static stringUpdateSchema(
+    field: string,
+    min: number = 1,
+    max: number = 100,
+  ) {
+    return z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          if (val.length < min) return false;
+          if (val.length > max) return false;
+          return true;
+        },
+        {
+          message: `${field} minimal ${min} dan maksimal ${max} karakter`,
+        },
+      );
+  }
+
   //   number schema
   private static onlyNumberSchema(
     field: string,
@@ -44,16 +70,14 @@ export class KebutuhanDokumenValidation {
   //   update
   static readonly UPDATE = z
     .object({
-      namaDokumen: this.stringSchema("kebutuhanDokumen", 1, 200).optional(),
-      keterangan: this.stringSchema("keterangan", 1, 1000).optional(),
+      namaDokumen: this.stringUpdateSchema(
+        "kebutuhanDokumen",
+        1,
+        200,
+      ).optional(),
+      keterangan: this.stringUpdateSchema("keterangan", 1, 1000).optional(),
       kriteriaId: this.onlyNumberSchema("kriteria", 1, 99999).optional(),
       pendekatanId: this.onlyNumberSchema("pendekatan", 1, 99999).optional(),
-      // status: z
-      //   .enum(
-      //     ["menunggu", "revisi", "disetujui"] as Status[],
-      //     "Status tidak valid",
-      //   )
-      //   .optional(),
     })
     .strict() satisfies z.ZodType<UpdateKebutuhanDokumenType>;
 }

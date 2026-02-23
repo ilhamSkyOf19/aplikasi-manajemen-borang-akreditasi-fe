@@ -49,8 +49,10 @@ const FormulirTimAkreditasi: FC = () => {
       <div className="card w-full flex flex-col justify-start items-start lg:w-1/2 bg-white p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
         {/* title page */}
         <TitlePage
-          bigTitle={formulirUpdate ? "Ubah User" : "Tambah User"}
-          smallTitle={`Halaman untuk ${formulirUpdate ? "mengubah" : "menambah"} User.`}
+          bigTitle={
+            formulirUpdate ? "Ubah Tim Akreditasi" : "Tambah Tim Akreditasi"
+          }
+          smallTitle={`Halaman untuk ${formulirUpdate ? "mengubah" : "menambah"} tim akreditasi.`}
         />
 
         {/* form */}

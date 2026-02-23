@@ -99,7 +99,8 @@ export default function InputFieldChooseWithSearch<
       <div
         ref={listRef}
         className={cn(
-          "absolute w-full h-70 bg-white  rounded-md shadow-[0_0_6px_1px_rgba(0,0,0,0.09)] z-40 py-3 flex flex-col justify-start items-start",
+          "absolute w-full bg-white  rounded-md shadow-[0_0_6px_1px_rgba(0,0,0,0.09)] z-40 py-3 flex flex-col justify-start items-start",
+          chooseList.length <= 3 ? "max-h-70 h-auto" : "h-70",
           showList && "block",
           !showList && "hidden",
           listPosition === "top" && "bottom-full",

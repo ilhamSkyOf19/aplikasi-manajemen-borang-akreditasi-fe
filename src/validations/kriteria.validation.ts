@@ -5,19 +5,23 @@ import type {
 } from "../models/kriteria.model";
 
 export class KriteriaValidation {
-  // only char schema
-  private static onlyNumberSchema(
+  // =============================
+  // NUMBER CREATE
+  // =============================
+  private static numberSchema(
     field: string,
     min: number = 1,
     max: number = 100,
   ) {
     return z
-      .number(`${field} harus di isi`)
-      .min(min, `${field} harus di isi`)
-      .max(max, `${field} harus di isi`);
+      .number(`${field} harus diisi`)
+      .min(min, `${field} minimal ${min}`)
+      .max(max, `${field} maksimal ${max}`);
   }
 
-  // string schema
+  // =============================
+  // STRING CREATE
+  // =============================
   private static stringSchema(
     field: string,
     min: number = 1,
@@ -30,20 +34,49 @@ export class KriteriaValidation {
       .max(max, `${field} maksimal ${max} karakter`);
   }
 
-  // create user schema
+  // =============================
+  // STRING UPDATE
+  // =============================
+  private static stringUpdateSchema(
+    field: string,
+    min: number = 1,
+    max: number = 100,
+  ) {
+    return z
+      .string()
+      .trim()
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .refine(
+        (val) => {
+          if (!val) return true;
+          if (val.length < min) return false;
+          if (val.length > max) return false;
+          return true;
+        },
+        {
+          message: `${field} minimal ${min} dan maksimal ${max} karakter`,
+        },
+      );
+  }
+
+  // =============================
+  // CREATE
+  // =============================
   static readonly CREATE = z
     .object({
-      kriteria: this.onlyNumberSchema("kriteria", 1, 30),
-      namaKriteria: this.stringSchema("namaKriteria"),
+      kriteria: this.numberSchema("Kriteria", 1, 30),
+      namaKriteria: this.stringSchema("Nama Kriteria"),
     })
     .strict() satisfies z.ZodType<CreateKriteriaType>;
 
-  // update user schema
-  // update schema (optional per field)
+  // =============================
+  // UPDATE (FINAL VERSION)
+  // =============================
   static readonly UPDATE = z
     .object({
-      kriteria: this.onlyNumberSchema("kriteria").optional(),
-      namaKriteria: this.stringSchema("namaKriteria").optional(),
+      kriteria: this.numberSchema("Kriteria", 1, 30),
+      namaKriteria: this.stringUpdateSchema("Nama Kriteria", 1, 100),
     })
     .strict() satisfies z.ZodType<UpdateKriteriaType>;
 }

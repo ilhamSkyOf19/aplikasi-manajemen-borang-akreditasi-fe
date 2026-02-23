@@ -8,7 +8,7 @@ import type {
   CreateTimAkreditasiType,
   UpdateTimAkreditasiType,
 } from "../../../../models/timAkreditasi.model";
-import { TimAkreditasivalidation } from "../../../../validations/timAkreditasi.validation";
+import { TimAkreditasiValidation } from "../../../../validations/timAkreditasi.validation";
 import { useFilter } from "../../../../hooks/useFilter";
 import { UserService } from "../../../../services/user.service";
 
@@ -63,7 +63,7 @@ const useFormulirTimAkreditasi = () => {
     setValue,
   } = useForm<CreateTimAkreditasiType | UpdateTimAkreditasiType>({
     resolver: zodResolver(
-      id ? TimAkreditasivalidation.UPDATE : TimAkreditasivalidation.CREATE,
+      id ? TimAkreditasiValidation.UPDATE : TimAkreditasiValidation.CREATE,
     ),
   });
 
