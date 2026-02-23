@@ -47,7 +47,7 @@ const ModalDelete: FC<Props> = ({
           <button
             disabled={isLoadingDelete}
             type="button"
-            className="btn btn-error"
+            className="btn btn-error bg-error"
             onClick={() => {
               handleDelete();
             }}

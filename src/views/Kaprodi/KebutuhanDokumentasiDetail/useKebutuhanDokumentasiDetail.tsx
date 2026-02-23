@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
 import useModalDelete from "../../../hooks/useModalDelete";
+import useModalBasic from "../../../hooks/useModalBasic";
 
 const useKebutuhanDokumentasiDetail = () => {
   // use modal delete
@@ -11,6 +12,14 @@ const useKebutuhanDokumentasiDetail = () => {
     idDelete,
     modalDeleteRef,
   } = useModalDelete();
+
+  // use modal riwayat
+  const {
+    modalRef: modalRiwayatRef,
+    handleCloseModal: handleCloseModalRiwayat,
+    handleShowModal: handleShowModalRiwayat,
+    idModal: idRiwayat,
+  } = useModalBasic();
 
   // navigate
   const navigate = useNavigate();
@@ -74,6 +83,10 @@ const useKebutuhanDokumentasiDetail = () => {
     handleCloseModalDelete,
     modalDeleteRef,
     navigate,
+    modalRiwayatRef,
+    handleShowModalRiwayat,
+    handleCloseModalRiwayat,
+    idRiwayat,
   };
 };
 

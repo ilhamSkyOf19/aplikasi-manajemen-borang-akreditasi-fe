@@ -6,6 +6,7 @@ import { formatTanggalPanjang } from "../../../utils/formatDate";
 import type { Status } from "../../../types/constanst.type";
 import { cn } from "../../../utils/cn";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
+import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
 
 const KebutuhanDokumentasiDetail: FC = () => {
   // call use
@@ -19,6 +20,10 @@ const KebutuhanDokumentasiDetail: FC = () => {
     modalDeleteRef,
     handleCloseModalDelete,
     navigate,
+    handleCloseModalRiwayat,
+    handleShowModalRiwayat,
+    modalRiwayatRef,
+    idRiwayat,
   } = useKebutuhanDokumentasiDetail();
 
   return (
@@ -71,7 +76,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
               {/* kriteria */}
               <FieldData
                 typeData="Kriteria Akreditasi"
-                value={`C-${dataKebutuhanDokumentasi?.data?.kriteria.kriteria} (${dataKebutuhanDokumentasi?.data?.kriteria?.namaKriteria})`}
+                value={`C${dataKebutuhanDokumentasi?.data?.kriteria.kriteria} - ${dataKebutuhanDokumentasi?.data?.kriteria?.namaKriteria}`}
               />
 
               {/* pendekatan */}
@@ -81,10 +86,10 @@ const KebutuhanDokumentasiDetail: FC = () => {
               />
 
               {/* Riwayat */}
-              <FieldDataLink
+              <FieldDataAction
                 typeData="Riwayat"
                 label="Lihat riwayat"
-                link="/"
+                action={handleShowModalRiwayat}
               />
 
               {/* tanggal buat */}
@@ -146,6 +151,13 @@ const KebutuhanDokumentasiDetail: FC = () => {
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
       />
+
+      {/* modal riwayat */}
+      <ModalRiwayat
+        id={idRiwayat}
+        modalRef={modalRiwayatRef}
+        handleCloseModal={handleCloseModalRiwayat}
+      />
     </div>
   );
 };
@@ -168,21 +180,31 @@ const FieldData: FC<FieldDataProps> = ({ typeData, value }) => {
 };
 
 // field data link
-type FieldDataLinkProps = {
+type FieldDataActionProps = {
   typeData: string;
   label: string;
-  link: string;
+  action: () => void;
 };
 
-const FieldDataLink: FC<FieldDataLinkProps> = ({ typeData, label, link }) => {
+const FieldDataAction: FC<FieldDataActionProps> = ({
+  typeData,
+  label,
+  action,
+}) => {
   return (
     <div className="w-full flex flex-row justify-start items-start">
       {/* type */}
       <span className="text-xs flex-2 lg:text-sm">{typeData}</span>
       <span className="mx-1.5 text-xs lg:text-sm">:</span>
-      <Link to={link} className="text-xs flex-3 lg:text-sm text-primary-purple">
-        {label}
-      </Link>
+      <div className=" flex-3 flex flex-row justify-start items-start">
+        <button
+          type="button"
+          onClick={() => action()}
+          className="text-xs lg:text-sm text-primary-purple"
+        >
+          {label}
+        </button>
+      </div>
     </div>
   );
 };
@@ -202,7 +224,7 @@ const FieldDataStatus: FC<FieldDataStatus> = ({ typeData, value }) => {
       <div className={"flex-3 justify-start items-start"}>
         <span
           className={cn(
-            "text-xs  lg:text-sm py-0.5 px-3 rounded-full",
+            "text-xs lg:text-sm py-0.5 px-3 rounded-full",
             value === "menunggu"
               ? "bg-warning"
               : value === "revisi"
