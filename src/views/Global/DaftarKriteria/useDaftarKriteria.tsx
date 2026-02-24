@@ -120,6 +120,21 @@ const UseDaftarKriteria = () => {
     { label: "Status", key: "status", size: 18 },
   ];
 
+  //   header loading
+  const headerLoading = [
+    {
+      label: "Kriteria",
+      size: user?.role === "wakil_dekan_1" ? 18 : 18,
+    },
+    {
+      label: "Nama Kriteria",
+      size: user?.role === "wakil_dekan_1" ? 18 : 67,
+    },
+    { label: "Tanggal Buat", size: 18 },
+    { label: "Tanggal Ubah", size: 18 },
+    { label: "Status", size: 18 },
+  ];
+
   return {
     isShowModal,
     handleCloseModalDetail,
@@ -140,6 +155,7 @@ const UseDaftarKriteria = () => {
     setFilterStatus,
     setPage,
     user,
+    headerLoading,
   };
 };
 

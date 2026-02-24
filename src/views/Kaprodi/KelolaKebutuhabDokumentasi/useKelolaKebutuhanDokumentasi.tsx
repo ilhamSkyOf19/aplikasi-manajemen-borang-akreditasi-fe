@@ -111,6 +111,22 @@ const useKelolaKebutuhanDokumentasi = () => {
     { label: "Tanggal dibuat", key: "tanggalDibuat", size: 13 },
   ];
 
+  //   header loading
+  const headerLoading = [
+    {
+      label: "nama dokumentasi",
+      size: 20,
+    },
+    {
+      label: "kriteria",
+      size: 14,
+    },
+    { label: "pendekatan", size: 14 },
+    { label: "Tanggal dibuat", size: 13 },
+    { label: "Riwayat", size: 13 },
+    { label: "Status", size: 13 },
+  ];
+
   // handle detail
   const handleDetailPage = (id: number) => {
     return navigate(`/dashboard/kelola-kebutuhan-dokumentasi/detail/${id}`);
@@ -138,6 +154,7 @@ const useKelolaKebutuhanDokumentasi = () => {
     handleCloseModalRiwayat,
     modalRiwayatRef,
     idRiwayat,
+    headerLoading,
   };
 };
 

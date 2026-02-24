@@ -1,6 +1,7 @@
 import instanceAxios from "../libs/axios";
 import type {
   CreateTimAkreditasiType,
+  ResponseTimAkreditasiChooseWithMetaType,
   ResponseTimAkreditasiType,
   ResponseTimAkreditasiWithMetaType,
   UpdateTimAkreditasiType,
@@ -45,6 +46,20 @@ export class TimAkreditasiService {
         },
       },
     );
+
+    return result.data;
+  }
+
+  // read choose
+  static async readChoose(
+    query: PaginationType,
+  ): Promise<
+    ResponseStructure<ResponseTimAkreditasiChooseWithMetaType | null>
+  > {
+    // call instance
+    const result = await instanceAxios.get("/tim-akreditasi/read-choose", {
+      params: query,
+    });
 
     return result.data;
   }

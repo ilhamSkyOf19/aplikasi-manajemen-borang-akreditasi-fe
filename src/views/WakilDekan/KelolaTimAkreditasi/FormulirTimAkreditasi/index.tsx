@@ -12,6 +12,7 @@ import type {
 } from "../../../../models/timAkreditasi.model";
 import InputFieldChooseWithSearch from "../../../../components/inputComponents/InputFieldChooseWithSearch";
 import SkeletonForm from "../../../../components/SkeletonForm";
+import DaftarPilihanInput from "../../../../components/DaftarPilihanInput";
 
 const FormulirTimAkreditasi: FC = () => {
   // use formulir kriteria
@@ -33,6 +34,7 @@ const FormulirTimAkreditasi: FC = () => {
     setPageUsers,
     loadingDataTimAkreditasi,
   } = useFormulirTimAkreditasi();
+
   return (
     <div className="w-full flex flex-col justify-start items-start pb-40">
       {/* breadcrumbs */}
@@ -102,41 +104,14 @@ const FormulirTimAkreditasi: FC = () => {
               />
 
               {/* list choose  */}
-              <div className="w-full flex flex-col justify-start items-start gap-1">
-                <p className="text-sm">Daftar anggota yang dipilih :</p>
-                {chooseUser.length > 0 ? (
-                  chooseUser.map((item, index) => (
-                    <div
-                      key={item.id}
-                      className="w-full flex flex-row justify-start items-center gap-2 px-4 mt-2"
-                    >
-                      {/* keterangan */}
-                      <div className="w-3/4 flex flex-row justify-start items-center gap-2">
-                        {/* number */}
-                        <span className="text-sm font-medium">
-                          {index + 1}.
-                        </span>
-
-                        {/* label */}
-                        <p className="text-sm">{item.nama}</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveUser(item.id)}
-                        className="text-sm text-error hover:underline"
-                      >
-                        Hapus
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <div className="w-full flex flex-row justify-center items-center mt-4">
-                    <span className="text-xs text-primary-black/50">
-                      Tidak ada anggota
-                    </span>
-                  </div>
-                )}
-              </div>
+              <DaftarPilihanInput
+                label="Daftar anggota yang dipilih :"
+                list={chooseUser.map((user) => ({
+                  id: user.id,
+                  label: user.nama,
+                }))}
+                handleRemoveList={handleRemoveUser}
+              />
 
               {/* action */}
               <div className="w-full mt-10 flex flex-row justify-center items-center gap-4">

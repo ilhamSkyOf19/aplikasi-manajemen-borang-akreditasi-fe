@@ -22,7 +22,7 @@ const Navbar: FC<Props> = ({ title, handleSidebar, isClose }: Props) => {
             className={cn("size-6", !isClose && "lg:rotate-180")}
           />
         </label>
-        <div className="px-4 capitalize lg:text-lg text-sm lg:font-semibold">
+        <div className="px-4 font-medium capitalize lg:text-lg text-sm lg:font-semibold">
           {title}
         </div>
       </div>

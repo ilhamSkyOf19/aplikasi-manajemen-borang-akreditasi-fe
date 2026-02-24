@@ -89,7 +89,29 @@ const KelolaTimAkreditasi: FC = () => {
 
           {/* table data */}
           {isLoading ? (
-            <SkeletonTable />
+            <SkeletonTable
+              headerLg={[
+                {
+                  label: "Nama Tim",
+                  size: 20.5,
+                },
+                {
+                  label: "Tanggal Dibuat",
+                  size: 20.5,
+                },
+                {
+                  label: "Anggota",
+                  size: 20.5,
+                },
+              ]}
+              headerSm={[
+                {
+                  label: "nama tim",
+                  size: 80,
+                },
+              ]}
+              aksi
+            />
           ) : (
             dataTimAkreditasi?.data && (
               <>

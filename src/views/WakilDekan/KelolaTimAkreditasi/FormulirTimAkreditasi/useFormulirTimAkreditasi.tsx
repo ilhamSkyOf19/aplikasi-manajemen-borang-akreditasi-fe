@@ -170,7 +170,7 @@ const useFormulirTimAkreditasi = () => {
     // clear error
     clearErrors("users");
 
-    setChooseUser([...chooseUser, user]);
+    setChooseUser((prev) => [...prev, user]);
   };
 
   // handle remove

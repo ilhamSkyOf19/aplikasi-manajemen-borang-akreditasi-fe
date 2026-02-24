@@ -112,7 +112,7 @@ const TableData: FC<Props> = ({
                 key={index}
                 className={cn(
                   aksiModal &&
-                    "hover:bg-primary-purple transition-all duration-150 group",
+                    "hover:bg-primary-purple group transition-all duration-150 group",
                   isDataModalActive &&
                     isDataModalActive === row.fields.id &&
                     "lg:bg-primary-purple",
@@ -150,7 +150,15 @@ const TableData: FC<Props> = ({
 
                 <td className={cn("lg:hidden", !aksiModal && "hidden")}>
                   <div className="flex justify-end">
-                    <span className="text-xs text-primary-purple">Lihat</span>
+                    <span
+                      className={cn(
+                        "text-xs text-primary-purple",
+                        aksiModal &&
+                          "group-hover:text-primary-white transition-colors duration-150 ease-in-out",
+                      )}
+                    >
+                      Lihat
+                    </span>
                   </div>
                 </td>
 

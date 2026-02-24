@@ -26,3 +26,18 @@ export interface ResponseTimAkreditasiWithMetaType {
   data: ResponseTimAkreditasiType[];
   meta: MetaType;
 }
+
+//  response choose tim akreditasi
+export interface ResponseTimAkreditasiChooseWithMetaType {
+  data: {
+    id: number;
+    namaTimAkreditasi: string;
+    anggota: { id: number; nama: string }[];
+  }[];
+  meta: MetaType;
+}
+
+// to response
+export const toResponseTimAkreditasiChooseWithMetaType = (
+  timAkreditasi: ResponseTimAkreditasiChooseWithMetaType,
+): ResponseTimAkreditasiChooseWithMetaType => timAkreditasi;

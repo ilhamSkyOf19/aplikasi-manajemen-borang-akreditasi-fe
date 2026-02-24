@@ -33,6 +33,7 @@ const DaftarKriteria: FC = () => {
     setFilterStatus,
     setPage,
     user,
+    headerLoading,
   } = UseDaftarKriteria();
 
   return (
@@ -113,7 +114,21 @@ const DaftarKriteria: FC = () => {
 
           {/* check data */}
           {isLoading ? (
-            <SkeletonTable />
+            <SkeletonTable
+              headerLg={
+                user?.role === "kaprodi" || user?.role === "tim_akreditasi"
+                  ? headerLoading.filter(
+                      (item) =>
+                        item.label.toLowerCase() === "nama kriteria" ||
+                        item.label.toLowerCase() === "kriteria",
+                    )
+                  : user?.role === "wakil_dekan_1"
+                    ? headerLoading
+                    : []
+              }
+              headerSm={[{ label: "nama kriteria", size: 80 }]}
+              {...(user?.role === "wakil_dekan_1" && { aksi: true })}
+            />
           ) : (
             dataKriteria?.data && (
               <>

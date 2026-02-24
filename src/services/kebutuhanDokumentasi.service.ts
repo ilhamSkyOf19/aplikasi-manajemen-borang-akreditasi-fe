@@ -1,6 +1,7 @@
 import instanceAxios from "../libs/axios";
 import type {
   CreateKebutuhanDokumenType,
+  ResponseKebutuhanDokumenChooseWithMetaType,
   ResponseKebutuhanDokumenType,
   ResponseKebutuhanDokumenWithMetaType,
   UpdateKebutuhanDokumenType,
@@ -42,6 +43,20 @@ export class KebutuhanDokumentasiService {
     const result = await instanceAxios.get<
       ResponseStructure<ResponseKebutuhanDokumenWithMetaType | null>
     >("/kebutuhan-dokumen/read-all", { params: query });
+
+    return result.data;
+  }
+
+  // read choose
+  static async readChoose(
+    query: PaginationType,
+  ): Promise<
+    ResponseStructure<ResponseKebutuhanDokumenChooseWithMetaType | null>
+  > {
+    // call api
+    const result = await instanceAxios.get("/kebutuhan-dokumen/read-choose", {
+      params: query,
+    });
 
     return result.data;
   }

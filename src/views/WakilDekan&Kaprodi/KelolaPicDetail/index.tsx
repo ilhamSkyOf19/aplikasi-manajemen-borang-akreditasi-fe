@@ -1,21 +1,21 @@
 import { type FC } from "react";
 import BreadCrumbs from "../../../components/BreadCrumbs";
-import useKebutuhanDokumentasiDetail from "./useKebutuhanDokumentasiDetail";
 import { Link } from "react-router-dom";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
-import FieldDataStatus from "../../../components/FieldStatus";
-import FieldDataAction from "../../../components/FieldDataAction";
+import useKelolaPicDetail from "./useKelolaPicDetail";
 import FieldDataBasic from "../../../components/FieldDataBasic";
+import FieldDataAction from "../../../components/FieldDataAction";
+import FieldDataStatus from "../../../components/FieldStatus";
 
-const KebutuhanDokumentasiDetail: FC = () => {
+const KelolaPicDetail: FC = () => {
   // call use
   const {
     pathname,
-    dataKebutuhanDokumentasi,
+    dataPic,
     isLoading,
-    handleDeleteDataKebutuhanDokumentasi,
+    handlePicDelete,
     handleShowModalDelete,
     isPendingDelete,
     modalDeleteRef,
@@ -25,7 +25,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
     handleShowModalRiwayat,
     modalRiwayatRef,
     idRiwayat,
-  } = useKebutuhanDokumentasiDetail();
+  } = useKelolaPicDetail();
 
   return (
     <div className="w-full flex flex-col justify-start items-start pb-40">
@@ -45,7 +45,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
             <div className="w-1/2 h-6 rounded-full skeleton" />
           ) : (
             <h1 className="text-base">
-              {dataKebutuhanDokumentasi?.data?.namaDokumen}
+              {dataPic?.data?.kebutuhanDokumen.namaDokumen}
             </h1>
           )}
         </div>
@@ -76,16 +76,29 @@ const KebutuhanDokumentasiDetail: FC = () => {
             <>
               {/* kriteria */}
               <FieldDataBasic
-                typeData="Kriteria Akreditasi"
-                value={`C${dataKebutuhanDokumentasi?.data?.kriteria.kriteria} - ${dataKebutuhanDokumentasi?.data?.kriteria?.namaKriteria}`}
+                typeData="PIC"
+                value={dataPic?.data?.timAkreditasi.namaTimAkreditasi ?? "-"}
               />
 
-              {/* pendekatan */}
-              <FieldDataBasic
-                typeData="Pendekatan"
-                value={`${dataKebutuhanDokumentasi?.data?.pendekatan?.tahap} - ${dataKebutuhanDokumentasi?.data?.pendekatan?.keterangan}`}
-              />
-
+              {/* penanggung jawab */}
+              <div className="w-full flex flex-row justify-start items-start">
+                {/* type */}
+                <span className="text-xs flex-2 lg:text-sm">
+                  Penanggung Jawab
+                </span>
+                <span className="mx-1.5 text-xs lg:text-sm">:</span>
+                <div className="flex-3 flex flex-col justify-start items-start gap-1.5">
+                  {dataPic?.data?.pj.map((pj) => (
+                    <div
+                      key={pj.id}
+                      className="w-full flex flex-row justify-start items-start gap-1.5"
+                    >
+                      <span className="text-xs lg:text-sm font-medium">-</span>
+                      <span className="text-xs lg:text-sm">{pj.nama}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
               {/* Riwayat */}
               <FieldDataAction
                 typeData="Riwayat"
@@ -97,14 +110,14 @@ const KebutuhanDokumentasiDetail: FC = () => {
               <FieldDataBasic
                 typeData="Tanggal dibuat"
                 value={formatTanggalPanjang(
-                  dataKebutuhanDokumentasi?.data?.createdAt ?? new Date(),
+                  dataPic?.data?.createdAt ?? new Date(),
                 )}
               />
 
               {/* status */}
               <FieldDataStatus
                 typeData="Status Terkini"
-                value={dataKebutuhanDokumentasi?.data?.status ?? "menunggu"}
+                value={dataPic?.data?.status ?? "menunggu"}
               />
 
               {/* aksi */}
@@ -120,7 +133,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
 
                 {/* button ubah */}
                 <Link
-                  to={`/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${dataKebutuhanDokumentasi?.data?.id ?? 0}`}
+                  to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
                   type="button"
                   className="btn btn-info btn-sm btn-soft"
                 >
@@ -130,11 +143,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
                 {/* button delete */}
                 <button
                   type="button"
-                  onClick={() =>
-                    handleShowModalDelete(
-                      dataKebutuhanDokumentasi?.data?.id ?? 0,
-                    )
-                  }
+                  onClick={() => handleShowModalDelete(dataPic?.data?.id ?? 0)}
                   className="btn btn-soft btn-error btn-sm"
                 >
                   delete
@@ -147,7 +156,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
 
       {/* modal delete  */}
       <ModalDelete
-        handleDelete={handleDeleteDataKebutuhanDokumentasi}
+        handleDelete={handlePicDelete}
         isLoadingDelete={isPendingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
@@ -163,4 +172,4 @@ const KebutuhanDokumentasiDetail: FC = () => {
   );
 };
 
-export default KebutuhanDokumentasiDetail;
+export default KelolaPicDetail;

@@ -108,7 +108,33 @@ const KelolaUser: FC = () => {
 
           {/* table data */}
           {isLoading ? (
-            <SkeletonTable />
+            <SkeletonTable
+              headerLg={[
+                {
+                  label: "Nama",
+                  size: 25,
+                },
+                {
+                  label: "Email",
+                  size: 19,
+                },
+                {
+                  label: "Role",
+                  size: 19,
+                },
+                {
+                  label: "Tim Akreditasi",
+                  size: 19,
+                },
+              ]}
+              headerSm={[
+                {
+                  label: "nama",
+                  size: 80,
+                },
+              ]}
+              aksi
+            />
           ) : (
             dataKelolaUser?.data && (
               <>

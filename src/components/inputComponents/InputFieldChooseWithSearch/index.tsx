@@ -23,6 +23,8 @@ type Props<T extends FieldValues = any> = {
   totalPage?: number;
   currentPage?: number;
   setPage?: (page: string) => void;
+  showValueInPlaceholder?: string;
+  chooseAndHide?: boolean;
 };
 
 export default function InputFieldChooseWithSearch<
@@ -43,6 +45,8 @@ export default function InputFieldChooseWithSearch<
   totalPage,
   currentPage,
   setPage,
+  showValueInPlaceholder,
+  chooseAndHide,
 }: Props<T>) {
   // call use
   const {
@@ -89,7 +93,9 @@ export default function InputFieldChooseWithSearch<
         onClick={() => handleToggle()}
       >
         {/* place holder */}
-        <span className="text-sm">{placeholder}</span>
+        <span className="text-sm">
+          {showValueInPlaceholder ? showValueInPlaceholder : placeholder}
+        </span>
 
         {/* arrow down */}
         <GoTriangleDown className="text-primary-black/50" />
@@ -130,7 +136,9 @@ export default function InputFieldChooseWithSearch<
                   <button
                     type="button"
                     className="w-full h-full flex flex-row justify-start items-center py-1.5"
-                    onClick={() => handleChoose(item.id)}
+                    onClick={() => {
+                      (handleChoose(item.id), chooseAndHide && handleToggle());
+                    }}
                     disabled={active.includes(item.id)}
                   >
                     <span className="text-sm">{item.label}</span>

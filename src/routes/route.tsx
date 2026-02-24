@@ -15,6 +15,9 @@ import FormulirTimAkreditasiPage from "../pages/FormulirTimAkreditasiPage";
 import KelolaKebutuhanDokumentasiPage from "../pages/KelolaKebutuhanDokumentasiPage";
 import FormulirKebutuhanDokumentasiPage from "../pages/FormulirKebutuhanDokumentasiPage";
 import KebutuhanDokumentasiDetailPage from "../pages/KebutuhanDokumentasiDetailPage";
+import KelolaPicPage from "../pages/KelolaPicPage";
+import FormulirPicPage from "../pages/FormulirPicPage";
+import KelolaPicDetailPage from "../pages/KelolaPicDetailPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -81,7 +84,11 @@ const route = createBrowserRouter([
             return redirect("/dashboard/daftar-kriteria");
           }
         },
-        element: <FormulirDaftarKriteriaPage />,
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirDaftarKriteriaPage />
+          </RoleGuard>
+        ),
       },
 
       // kelola user
@@ -122,13 +129,21 @@ const route = createBrowserRouter([
       // kelola tim akreditasi
       {
         path: "kelola-tim-akreditasi",
-        element: <KelolaTimAkreditasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <KelolaTimAkreditasiPage />
+          </RoleGuard>
+        ),
       },
 
       // tambah tim akreditasi
       {
         path: "kelola-tim-akreditasi/tambah-tim-akreditasi",
-        element: <FormulirTimAkreditasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirTimAkreditasiPage />
+          </RoleGuard>
+        ),
       },
       // update tim akreditasi
       {
@@ -138,18 +153,30 @@ const route = createBrowserRouter([
             return redirect("/dashboard/kelola-tim-akreditasi");
           }
         },
-        element: <FormulirTimAkreditasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirTimAkreditasiPage />
+          </RoleGuard>
+        ),
       },
 
       // kelola kebutuhan dokumentasi
       {
         path: "kelola-kebutuhan-dokumentasi",
-        element: <KelolaKebutuhanDokumentasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <KelolaKebutuhanDokumentasiPage />
+          </RoleGuard>
+        ),
       },
       // tambah kebutuhan dokumentasi
       {
         path: "kelola-kebutuhan-dokumentasi/tambah-kebutuhan-dokumentasi",
-        element: <FormulirKebutuhanDokumentasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <FormulirKebutuhanDokumentasiPage />
+          </RoleGuard>
+        ),
       },
       // update kebutuhan dokumentasi
       {
@@ -159,17 +186,69 @@ const route = createBrowserRouter([
             return redirect("/dashboard/kelola-kebutuhan-dokumentasi");
           }
         },
-        element: <FormulirKebutuhanDokumentasiPage />,
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <FormulirKebutuhanDokumentasiPage />
+          </RoleGuard>
+        ),
       },
       // detail kebutuhan dokumentasi
       {
         path: "kelola-kebutuhan-dokumentasi/detail/:id",
+
         loader: async ({ params }) => {
           if (!params.id || isNaN(Number(params.id))) {
             return redirect("/dashboard/kelola-kebutuhan-dokumentasi");
           }
         },
         element: <KebutuhanDokumentasiDetailPage />,
+      },
+
+      // pic
+      {
+        path: "kelola-pic",
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1", "kaprodi"]}>
+            <KelolaPicPage />
+          </RoleGuard>
+        ),
+      },
+
+      // tambah pic
+      {
+        path: "kelola-pic/tambah-pic",
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <FormulirPicPage />
+          </RoleGuard>
+        ),
+      },
+
+      // update pic
+      {
+        path: "kelola-pic/ubah-pic/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-pic");
+          }
+        },
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <FormulirPicPage />
+          </RoleGuard>
+        ),
+      },
+
+      // detail pic
+      {
+        path: "kelola-pic/detail/:id",
+
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-pic");
+          }
+        },
+        element: <KelolaPicDetailPage />,
       },
     ],
   },

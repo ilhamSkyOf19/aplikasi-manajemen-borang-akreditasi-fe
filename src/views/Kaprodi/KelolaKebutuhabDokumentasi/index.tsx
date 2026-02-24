@@ -34,6 +34,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
     handleShowModalRiwayat,
     modalRiwayatRef,
     idRiwayat,
+    headerLoading,
   } = useKelolaKebutuhanDokumentasi();
 
   return (
@@ -131,7 +132,16 @@ const KelolaKebutuhanDokumentasi: FC = () => {
 
           {/* check data */}
           {isLoading ? (
-            <SkeletonTable />
+            <SkeletonTable
+              headerLg={headerLoading}
+              headerSm={[
+                {
+                  label: "nama dokumentasi",
+                  size: 80,
+                },
+              ]}
+              aksi
+            />
           ) : (
             dataKebutuhanDokumentasi?.data && (
               <>
