@@ -3,23 +3,18 @@ import { useFilter } from "../../../hooks/useFilter";
 import { PicService } from "../../../services/pic.service";
 import type { Status } from "../../../types/constanst.type";
 import { useNavigate } from "react-router-dom";
-import useModalBasic from "../../../hooks/useModalBasic";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import useModalDelete from "../../../hooks/useModalDelete";
+import { useAuthStore } from "../../../stores/authStore";
 
 const useKelolaPic = () => {
+  // get user from store
+  const user = useAuthStore((state) => state.user);
+
   // use query client
   const queryClient = useQueryClient();
   // navigate
   const navigate = useNavigate();
-
-  // use modal riwayat
-  const {
-    modalRef: modalRiwayatRef,
-    handleCloseModal: handleCloseModalRiwayat,
-    handleShowModal: handleShowModalRiwayat,
-    idModal: idRiwayat,
-  } = useModalBasic();
 
   // use filter search
   const { filter: search, setFilter: handleSearch } = useFilter("search");
@@ -72,7 +67,9 @@ const useKelolaPic = () => {
 
   // handle detail
   const handleDetailPage = (id: number) => {
-    return navigate(`/dashboard/kelola-pic/detail/${id}`);
+    return navigate(
+      `/dashboard/${user?.role === "kaprodi" ? "kelola-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/detail/${id}`,
+    );
   };
 
   // use modal delete
@@ -110,6 +107,13 @@ const useKelolaPic = () => {
     await mutateDelete(idDelete);
   };
 
+  // handle riwayat
+  const handleRiwayat = (id: number) => {
+    return navigate(
+      `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/riwayat/${id}`,
+    );
+  };
+
   return {
     handleSearch,
     setStatus,
@@ -117,11 +121,8 @@ const useKelolaPic = () => {
     dataPic,
     isLoadingPic,
     handleDetailPage,
-    modalRiwayatRef,
-    handleCloseModalRiwayat,
-    handleShowModalRiwayat,
+    handleRiwayat,
     headerLoading,
-    idRiwayat,
     isAnimationOut,
     isToast,
     handleShowModalDelete,
@@ -129,6 +130,7 @@ const useKelolaPic = () => {
     modalDeleteRef,
     isLoadingDelete,
     handleDelete,
+    user,
   };
 };
 

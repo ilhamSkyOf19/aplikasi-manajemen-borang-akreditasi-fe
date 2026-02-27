@@ -18,6 +18,8 @@ import KebutuhanDokumentasiDetailPage from "../pages/KebutuhanDokumentasiDetailP
 import KelolaPicPage from "../pages/KelolaPicPage";
 import FormulirPicPage from "../pages/FormulirPicPage";
 import KelolaPicDetailPage from "../pages/KelolaPicDetailPage";
+import VerifikasiKebutuhanDokumentasiAndPicPage from "../pages/VerifikasiKebutuhanDokumentasiAndPicPage";
+import RiwayatPage from "../pages/RiwayatPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -208,7 +210,7 @@ const route = createBrowserRouter([
       {
         path: "kelola-pic",
         element: (
-          <RoleGuard allowedRoles={["wakil_dekan_1", "kaprodi"]}>
+          <RoleGuard allowedRoles={["kaprodi"]}>
             <KelolaPicPage />
           </RoleGuard>
         ),
@@ -249,6 +251,71 @@ const route = createBrowserRouter([
           }
         },
         element: <KelolaPicDetailPage />,
+      },
+
+      // verifikasi kebutuhan dokumentasi & pic
+      {
+        path: "verifikasi-kebutuhan-dokumentasi-pic",
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <VerifikasiKebutuhanDokumentasiAndPicPage />
+          </RoleGuard>
+        ),
+      },
+
+      {
+        path: "verifikasi-kebutuhan-dokumentasi-pic/detail/:id",
+
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
+          }
+        },
+        element: <KelolaPicDetailPage />,
+      },
+
+      // pic riwayat kaprodi
+      {
+        path: "kelola-kebutuhan-dokumentasi-pic/riwayat/:id",
+
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/kelola-kebutuhan-dokumentasi-pic");
+          }
+        },
+        element: (
+          <RoleGuard allowedRoles={["kaprodi"]}>
+            <RiwayatPage
+              title="Riwayat PIC"
+              content="Riwayat PIC"
+              bigTitle="Riwayat PIC"
+              smallTitle="Halaman daftar riwayat PIC"
+              type="pic"
+            />
+          </RoleGuard>
+        ),
+      },
+
+      // pic riwayat wakil dekan
+      {
+        path: "verifikasi-kebutuhan-dokumentasi-pic/riwayat/:id",
+
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
+          }
+        },
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <RiwayatPage
+              title="Riwayat PIC"
+              content="Riwayat PIC"
+              bigTitle="Riwayat PIC"
+              smallTitle="Halaman daftar riwayat PIC"
+              type="pic"
+            />
+          </RoleGuard>
+        ),
       },
     ],
   },

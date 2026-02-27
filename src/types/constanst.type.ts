@@ -9,3 +9,6 @@ export type MetaType = {
 
 // status type
 export type Status = "menunggu" | "revisi" | "disetujui";
+
+// jenis riwayat
+export type JenisRiwayat = "dokumen_borang" | "kebutuhan_dokumen" | "pic";

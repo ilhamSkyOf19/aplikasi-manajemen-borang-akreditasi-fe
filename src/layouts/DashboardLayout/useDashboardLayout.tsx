@@ -14,14 +14,9 @@ const useDashboardLayout = () => {
   // destructure pathname
   const lastSegment = pathname.split("/").pop();
 
-  // check details
-  const detailsPage = pathname.split("/");
-
   const path = isNaN(Number(lastSegment))
     ? lastSegment?.split("-").join(" ")
-    : detailsPage?.includes("detail")
-      ? "Data Detail"
-      : "Ubah Data";
+    : pathname.split("/").slice(0, -1).pop();
 
   return { handleSidebar, isClose, path };
 };

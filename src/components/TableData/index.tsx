@@ -210,7 +210,7 @@ const TableData: FC<Props> = ({
                           <Link
                             to={`/dashboard/${linkUpdate}/${row.fields.id}`}
                             type="button"
-                            className="btn btn-info px-3 btn-soft"
+                            className="btn btn-info px-3 "
                             onClick={(e) => {
                               e.stopPropagation();
                               // logic update
@@ -222,22 +222,23 @@ const TableData: FC<Props> = ({
                       )}
 
                       {/* delete */}
-                      {!row.fields.disableAksi?.delete && (
-                        <div className="tooltip" data-tip="hapus">
-                          <button
-                            type="button"
-                            className="btn btn-error px-3 btn-soft"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              // logic delete
-                              handleShowModalDelete &&
-                                handleShowModalDelete(row.fields.id);
-                            }}
-                          >
-                            <Trash2Icon className="w-5 h-5" />
-                          </button>
-                        </div>
-                      )}
+                      {handleShowModalDelete &&
+                        !row.fields.disableAksi?.delete && (
+                          <div className="tooltip" data-tip="hapus">
+                            <button
+                              type="button"
+                              className="btn btn-error px-3"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // logic delete
+                                handleShowModalDelete &&
+                                  handleShowModalDelete(row.fields.id);
+                              }}
+                            >
+                              <Trash2Icon className="w-5 h-5" />
+                            </button>
+                          </div>
+                        )}
                     </div>
                   </td>
                 )}

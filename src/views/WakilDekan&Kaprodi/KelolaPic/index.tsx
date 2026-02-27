@@ -5,7 +5,6 @@ import useKelolaPic from "./useKelolaPic";
 import DropDown from "../../../components/DropDown";
 import SkeletonTable from "../../../components/SkeletonTable";
 import TableData from "../../../components/TableData";
-import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
 
@@ -18,11 +17,8 @@ const index: FC = () => {
     header,
     isLoadingPic,
     handleDetailPage,
-    handleCloseModalRiwayat,
-    handleShowModalRiwayat,
-    modalRiwayatRef,
+    handleRiwayat,
     headerLoading,
-    idRiwayat,
     isAnimationOut,
     isToast,
     handleCloseModalDelete,
@@ -30,6 +26,7 @@ const index: FC = () => {
     modalDeleteRef,
     handleDelete,
     isLoadingDelete,
+    user,
   } = useKelolaPic();
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
@@ -66,8 +63,20 @@ const index: FC = () => {
       <div className="w-full flex flex-col justify-start items-start">
         {/* title page */}
         <TitlePage
-          bigTitle="Kelola Daftar PIC"
-          smallTitle="Halaman untuk mengelola daftar penanggung jawab kebutuhan dokumentasi."
+          bigTitle={
+            user?.role === "kaprodi"
+              ? "Kelola Daftar PIC"
+              : user?.role === "wakil_dekan_1"
+                ? "Verifikasi Kebutuhan Dokumentasi & PIC"
+                : ""
+          }
+          smallTitle={
+            user?.role === "kaprodi"
+              ? "Halaman untuk mengelola daftar penanggung jawab kebutuhan dokumentasi."
+              : user?.role === "wakil_dekan_1"
+                ? "Halaman untuk verifikasi daftar kebutuhan dokumentasi dan penanggung jawab (PIC)"
+                : ""
+          }
           labelAdd="Tambah PIC"
           linkAdd="/dashboard/kelola-pic/tambah-pic"
         />
@@ -150,16 +159,21 @@ const index: FC = () => {
                           status: item.status,
                         },
                       }))}
-                    aksi={true}
-                    handleShowModalDelete={handleShowModalDelete}
-                    linkUpdate="kelola-pic/ubah-pic"
+                    {...(user?.role === "kaprodi" && {
+                      aksi: true,
+                      handleShowModalDelete: handleShowModalDelete,
+                      linkUpdate: "kelola-pic/ubah-pic",
+                    })}
+                    {...(user?.role === "wakil_dekan_1" && {
+                      aksi: true,
+                      linkUpdate: "kelola-pic/ubah-pic",
+                    })}
                     fieldAksi={[
                       {
                         header: "Riwayat",
                         label: "Lihat riwayat",
                         size: 13,
-                        handleAksiWithParams: (id: number) =>
-                          handleShowModalRiwayat(id),
+                        handleAksiWithParams: (id: number) => handleRiwayat(id),
                       },
                     ]}
                     fieldColor={[
@@ -182,13 +196,6 @@ const index: FC = () => {
           )}
         </div>
       </div>
-
-      {/* modal riwayat */}
-      <ModalRiwayat
-        modalRef={modalRiwayatRef}
-        handleCloseModal={handleCloseModalRiwayat}
-        id={idRiwayat}
-      />
 
       {/* modal delete */}
       <ModalDelete

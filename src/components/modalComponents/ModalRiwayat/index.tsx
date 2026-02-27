@@ -1,6 +1,8 @@
 import { CornerDownRight } from "lucide-react";
 import { type FC, type RefObject } from "react";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
+import { useQuery } from "@tanstack/react-query";
+import { RiwayatService } from "../../../services/riwayat.service";
 
 // Props
 type Props = {
@@ -9,6 +11,16 @@ type Props = {
   id: number;
 };
 const ModalRiwayat: FC<Props> = ({ modalRef, handleCloseModal, id }) => {
+  // query
+  const { data: dataRiwayat, isLoading: _isLoadingRiwayat } = useQuery({
+    queryKey: ["modal-riwayat", id],
+    queryFn: () => RiwayatService.readAllByPicId(id),
+    enabled: !!id,
+    refetchOnWindowFocus: false,
+  });
+
+  console.log(dataRiwayat);
+
   return (
     <dialog
       ref={modalRef}

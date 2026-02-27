@@ -3,7 +3,6 @@ import BreadCrumbs from "../../../components/BreadCrumbs";
 import { Link } from "react-router-dom";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
-import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
 import useKelolaPicDetail from "./useKelolaPicDetail";
 import FieldDataBasic from "../../../components/FieldDataBasic";
 import FieldDataAction from "../../../components/FieldDataAction";
@@ -21,10 +20,8 @@ const KelolaPicDetail: FC = () => {
     modalDeleteRef,
     handleCloseModalDelete,
     navigate,
-    handleCloseModalRiwayat,
-    handleShowModalRiwayat,
-    modalRiwayatRef,
-    idRiwayat,
+    handleRiwayat,
+    user,
   } = useKelolaPicDetail();
 
   return (
@@ -33,7 +30,9 @@ const KelolaPicDetail: FC = () => {
       <div className="w-full mb-2">
         <BreadCrumbs
           pathname={pathname}
-          link={["/dashboard/kelola-kebutuhan-dokumentasi"]}
+          link={[
+            `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi" : "verifikasi-kebutuhan-dokumentasi-pic"}`,
+          ]}
         />
       </div>
 
@@ -103,7 +102,7 @@ const KelolaPicDetail: FC = () => {
               <FieldDataAction
                 typeData="Riwayat"
                 label="Lihat riwayat"
-                action={handleShowModalRiwayat}
+                action={handleRiwayat}
               />
 
               {/* tanggal buat */}
@@ -126,28 +125,44 @@ const KelolaPicDetail: FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="btn btn-sm btn-soft"
+                  className="btn btn-sm"
                 >
                   kembali
                 </button>
 
-                {/* button ubah */}
-                <Link
-                  to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
-                  type="button"
-                  className="btn btn-info btn-sm btn-soft"
-                >
-                  ubah
-                </Link>
+                {user?.role === "wakil_dekan_1" && (
+                  <Link
+                    to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
+                    type="button"
+                    className="btn btn-info btn-sm"
+                  >
+                    revisi
+                  </Link>
+                )}
 
-                {/* button delete */}
-                <button
-                  type="button"
-                  onClick={() => handleShowModalDelete(dataPic?.data?.id ?? 0)}
-                  className="btn btn-soft btn-error btn-sm"
-                >
-                  delete
-                </button>
+                {user?.role === "kaprodi" && (
+                  <>
+                    {/* button ubah */}
+                    <Link
+                      to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
+                      type="button"
+                      className="btn btn-info btn-sm"
+                    >
+                      ubah
+                    </Link>
+
+                    {/* button delete */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleShowModalDelete(dataPic?.data?.id ?? 0)
+                      }
+                      className="btn btn-soft btn-error btn-sm"
+                    >
+                      delete
+                    </button>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -160,13 +175,6 @@ const KelolaPicDetail: FC = () => {
         isLoadingDelete={isPendingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
-      />
-
-      {/* modal riwayat */}
-      <ModalRiwayat
-        id={idRiwayat}
-        modalRef={modalRiwayatRef}
-        handleCloseModal={handleCloseModalRiwayat}
       />
     </div>
   );

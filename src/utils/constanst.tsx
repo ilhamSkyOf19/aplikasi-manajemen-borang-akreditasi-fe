@@ -57,8 +57,8 @@ export const NAVIGATION_LIST_WD: {
     icon: ScrollText,
   },
   {
-    label: "kelola kebutuhan & PIC",
-    link: "/dashboard/kelola-kebutuhan-pic",
+    label: "verfikasi kebutuhan dokumentasi & PIC",
+    link: "/dashboard/verifikasi-kebutuhan-dokumentasi-pic",
     icon: ClipboardList,
   },
   {
