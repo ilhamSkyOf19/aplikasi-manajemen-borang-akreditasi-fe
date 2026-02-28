@@ -5,24 +5,20 @@ type ModalState<T> = {
   active: boolean;
 };
 
-export const useHandleModalDataDetail = <T extends { id: number }>(params: {
+export const useHandleModalDataDetail = <T extends { id: number }>({
+  dataList,
+  setIsShowModal,
+}: {
   setIsShowModal: Dispatch<SetStateAction<ModalState<T>>>;
   dataList: T[] | undefined;
 }) => {
-  const { dataList, setIsShowModal } = params;
-
-  //   modal ref
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  // show modal
   const handleShowModalDetail = useCallback(
     (id: number) => {
       if (!dataList?.length) return;
 
-      //   find data
       const findData = dataList.find((item) => item.id === id);
-
-      //   check find data
       if (!findData) return;
 
       setIsShowModal({
@@ -30,29 +26,21 @@ export const useHandleModalDataDetail = <T extends { id: number }>(params: {
         active: true,
       });
 
-      modalRef?.current?.showModal();
+      modalRef.current?.showModal();
     },
     [dataList, setIsShowModal],
   );
 
-  // close modal
-  const handleCloseModalDetail = useCallback(
-    (defaultData?: null) => {
-      // tutup dialog
-      modalRef.current?.close();
+  const handleCloseModalDetail = useCallback(() => {
+    modalRef.current?.close();
 
-      // langsung reset state
-      const timer = setTimeout(() => {
-        setIsShowModal({
-          data: defaultData || null,
-          active: false,
-        });
-      }, 200);
-
-      return () => clearTimeout(timer);
-    },
-    [modalRef, setIsShowModal],
-  );
+    setTimeout(() => {
+      setIsShowModal({
+        data: null,
+        active: false,
+      });
+    }, 200);
+  }, [setIsShowModal]);
 
   return {
     modalRef,

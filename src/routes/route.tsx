@@ -18,8 +18,9 @@ import KebutuhanDokumentasiDetailPage from "../pages/KebutuhanDokumentasiDetailP
 import KelolaPicPage from "../pages/KelolaPicPage";
 import FormulirPicPage from "../pages/FormulirPicPage";
 import KelolaPicDetailPage from "../pages/KelolaPicDetailPage";
-import VerifikasiKebutuhanDokumentasiAndPicPage from "../pages/VerifikasiKebutuhanDokumentasiAndPicPage";
 import RiwayatPage from "../pages/RiwayatPage";
+import DaftarVerifikasiKebutuhanDokumentasiAndPicPage from "../pages/DaftarVerifikasiKebutuhanDokumentasiAndPicPage";
+import FormulirVerifikasiKebutuhanDokumentasiAndPicPage from "../pages/FormulirVerifikasiKebutuhanDokumentasiAndPicPage";
 const route = createBrowserRouter([
   {
     path: "*",
@@ -258,7 +259,21 @@ const route = createBrowserRouter([
         path: "verifikasi-kebutuhan-dokumentasi-pic",
         element: (
           <RoleGuard allowedRoles={["wakil_dekan_1"]}>
-            <VerifikasiKebutuhanDokumentasiAndPicPage />
+            <DaftarVerifikasiKebutuhanDokumentasiAndPicPage />
+          </RoleGuard>
+        ),
+      },
+      // formulir kebutuhan dokumentasi & pic
+      {
+        path: "verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/:id",
+        loader: async ({ params }) => {
+          if (!params.id || isNaN(Number(params.id))) {
+            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
+          }
+        },
+        element: (
+          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+            <FormulirVerifikasiKebutuhanDokumentasiAndPicPage />
           </RoleGuard>
         ),
       },

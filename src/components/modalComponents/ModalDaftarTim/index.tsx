@@ -38,7 +38,10 @@ const ModalDaftarTim: FC<Props> = ({
             <div className="flex-12 w-full flex flex-col justify-start items-start pt-0.5">
               <ol className="w-full">
                 {datas.map((item, index) => (
-                  <div className="w-full  flex flex-row justify-between items-center pb-2 border-b border-primary-black/30">
+                  <div
+                    key={index}
+                    className="w-full  flex flex-row justify-between items-center pb-2 border-b border-primary-black/30"
+                  >
                     {/* nama */}
                     <div className="flex flex-row justify-start items-start gap-2">
                       {/* number */}

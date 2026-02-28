@@ -205,7 +205,7 @@ const KelolaTimAkreditasi: FC = () => {
         modalRef={modalDaftarAnggotaRef}
         handleCloseModal={handleCloseModalDaftarAnggota}
         datas={isShowModalDataDetail?.data?.user || []}
-        namaTim={isShowModalDataDetail?.data?.namaTimAkreditasi || ""}
+        title={isShowModalDataDetail?.data?.namaTimAkreditasi || ""}
       />
 
       {/* modal delete */}

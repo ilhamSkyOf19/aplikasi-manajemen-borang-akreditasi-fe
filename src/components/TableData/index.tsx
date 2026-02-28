@@ -33,6 +33,7 @@ type Props = {
   }[];
   emptyMessage?: string;
   currentPage: number;
+  labelButtonUpdate?: string;
 };
 const TableData: FC<Props> = ({
   header,
@@ -48,6 +49,7 @@ const TableData: FC<Props> = ({
   emptyMessage,
   currentPage,
   fieldColor,
+  labelButtonUpdate,
 }) => {
   // first number
   const firstNumber = currentPage * 10 - 9;
@@ -111,6 +113,9 @@ const TableData: FC<Props> = ({
               <tr
                 key={index}
                 className={cn(
+                  row.fields.disableAksi?.delete &&
+                    row.fields.disableAksi?.update &&
+                    "h-13.5",
                   aksiModal &&
                     "hover:bg-primary-purple group transition-all duration-150 group",
                   isDataModalActive &&
@@ -206,17 +211,22 @@ const TableData: FC<Props> = ({
                     <div className="flex flex-row justify-start items-center gap-2">
                       {/* update */}
                       {!row.fields.disableAksi?.update && (
-                        <div className="tooltip" data-tip="ubah">
+                        <div
+                          className="tooltip"
+                          data-tip={
+                            labelButtonUpdate ? labelButtonUpdate : "ubah"
+                          }
+                        >
                           <Link
                             to={`/dashboard/${linkUpdate}/${row.fields.id}`}
                             type="button"
-                            className="btn btn-info px-3 "
+                            className="btn btn-info px-3 btn-sm "
                             onClick={(e) => {
                               e.stopPropagation();
                               // logic update
                             }}
                           >
-                            <Pencil className="w-4 h-4" />
+                            <Pencil className="w-3 h-3" />
                           </Link>
                         </div>
                       )}
@@ -227,7 +237,7 @@ const TableData: FC<Props> = ({
                           <div className="tooltip" data-tip="hapus">
                             <button
                               type="button"
-                              className="btn btn-error px-3"
+                              className="btn btn-error px-3 btn-sm"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 // logic delete
@@ -235,7 +245,7 @@ const TableData: FC<Props> = ({
                                   handleShowModalDelete(row.fields.id);
                               }}
                             >
-                              <Trash2Icon className="w-5 h-5" />
+                              <Trash2Icon className="w-3 h-3" />
                             </button>
                           </div>
                         )}

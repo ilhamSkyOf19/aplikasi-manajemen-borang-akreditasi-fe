@@ -7,6 +7,7 @@ import SkeletonTable from "../../../components/SkeletonTable";
 import TableData from "../../../components/TableData";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
+import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 
 const index: FC = () => {
   // call use kelola pic
@@ -27,6 +28,10 @@ const index: FC = () => {
     handleDelete,
     isLoadingDelete,
     user,
+    dataModalDaftarPj,
+    handleCloseModalDaftarPj,
+    handleShowModalDaftarPj,
+    modalDaftarPjRef,
   } = useKelolaPic();
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
@@ -157,6 +162,14 @@ const index: FC = () => {
                           namaTimAkreditasi:
                             item.timAkreditasi.namaTimAkreditasi,
                           status: item.status,
+                          disableAksi:
+                            user?.role === "kaprodi" &&
+                            item.status === "disetujui"
+                              ? {
+                                  update: true,
+                                  delete: true,
+                                }
+                              : {},
                         },
                       }))}
                     {...(user?.role === "kaprodi" && {
@@ -166,13 +179,21 @@ const index: FC = () => {
                     })}
                     {...(user?.role === "wakil_dekan_1" && {
                       aksi: true,
-                      linkUpdate: "kelola-pic/ubah-pic",
+                      linkUpdate:
+                        "verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic",
                     })}
                     fieldAksi={[
                       {
+                        header: "PJ",
+                        label: "Lihat pj",
+                        size: 13.75,
+                        handleAksiWithParams: (id: number) =>
+                          handleShowModalDaftarPj(id),
+                      },
+                      {
                         header: "Riwayat",
                         label: "Lihat riwayat",
-                        size: 13,
+                        size: 13.75,
                         handleAksiWithParams: (id: number) => handleRiwayat(id),
                       },
                     ]}
@@ -180,7 +201,8 @@ const index: FC = () => {
                       {
                         header: "Status",
                         key: "status",
-                        size: 13,
+                        size: 13.75,
+
                         colorFn: (status: string) =>
                           status === "menunggu"
                             ? "bg-warning"
@@ -189,6 +211,9 @@ const index: FC = () => {
                               : "bg-error",
                       },
                     ]}
+                    {...(user?.role === "wakil_dekan_1" && {
+                      labelButtonUpdate: "verifikasi",
+                    })}
                   />
                 </div>
               </>
@@ -203,6 +228,15 @@ const index: FC = () => {
         isLoadingDelete={isLoadingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
+      />
+
+      <ModalDaftarAnggota
+        label="Daftar PJ"
+        disableAksi={user?.role === "kaprodi"}
+        modalRef={modalDaftarPjRef}
+        handleCloseModal={handleCloseModalDaftarPj}
+        datas={dataModalDaftarPj?.data?.pj || []}
+        title={dataModalDaftarPj?.data?.kebutuhanDokumen.namaDokumen || ""}
       />
     </div>
   );

@@ -31,7 +31,7 @@ const KelolaPicDetail: FC = () => {
         <BreadCrumbs
           pathname={pathname}
           link={[
-            `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi" : "verifikasi-kebutuhan-dokumentasi-pic"}`,
+            `/dashboard/${user?.role === "kaprodi" ? "kelola-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}`,
           ]}
         />
       </div>
@@ -132,7 +132,7 @@ const KelolaPicDetail: FC = () => {
 
                 {user?.role === "wakil_dekan_1" && (
                   <Link
-                    to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
+                    to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
                     type="button"
                     className="btn btn-info btn-sm"
                   >
@@ -140,29 +140,30 @@ const KelolaPicDetail: FC = () => {
                   </Link>
                 )}
 
-                {user?.role === "kaprodi" && (
-                  <>
-                    {/* button ubah */}
-                    <Link
-                      to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
-                      type="button"
-                      className="btn btn-info btn-sm"
-                    >
-                      ubah
-                    </Link>
+                {user?.role === "kaprodi" &&
+                  dataPic?.data?.status !== "disetujui" && (
+                    <>
+                      {/* button ubah */}
+                      <Link
+                        to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
+                        type="button"
+                        className="btn btn-info btn-sm"
+                      >
+                        ubah
+                      </Link>
 
-                    {/* button delete */}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleShowModalDelete(dataPic?.data?.id ?? 0)
-                      }
-                      className="btn btn-soft btn-error btn-sm"
-                    >
-                      delete
-                    </button>
-                  </>
-                )}
+                      {/* button delete */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleShowModalDelete(dataPic?.data?.id ?? 0)
+                        }
+                        className="btn btn-error btn-sm"
+                      >
+                        delete
+                      </button>
+                    </>
+                  )}
               </div>
             </>
           )}

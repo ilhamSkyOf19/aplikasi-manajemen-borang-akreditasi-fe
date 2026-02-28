@@ -7,14 +7,18 @@ type Props = {
   handleCloseModal: () => void;
   customClassName?: string;
   datas: PayloadUserType[];
-  namaTim: string;
+  title: string;
+  disableAksi?: boolean;
+  label?: string;
 };
 const ModalDaftarAnggota: FC<Props> = ({
   handleCloseModal,
   modalRef,
   customClassName,
-  namaTim,
+  title,
   datas,
+  disableAksi,
+  label,
 }) => {
   return (
     <dialog
@@ -32,7 +36,7 @@ const ModalDaftarAnggota: FC<Props> = ({
         {/* icon alert */}
         <div className="w-full pb-2 border-b border-primary-black">
           <h3 className="font-bold text-base lg:text-lg">
-            Daftar Anggota - {namaTim}
+            {label ? label : "Daftar Anggota"} - {title}
           </h3>
         </div>
 
@@ -58,12 +62,14 @@ const ModalDaftarAnggota: FC<Props> = ({
                     </div>
 
                     {/* aksi */}
-                    <Link
-                      to={`/dashboard/kelola-user?search=${item.email}`}
-                      className="text-sm text-primary-purple hover:underline"
-                    >
-                      Lihat
-                    </Link>
+                    {!disableAksi && (
+                      <Link
+                        to={`/dashboard/kelola-user?search=${item.email}`}
+                        className="text-sm text-primary-purple hover:underline"
+                      >
+                        Lihat
+                      </Link>
+                    )}
                   </div>
                 ))}
               </ol>

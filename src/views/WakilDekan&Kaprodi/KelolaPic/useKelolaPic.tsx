@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
+import type { ResponsePicType } from "../../../models/pic.model";
+import { useCallback, useRef, useState } from "react";
 
 const useKelolaPic = () => {
   // get user from store
@@ -46,9 +48,9 @@ const useKelolaPic = () => {
     {
       label: "PIC",
       key: "namaTimAkreditasi",
-      size: 16.25,
+      size: 13.75,
     },
-    { label: "Status", key: "status", size: 16.25 },
+    { label: "Status", key: "status", size: 13.75 },
   ];
 
   //   header loading
@@ -59,10 +61,11 @@ const useKelolaPic = () => {
     },
     {
       label: "PIC",
-      size: 16.25,
+      size: 13.75,
     },
-    { label: "Riwayat", size: 16.25 },
-    { label: "Status", size: 16.25 },
+    { label: "PJ", size: 13.75 },
+    { label: "Riwayat", size: 13.75 },
+    { label: "Status", size: 13.75 },
   ];
 
   // handle detail
@@ -114,6 +117,44 @@ const useKelolaPic = () => {
     );
   };
 
+  const [isDataModalDaftarPj, setIsDataModalDaftarPj] = useState<{
+    data: ResponsePicType | null;
+    active: boolean;
+  }>({
+    data: null,
+    active: false,
+  });
+
+  const modalDaftarPjRef = useRef<HTMLDialogElement>(null);
+
+  const handleShowModalDaftarPj = useCallback(
+    (id: number) => {
+      if (!dataPic?.data?.data.length) return;
+
+      const findData = dataPic.data.data.find((item) => item.id === id);
+      if (!findData) return;
+
+      setIsDataModalDaftarPj({
+        data: findData,
+        active: true,
+      });
+
+      modalDaftarPjRef.current?.showModal();
+    },
+    [dataPic, setIsDataModalDaftarPj],
+  );
+
+  const handleCloseModalDaftarPj = useCallback(() => {
+    modalDaftarPjRef.current?.close();
+
+    setTimeout(() => {
+      setIsDataModalDaftarPj({
+        data: null,
+        active: false,
+      });
+    }, 200);
+  }, [setIsDataModalDaftarPj]);
+
   return {
     handleSearch,
     setStatus,
@@ -131,6 +172,10 @@ const useKelolaPic = () => {
     isLoadingDelete,
     handleDelete,
     user,
+    modalDaftarPjRef,
+    handleShowModalDaftarPj,
+    handleCloseModalDaftarPj,
+    dataModalDaftarPj: isDataModalDaftarPj,
   };
 };
 

@@ -19,7 +19,7 @@ export interface IRiwayat {
     | (Pick<IPic, "id" | "status"> & {
         kebutuhanDokumen: Pick<IKebutuhanDokumen, "id" | "namaDokumen">;
         timAkreditasi: Pick<ITimAkreditasi, "id" | "namaTimAkreditasi">;
-        pj: Pick<PayloadUserType, "id" | "nama">[];
+        pj: PayloadUserType[];
       })
     | null;
   createdAt: Date;
@@ -29,14 +29,22 @@ export interface IRiwayat {
 // create
 export interface CreateRiwayatType extends Omit<
   IRiwayat,
-  "id" | "createdAt" | "updatedAt" | "kebutuhanDokumen" | "pic"
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "kebutuhanDokumen"
+  | "pic"
+  | "highlightDataEmpy"
+  | "createdData"
 > {
   kebutuhanDokumenId?: number;
   picId?: number;
 }
 
 // update
-export interface UpdateRiwayatType extends Partial<CreateRiwayatType> {}
+export interface UpdateRiwayatType extends Partial<
+  Omit<CreateRiwayatType, "kebutuhanDokumenId" | "picId">
+> {}
 
 // response
 export interface ResponseRiwayatType extends IRiwayat {}

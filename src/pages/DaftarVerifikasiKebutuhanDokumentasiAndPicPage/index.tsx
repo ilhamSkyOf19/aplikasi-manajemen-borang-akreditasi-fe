@@ -2,7 +2,7 @@ import { type FC } from "react";
 import HeaderPage from "../../layouts/HeaderPage";
 import KelolaPic from "../../views/WakilDekan&Kaprodi/KelolaPic";
 
-const VerifikasiKebutuhanDokumentasiAndPicPage: FC = () => {
+const DaftarVerifikasiKebutuhanDokumentasiAndPicPage: FC = () => {
   return (
     <>
       {/* header page */}
@@ -16,4 +16,4 @@ const VerifikasiKebutuhanDokumentasiAndPicPage: FC = () => {
   );
 };
 
-export default VerifikasiKebutuhanDokumentasiAndPicPage;
+export default DaftarVerifikasiKebutuhanDokumentasiAndPicPage;
