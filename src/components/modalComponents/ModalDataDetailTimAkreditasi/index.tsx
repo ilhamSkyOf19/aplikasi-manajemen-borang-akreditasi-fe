@@ -123,7 +123,7 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
         datas={datas?.user || []}
         modalRef={modalRefDaftarAnggota}
         handleCloseModal={handleCloseModalDaftarAnggota}
-        namaTim={datas?.namaTimAkreditasi || ""}
+        title={datas?.namaTimAkreditasi || ""}
       />
     </dialog>
   );

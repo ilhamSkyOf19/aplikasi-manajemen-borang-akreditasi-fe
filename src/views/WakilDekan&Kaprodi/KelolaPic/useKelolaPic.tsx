@@ -8,6 +8,7 @@ import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import type { ResponsePicType } from "../../../models/pic.model";
 import { useCallback, useRef, useState } from "react";
+import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
 
 const useKelolaPic = () => {
   // get user from store
@@ -43,29 +44,20 @@ const useKelolaPic = () => {
     {
       label: "jenis dokumentasi",
       key: "namaDokumen",
-      size: 30,
+      size: 26,
     },
-    {
-      label: "PIC",
-      key: "namaTimAkreditasi",
-      size: 13.75,
-    },
-    { label: "Status", key: "status", size: 13.75 },
   ];
 
   //   header loading
   const headerLoading = [
     {
       label: "jenis dokumentasi",
-      size: 30,
+      size: 16,
     },
-    {
-      label: "PIC",
-      size: 13.75,
-    },
-    { label: "PJ", size: 13.75 },
-    { label: "Riwayat", size: 13.75 },
-    { label: "Status", size: 13.75 },
+    { label: "Keterangan Dokumen", size: 20 },
+    { label: "PIC", size: 14 },
+    { label: "Riwayat", size: 14 },
+    { label: "Status", size: 14 },
   ];
 
   // handle detail
@@ -117,7 +109,7 @@ const useKelolaPic = () => {
     );
   };
 
-  const [isDataModalDaftarPj, setIsDataModalDaftarPj] = useState<{
+  const [isDataPicDetail, setIsDataPicDetail] = useState<{
     data: ResponsePicType | null;
     active: boolean;
   }>({
@@ -134,26 +126,41 @@ const useKelolaPic = () => {
       const findData = dataPic.data.data.find((item) => item.id === id);
       if (!findData) return;
 
-      setIsDataModalDaftarPj({
+      setIsDataPicDetail({
         data: findData,
         active: true,
       });
 
       modalDaftarPjRef.current?.showModal();
     },
-    [dataPic, setIsDataModalDaftarPj],
+    [dataPic, setIsDataPicDetail],
   );
 
   const handleCloseModalDaftarPj = useCallback(() => {
     modalDaftarPjRef.current?.close();
 
     setTimeout(() => {
-      setIsDataModalDaftarPj({
+      setIsDataPicDetail({
         data: null,
         active: false,
       });
     }, 200);
-  }, [setIsDataModalDaftarPj]);
+  }, [setIsDataPicDetail]);
+
+  // use modal data detail
+  const {
+    handleCloseModalDetail: handleCloseModalKeterangan,
+    handleShowModalDetail: handleShowModalKeterangan,
+    modalRef: modalKeteranganRef,
+  } = useHandleModalDataDetail<ResponsePicType>({
+    dataList: dataPic?.data?.data,
+    setIsShowModal: setIsDataPicDetail,
+  });
+
+  // handle aksi detail
+  const handleAksiDetail = (id: number) => {
+    navigate(`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/detail/${id}`);
+  };
 
   return {
     handleSearch,
@@ -175,7 +182,11 @@ const useKelolaPic = () => {
     modalDaftarPjRef,
     handleShowModalDaftarPj,
     handleCloseModalDaftarPj,
-    dataModalDaftarPj: isDataModalDaftarPj,
+    isDataPicDetail,
+    handleShowModalKeterangan,
+    handleCloseModalKeterangan,
+    modalKeteranganRef,
+    handleAksiDetail,
   };
 };
 

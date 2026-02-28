@@ -146,8 +146,8 @@ const DaftarKriteria: FC = () => {
                         namaKriteria: item.namaKriteria,
                       },
                     }))}
-                    aksiModal={true}
-                    handleModal={handleShowModalDetail}
+                    aksiLink={true}
+                    handleAksiLink={handleShowModalDetail}
                     isDataModalActive={isShowModal && isShowModal?.data?.id}
                   />
                 </div>
@@ -195,7 +195,7 @@ const DaftarKriteria: FC = () => {
                     }))}
                     {...(user?.role === "wakil_dekan_1" && {
                       aksi: true,
-                      handleShowModalDelete: handleCloseModalDelete,
+                      handleShowModalDelete: handleShowModalDelete,
                       linkUpdate: "daftar-kriteria/ubah-kriteria",
                     })}
                     {...((user?.role === "tim_akreditasi" ||

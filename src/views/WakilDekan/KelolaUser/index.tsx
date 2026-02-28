@@ -148,8 +148,8 @@ const KelolaUser: FC = () => {
                         fields: { id: item.id, nama: item.nama },
                       })) || []
                     }
-                    aksiModal={true}
-                    handleModal={handleShowModalDetail}
+                    aksiLink={true}
+                    handleAksiLink={handleShowModalDetail}
                     isDataModalActive={0}
                   />
                 </div>

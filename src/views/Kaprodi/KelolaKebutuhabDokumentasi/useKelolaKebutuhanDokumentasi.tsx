@@ -6,7 +6,6 @@ import { useAuthStore } from "../../../stores/authStore";
 import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
 import type { Status } from "../../../types/constanst.type";
 import { useNavigate } from "react-router-dom";
-import useModalBasic from "../../../hooks/useModalBasic";
 
 const useKelolaKebutuhanDokumentasi = () => {
   const navigate = useNavigate();
@@ -23,14 +22,6 @@ const useKelolaKebutuhanDokumentasi = () => {
     idDelete,
     modalDeleteRef,
   } = useModalDelete();
-
-  // use modal riwayat
-  const {
-    modalRef: modalRiwayatRef,
-    handleCloseModal: handleCloseModalRiwayat,
-    handleShowModal: handleShowModalRiwayat,
-    idModal: idRiwayat,
-  } = useModalBasic();
 
   // use filter status
   const { filter: status, setFilter: setStatus } = useFilter("status", [
@@ -150,10 +141,6 @@ const useKelolaKebutuhanDokumentasi = () => {
     user,
     handleDetailPage,
     navigate,
-    handleShowModalRiwayat,
-    handleCloseModalRiwayat,
-    modalRiwayatRef,
-    idRiwayat,
     headerLoading,
   };
 };

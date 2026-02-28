@@ -10,7 +10,6 @@ import DropDown from "../../../components/DropDown";
 import { cn } from "../../../utils/cn";
 import useKelolaKebutuhanDokumentasi from "./useKelolaKebutuhanDokumentasi";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
-import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
 
 const KelolaKebutuhanDokumentasi: FC = () => {
   // call use
@@ -30,10 +29,6 @@ const KelolaKebutuhanDokumentasi: FC = () => {
     setPage,
     user,
     handleDetailPage,
-    handleCloseModalRiwayat,
-    handleShowModalRiwayat,
-    modalRiwayatRef,
-    idRiwayat,
     headerLoading,
   } = useKelolaKebutuhanDokumentasi();
 
@@ -165,8 +160,8 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                         namaDokumen: item.namaDokumen,
                       },
                     }))}
-                    aksiModal={true}
-                    handleModal={handleDetailPage}
+                    aksiLink={true}
+                    handleAksiLink={handleDetailPage}
                   />
                 </div>
 
@@ -197,8 +192,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                         header: "Riwayat",
                         label: "Lihat riwayat",
                         size: 13,
-                        handleAksiWithParams: (id: number) =>
-                          handleShowModalRiwayat(id),
+                        handleAksiWithParams: (_id: number) => () => {},
                       },
                     ]}
                     fieldColor={[
@@ -235,13 +229,6 @@ const KelolaKebutuhanDokumentasi: FC = () => {
         isLoadingDelete={isLoadingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
-      />
-
-      {/* modal riwayat */}
-      <ModalRiwayat
-        modalRef={modalRiwayatRef}
-        handleCloseModal={handleCloseModalRiwayat}
-        id={idRiwayat}
       />
     </div>
   );

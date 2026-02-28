@@ -132,8 +132,8 @@ const KelolaTimAkreditasi: FC = () => {
                         },
                       })) || []
                     }
-                    aksiModal={true}
-                    handleModal={handleShowModalDataDetail}
+                    aksiLink={true}
+                    handleAksiLink={handleShowModalDataDetail}
                     isDataModalActive={0}
                   />
                 </div>

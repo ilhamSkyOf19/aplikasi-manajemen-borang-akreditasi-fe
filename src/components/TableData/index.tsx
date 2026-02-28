@@ -10,9 +10,11 @@ type Props = {
       disableAksi?: { update?: boolean; delete?: boolean };
     };
   }[];
-  aksiModal?: boolean;
+  aksiDetail?: boolean;
+  handleAksiDetail?: (index: number) => void;
+  aksiLink?: boolean;
   aksi?: boolean;
-  handleModal?: (index: number) => void;
+  handleAksiLink?: (index: number) => void;
   isDataModalActive?: number;
   linkUpdate?: string;
   handleShowModalDelete?: (id: number) => void;
@@ -38,8 +40,8 @@ type Props = {
 const TableData: FC<Props> = ({
   header,
   datas,
-  aksiModal,
-  handleModal,
+  aksiLink,
+  handleAksiLink,
   isDataModalActive,
   linkUpdate,
   aksi,
@@ -50,6 +52,8 @@ const TableData: FC<Props> = ({
   currentPage,
   fieldColor,
   labelButtonUpdate,
+  aksiDetail,
+  handleAksiDetail,
 }) => {
   // first number
   const firstNumber = currentPage * 10 - 9;
@@ -59,93 +63,89 @@ const TableData: FC<Props> = ({
       <table
         className={cn("table w-full", size ? size : "table-md lg:table-sm")}
       >
-        {/* head */}
+        {/* ================= HEADER ================= */}
         <thead>
           <tr>
             <th className="w-[5%]">#</th>
+
+            {/* dynamic header */}
             {header
               .filter((item) => item.key !== "id")
-              .map(({ label, size }, index) => (
+              .map((item, index) => (
                 <th
                   key={index}
-                  className={`capitalize`}
-                  style={{ width: `${size}%` }}
+                  className="capitalize"
+                  style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
-                  {label}
+                  {item.label}
                 </th>
               ))}
 
-            {!aksiModal && <th className={cn("w-[10%] lg:hidden")} />}
-
-            {/* field aksi lainnya */}
+            {/* fieldAksi header */}
             {fieldAksi &&
               fieldAksi.map((item, index) => (
                 <th
                   key={index}
-                  className={`capitalize`}
-                  style={{ width: `${size}%` }}
+                  className="capitalize"
+                  style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
                   {item.header}
                 </th>
               ))}
 
-            {/* field color */}
+            {/* fieldColor header */}
             {fieldColor &&
               fieldColor.map((item, index) => (
                 <th
                   key={index}
-                  className={`capitalize`}
-                  style={{ width: `${size}%` }}
+                  className="capitalize"
+                  style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
                   {item.header}
                 </th>
               ))}
 
-            {/* aksi */}
-            {aksi && (
-              <th className={cn("w-[10%] hidden lg:table-cell")}>Aksi</th>
+            {/* AKSI (single column only) */}
+            {(aksi || aksiDetail || aksiLink) && (
+              <th className="w-[10%] text-center">Aksi</th>
             )}
           </tr>
         </thead>
+
+        {/* ================= BODY ================= */}
         <tbody>
           {datas.length > 0 &&
             datas.map((row, index) => (
               <tr
                 key={index}
                 className={cn(
-                  row.fields.disableAksi?.delete &&
-                    row.fields.disableAksi?.update &&
-                    "h-13.5",
-                  aksiModal &&
-                    "hover:bg-primary-purple group transition-all duration-150 group",
-                  isDataModalActive &&
-                    isDataModalActive === row.fields.id &&
-                    "lg:bg-primary-purple",
+                  !aksi && "h-12",
+                  aksiLink &&
+                    "hover:bg-primary-purple group transition-all duration-150",
+                  isDataModalActive === row.fields.id && "lg:bg-primary-purple",
                 )}
-                onClick={() =>
-                  aksiModal && handleModal && handleModal(row.fields.id)
-                }
+                onClick={() => aksiLink && handleAksiLink?.(row.fields.id)}
               >
                 {/* number */}
                 <th
                   className={cn(
                     "group-hover:text-primary-white transition-all duration-150",
-                    isDataModalActive &&
-                      isDataModalActive === row.fields.id &&
+                    isDataModalActive === row.fields.id &&
                       "lg:text-primary-white",
                   )}
                 >
                   {firstNumber + index}
                 </th>
+
+                {/* dynamic data */}
                 {header
                   .filter((item) => item.key !== "id")
-                  .map((item, index) => (
+                  .map((item, idx) => (
                     <td
-                      key={index}
+                      key={idx}
                       className={cn(
-                        "group-hover:text-primary-white transition-all duration-15",
-                        isDataModalActive &&
-                          isDataModalActive === row.fields.id &&
+                        "group-hover:text-primary-white transition-all duration-150",
+                        isDataModalActive === row.fields.id &&
                           "lg:text-primary-white",
                       )}
                     >
@@ -153,50 +153,34 @@ const TableData: FC<Props> = ({
                     </td>
                   ))}
 
-                <td className={cn("lg:hidden", !aksiModal && "hidden")}>
-                  <div className="flex justify-end">
-                    <span
-                      className={cn(
-                        "text-xs text-primary-purple",
-                        aksiModal &&
-                          "group-hover:text-primary-white transition-colors duration-150 ease-in-out",
-                      )}
-                    >
-                      Lihat
-                    </span>
-                  </div>
-                </td>
-
-                {/* field aksi lainnya */}
+                {/* fieldAksi */}
                 {fieldAksi &&
                   fieldAksi.map((item, idx) => (
                     <td key={idx}>
                       <button
                         type="button"
-                        onClick={() => {
-                          item.handleAksiWithParams &&
-                            item.handleAksiWithParams(row.fields.id);
-                          item.handleAksiNonParams &&
-                            item.handleAksiNonParams();
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          item.handleAksiWithParams?.(row.fields.id);
+                          item.handleAksiNonParams?.();
                         }}
+                        className="text-primary-purple hover:underline"
                       >
-                        <span className="text-primary-purple hover:underline">
-                          {item.label}
-                        </span>
+                        {item.label}
                       </button>
                     </td>
                   ))}
 
-                {/* field color */}
+                {/* fieldColor */}
                 {fieldColor &&
                   fieldColor.map((item, idx) => (
                     <td key={idx}>
-                      <div className="w-full flex flex-row justify-start items-center">
+                      <div className="flex items-center">
                         <span
                           className={cn(
-                            "text-primary-black py-0.5 px-3 rounded-full",
-                            item.color && item.color,
-                            item.colorFn && item.colorFn(row.fields[item.key]),
+                            "py-0.5 px-3 rounded-full text-xs",
+                            item.color,
+                            item.colorFn?.(row.fields[item.key]),
                           )}
                         >
                           {row.fields[item.key]}
@@ -205,50 +189,69 @@ const TableData: FC<Props> = ({
                     </td>
                   ))}
 
-                {/* aksi */}
-                {aksi && (
-                  <td className={cn("hidden lg:table-cell")}>
-                    <div className="flex flex-row justify-start items-center gap-2">
-                      {/* update */}
-                      {!row.fields.disableAksi?.update && (
-                        <div
-                          className="tooltip"
-                          data-tip={
-                            labelButtonUpdate ? labelButtonUpdate : "ubah"
-                          }
+                {/* ================= AKSI COLUMN ================= */}
+                {(aksi || aksiDetail || aksiLink) && (
+                  <td className="text-center">
+                    <div className="flex justify-center items-center gap-2">
+                      {/* DETAIL */}
+                      {aksiDetail && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAksiDetail?.(row.fields.id);
+                          }}
+                          className="text-primary-purple hover:underline text-sm"
                         >
-                          <Link
-                            to={`/dashboard/${linkUpdate}/${row.fields.id}`}
-                            type="button"
-                            className="btn btn-info px-3 btn-sm "
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              // logic update
-                            }}
-                          >
-                            <Pencil className="w-3 h-3" />
-                          </Link>
-                        </div>
+                          Lihat
+                        </button>
                       )}
 
-                      {/* delete */}
-                      {handleShowModalDelete &&
-                        !row.fields.disableAksi?.delete && (
-                          <div className="tooltip" data-tip="hapus">
-                            <button
-                              type="button"
-                              className="btn btn-error px-3 btn-sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                // logic delete
-                                handleShowModalDelete &&
-                                  handleShowModalDelete(row.fields.id);
-                              }}
-                            >
-                              <Trash2Icon className="w-3 h-3" />
-                            </button>
-                          </div>
-                        )}
+                      {/* aksi link sm */}
+                      <div className={cn("lg:hidden", !aksiLink && "hidden")}>
+                        {" "}
+                        <div className="flex justify-end">
+                          {" "}
+                          <span
+                            className={cn(
+                              "text-xs text-primary-purple",
+                              aksiLink &&
+                                "group-hover:text-primary-white transition-colors duration-150 ease-in-out",
+                            )}
+                          >
+                            {" "}
+                            Lihat{" "}
+                          </span>{" "}
+                        </div>{" "}
+                      </div>
+
+                      {/* UPDATE */}
+                      {aksi && !row.fields.disableAksi?.update && (
+                        <Link
+                          key={row.fields.id}
+                          to={`/dashboard/${linkUpdate}/${row.fields.id}`}
+                          className="btn btn-info btn-sm tooltip font-normal"
+                          data-tip={labelButtonUpdate || "Ubah"}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </Link>
+                      )}
+
+                      {/* DELETE */}
+                      {aksi && !row.fields.disableAksi?.delete && (
+                        <button
+                          type="button"
+                          className="btn btn-error btn-sm tooltip font-normal"
+                          data-tip="hapus"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShowModalDelete?.(row.fields.id);
+                          }}
+                        >
+                          <Trash2Icon className="w-3 h-3" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 )}
@@ -257,10 +260,10 @@ const TableData: FC<Props> = ({
         </tbody>
       </table>
 
-      {/* empty data */}
+      {/* empy data */}
       {datas.length === 0 && (
-        <div className="w-full flex flex-row justify-center items-center my-12">
-          <p className="text-sm text-primary-black/80 font-semibold lg:text-base">
+        <div className="w-full flex justify-center items-center py-12">
+          <p className="text-sm font-semibold">
             {emptyMessage || "Tidak ada data"}
           </p>
         </div>

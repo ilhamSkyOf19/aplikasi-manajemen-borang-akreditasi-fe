@@ -8,6 +8,7 @@ import TableData from "../../../components/TableData";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
+import ModalKeteranganDokumen from "../../../components/modalComponents/ModalKeteranganDokumen";
 
 const index: FC = () => {
   // call use kelola pic
@@ -28,10 +29,14 @@ const index: FC = () => {
     handleDelete,
     isLoadingDelete,
     user,
-    dataModalDaftarPj,
+    isDataPicDetail,
     handleCloseModalDaftarPj,
     handleShowModalDaftarPj,
     modalDaftarPjRef,
+    handleCloseModalKeterangan,
+    handleShowModalKeterangan,
+    modalKeteranganRef,
+    handleAksiDetail,
   } = useKelolaPic();
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
@@ -82,8 +87,10 @@ const index: FC = () => {
                 ? "Halaman untuk verifikasi daftar kebutuhan dokumentasi dan penanggung jawab (PIC)"
                 : ""
           }
-          labelAdd="Tambah PIC"
-          linkAdd="/dashboard/kelola-pic/tambah-pic"
+          {...(user?.role === "kaprodi" && {
+            labelAdd: "Tambah PIC",
+            linkAdd: "/dashboard/kelola-pic/tambah-pic",
+          })}
         />
 
         <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
@@ -143,8 +150,8 @@ const index: FC = () => {
                         namaDokumen: item.kebutuhanDokumen.namaDokumen,
                       },
                     }))}
-                    aksiModal={true}
-                    handleModal={handleDetailPage}
+                    aksiLink={true}
+                    handleAksiLink={handleDetailPage}
                   />
                 </div>
 
@@ -159,8 +166,6 @@ const index: FC = () => {
                         fields: {
                           id: item.id,
                           namaDokumen: item.kebutuhanDokumen.namaDokumen,
-                          namaTimAkreditasi:
-                            item.timAkreditasi.namaTimAkreditasi,
                           status: item.status,
                           disableAksi:
                             user?.role === "kaprodi" &&
@@ -178,22 +183,30 @@ const index: FC = () => {
                       linkUpdate: "kelola-pic/ubah-pic",
                     })}
                     {...(user?.role === "wakil_dekan_1" && {
-                      aksi: true,
-                      linkUpdate:
-                        "verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic",
+                      aksiDetail: true,
+                      handleAksiDetail: handleAksiDetail,
                     })}
                     fieldAksi={[
                       {
-                        header: "PJ",
-                        label: "Lihat pj",
-                        size: 13.75,
+                        header: "Keterangan Dokumen",
+                        label: "Lihat keterangan",
+                        size: 17,
+
+                        handleAksiWithParams: (id: number) =>
+                          handleShowModalKeterangan(id),
+                      },
+                      {
+                        header: "PIC",
+                        label: "Lihat PIC",
+                        size: 17,
+
                         handleAksiWithParams: (id: number) =>
                           handleShowModalDaftarPj(id),
                       },
                       {
                         header: "Riwayat",
                         label: "Lihat riwayat",
-                        size: 13.75,
+                        size: 17,
                         handleAksiWithParams: (id: number) => handleRiwayat(id),
                       },
                     ]}
@@ -201,7 +214,7 @@ const index: FC = () => {
                       {
                         header: "Status",
                         key: "status",
-                        size: 13.75,
+                        size: 17,
 
                         colorFn: (status: string) =>
                           status === "menunggu"
@@ -230,13 +243,28 @@ const index: FC = () => {
         modalRef={modalDeleteRef}
       />
 
+      {/* modal daftar anggota */}
       <ModalDaftarAnggota
-        label="Daftar PJ"
+        label="Nama Tim"
         disableAksi={user?.role === "kaprodi"}
         modalRef={modalDaftarPjRef}
         handleCloseModal={handleCloseModalDaftarPj}
-        datas={dataModalDaftarPj?.data?.pj || []}
-        title={dataModalDaftarPj?.data?.kebutuhanDokumen.namaDokumen || ""}
+        datas={isDataPicDetail?.data?.pj || []}
+        title={isDataPicDetail?.data?.timAkreditasi.namaTimAkreditasi || ""}
+      />
+
+      {/* modal keterangan dokumen */}
+      <ModalKeteranganDokumen
+        modalRef={modalKeteranganRef}
+        handleCloseModal={handleCloseModalKeterangan}
+        datas={{
+          id: isDataPicDetail?.data?.kebutuhanDokumen?.id ?? 0,
+          namaDokumen:
+            isDataPicDetail?.data?.kebutuhanDokumen?.namaDokumen ?? "",
+          keterangan: isDataPicDetail?.data?.kebutuhanDokumen?.keterangan ?? "",
+          kriteriaDokumen: `C${isDataPicDetail?.data?.kebutuhanDokumen?.kriteria?.kriteria} - ${isDataPicDetail?.data?.kebutuhanDokumen?.kriteria?.namaKriteria}`,
+          pendekatanDokumen: `${isDataPicDetail?.data?.kebutuhanDokumen?.pendekatan?.tahap} - ${isDataPicDetail?.data?.kebutuhanDokumen?.pendekatan?.keterangan}`,
+        }}
       />
     </div>
   );

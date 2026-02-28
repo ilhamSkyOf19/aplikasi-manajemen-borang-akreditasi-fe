@@ -75,8 +75,8 @@ export class KriteriaValidation {
   // =============================
   static readonly UPDATE = z
     .object({
-      kriteria: this.numberSchema("Kriteria", 1, 30),
-      namaKriteria: this.stringUpdateSchema("Nama Kriteria", 1, 100),
+      kriteria: this.numberSchema("Kriteria", 1, 30).optional(),
+      namaKriteria: this.stringUpdateSchema("Nama Kriteria", 1, 100).optional(),
     })
     .strict() satisfies z.ZodType<UpdateKriteriaType>;
 }

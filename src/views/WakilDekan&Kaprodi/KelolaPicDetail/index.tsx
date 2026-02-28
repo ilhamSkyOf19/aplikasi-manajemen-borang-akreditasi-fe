@@ -7,6 +7,7 @@ import useKelolaPicDetail from "./useKelolaPicDetail";
 import FieldDataBasic from "../../../components/FieldDataBasic";
 import FieldDataAction from "../../../components/FieldDataAction";
 import FieldDataStatus from "../../../components/FieldStatus";
+import { cn } from "../../../utils/cn";
 
 const KelolaPicDetail: FC = () => {
   // call use
@@ -37,14 +38,14 @@ const KelolaPicDetail: FC = () => {
       </div>
 
       {/* content detail */}
-      <div className="card w-full flex flex-col justify-start items-start lg:w-1/2 bg-white p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
+      <div className="card w-full flex flex-col justify-start items-start lg:w-3/5 bg-white p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
         {/* nama dokumen */}
         <div className="w-full flex flex-col justify-start items-start pb-4 border-b border-primary-black/50">
           {isLoading ? (
             <div className="w-1/2 h-6 rounded-full skeleton" />
           ) : (
-            <h1 className="text-base">
-              {dataPic?.data?.kebutuhanDokumen.namaDokumen}
+            <h1 className="text-base lg:text-lg">
+              Data Kebutuhan Dokumentasi Dan PIC
             </h1>
           )}
         </div>
@@ -72,10 +73,34 @@ const KelolaPicDetail: FC = () => {
               </div>
             </>
           ) : (
-            <>
-              {/* kriteria */}
+            <div className="w-full flex flex-col justify-start items-start mt-4 gap-4">
+              {/* nama dokumen */}
               <FieldDataBasic
-                typeData="PIC"
+                typeData="Nama Dokumen"
+                value={dataPic?.data?.kebutuhanDokumen.namaDokumen ?? "-"}
+              />
+
+              {/* kriteria dokumen */}
+              <FieldDataBasic
+                typeData="Kriteria Dokumen"
+                value={`C${dataPic?.data?.kebutuhanDokumen?.kriteria?.kriteria ?? "-"} - ${dataPic?.data?.kebutuhanDokumen?.kriteria?.namaKriteria ?? "-"}`}
+              />
+
+              {/* pendekatan kriteria  */}
+              <FieldDataBasic
+                typeData="Pendekatan Kriteria Dokumen"
+                value={`${dataPic?.data?.kebutuhanDokumen?.pendekatan?.tahap ?? "-"} - ${dataPic?.data?.kebutuhanDokumen?.pendekatan?.keterangan ?? "-"}`}
+              />
+
+              {/* keterangan  dokumen  */}
+              <FieldDataBasic
+                typeData="Keterangan Dokumen"
+                value={dataPic?.data?.kebutuhanDokumen?.keterangan ?? "-"}
+              />
+
+              {/* nama tim */}
+              <FieldDataBasic
+                typeData="Nama Tim"
                 value={dataPic?.data?.timAkreditasi.namaTimAkreditasi ?? "-"}
               />
 
@@ -87,13 +112,37 @@ const KelolaPicDetail: FC = () => {
                 </span>
                 <span className="mx-1.5 text-xs lg:text-sm">:</span>
                 <div className="flex-3 flex flex-col justify-start items-start gap-1.5">
-                  {dataPic?.data?.pj.map((pj) => (
+                  {dataPic?.data?.pj.map((pj, index) => (
                     <div
                       key={pj.id}
-                      className="w-full flex flex-row justify-start items-start gap-1.5"
+                      className={cn(
+                        "w-full flex flex-row justify-start items-center",
+                      )}
                     >
-                      <span className="text-xs lg:text-sm font-medium">-</span>
-                      <span className="text-xs lg:text-sm">{pj.nama}</span>
+                      {/* nama */}
+                      <div className="flex flex-row justify-start items-start gap-4">
+                        {/* number */}
+                        <span className="text-xs lg:text-sm w-1">
+                          {index + 1}.
+                        </span>
+
+                        {/* nama */}
+                        <span className="text-xs lg:text-sm">{pj.nama}</span>
+                      </div>
+
+                      {/* aksi */}
+                      {user?.role === "wakil_dekan_1" && (
+                        <>
+                          <span className="text-sm font-semibold mx-4">-</span>
+
+                          <Link
+                            to={`/dashboard/kelola-user?search=${pj.email}`}
+                            className="text-xs text-primary-purple hover:underline lg:text-sm"
+                          >
+                            Lihat
+                          </Link>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -125,19 +174,30 @@ const KelolaPicDetail: FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="btn btn-sm"
+                  className="btn btn-sm lg:btn-md"
                 >
                   kembali
                 </button>
 
                 {user?.role === "wakil_dekan_1" && (
-                  <Link
-                    to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
-                    type="button"
-                    className="btn btn-info btn-sm"
-                  >
-                    revisi
-                  </Link>
+                  <>
+                    {/* setujui */}
+                    <button
+                      type="button"
+                      className="btn btn-success btn-sm lg:btn-md"
+                    >
+                      setujui
+                    </button>
+
+                    {/* revisi */}
+                    <Link
+                      to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
+                      type="button"
+                      className="btn btn-info btn-sm lg:btn-md"
+                    >
+                      revisi
+                    </Link>
+                  </>
                 )}
 
                 {user?.role === "kaprodi" &&
@@ -147,7 +207,7 @@ const KelolaPicDetail: FC = () => {
                       <Link
                         to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
                         type="button"
-                        className="btn btn-info btn-sm"
+                        className="btn btn-info btn-sm lg:btn-md"
                       >
                         ubah
                       </Link>
@@ -158,14 +218,14 @@ const KelolaPicDetail: FC = () => {
                         onClick={() =>
                           handleShowModalDelete(dataPic?.data?.id ?? 0)
                         }
-                        className="btn btn-error btn-sm"
+                        className="btn btn-error btn-sm lg:btn-md"
                       >
                         delete
                       </button>
                     </>
                   )}
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
