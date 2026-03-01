@@ -1,10 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { UpdateStatusType } from "../../../types/constanst.type";
+import type {
+  JenisRiwayat,
+  UpdateStatusType,
+} from "../../../types/constanst.type";
 import { StatusValidation } from "../../../validations/status.validation";
 import { useEffect } from "react";
 
-const useModalStatusDisetujui = () => {
+const useModalStatusDisetujui = (params: { jenisRiwayat: JenisRiwayat }) => {
+  const { jenisRiwayat } = params;
   // use form
   const {
     register,
@@ -20,8 +24,9 @@ const useModalStatusDisetujui = () => {
     reset({
       keterangan: "pengajuan telah disetujui",
       status: "disetujui",
+      jenisRiwayat: jenisRiwayat === "pic" ? "pic" : "dokumen_borang",
     });
-  }, []);
+  }, [jenisRiwayat]);
   return { register, errors, handleSubmit };
 };
 

@@ -1,5 +1,8 @@
 import { type FC, type RefObject } from "react";
-import type { UpdateStatusType } from "../../../types/constanst.type";
+import type {
+  JenisRiwayat,
+  UpdateStatusType,
+} from "../../../types/constanst.type";
 import useModalStatusDisetujui from "./useModalStatusDisetujui";
 import { cn } from "../../../utils/cn";
 import InputFieldNonIconTextArea from "../../inputComponents/InputFieldNonIconTextArea";
@@ -8,15 +11,19 @@ type Props = {
   handleCloseModal: () => void;
   handleAksi: (data: UpdateStatusType) => void;
   isLoading?: boolean;
+  jenisRiwayat: JenisRiwayat;
 };
 const ModalStatusDiSetujui: FC<Props> = ({
   handleCloseModal,
   modalRef,
   handleAksi,
   isLoading,
+  jenisRiwayat,
 }) => {
   // use function
-  const { errors, register, handleSubmit } = useModalStatusDisetujui();
+  const { errors, register, handleSubmit } = useModalStatusDisetujui({
+    jenisRiwayat,
+  });
 
   return (
     <dialog
@@ -35,14 +42,25 @@ const ModalStatusDiSetujui: FC<Props> = ({
           onSubmit={handleSubmit(handleAksi)}
           className="w-full flex flex-col justify-start items-start mt-4 gap-4"
         >
-          {/* input choose status */}
+          {/* status */}
           <div className="w-full flex flex-col justify-start items-start gap-2">
             {/* label */}
             <p className="text-sm font-medium">Status</p>
 
             {/* status */}
-            <p className="ml-6 px-3 py-0.5 bg-success rounded-full text-xs">
+            <p className="ml-6 px-3 py-0.5 bg-success rounded-full text-xs lg:text-sm">
               disetujui
+            </p>
+          </div>
+
+          {/* jenis */}
+          <div className="w-full flex flex-col justify-start items-start gap-2">
+            {/* label */}
+            <p className="text-sm font-medium">Jenis Data</p>
+
+            {/* status */}
+            <p className="ml-6 text-xs lg:text-sm">
+              {jenisRiwayat === "pic" ? "Kebutuhan Dokumentasi & PIC" : "-"}
             </p>
           </div>
 

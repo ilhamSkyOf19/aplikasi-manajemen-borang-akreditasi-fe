@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import loadingWhite from "../../../assets/animations/loading-white.svg";
+import { cn } from "../../../utils/cn";
 
 type Props = {
   isLoading: boolean;
@@ -8,15 +8,15 @@ type Props = {
 const ButtonSubmit: FC<Props> = ({ label, isLoading }: Props) => {
   return (
     <button
-      className="w-full h-10 bg-primary-purple rounded-md flex justify-center items-center overflow-hidden relative before:absolute before:inset-0 before:bg-primary-black/20 before:opacity-0 before:transition-all before:duration-300 before:ease-in-out hover:before:opacity-100"
+      className={cn(
+        "btn btn-sm lg:btn-md bg-primary-purple relative overflow-hidden before:content-[''] before:absolute before:inset-0 before:bg-primary-black/20 before:opacity-0 hover:before:opacity-100 before:transition-all before:duration-300 before:ease-in-out",
+      )}
       type="submit"
     >
       {isLoading ? (
-        <img src={loadingWhite} alt="loading white" className="w-7 h-7" />
+        <span className="loading loading-spinner loading-xs text-primary-white"></span>
       ) : (
-        <span className="text-white text-sm font-medium uppercase">
-          {label || "Submit"}
-        </span>
+        <span className="text-white">{label || "Simpan"}</span>
       )}
     </button>
   );

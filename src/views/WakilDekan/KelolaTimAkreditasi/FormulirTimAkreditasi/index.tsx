@@ -114,7 +114,7 @@ const FormulirTimAkreditasi: FC = () => {
               />
 
               {/* action */}
-              <div className="w-full mt-10 flex flex-row justify-center items-center gap-4">
+              <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
                 <ButtonBackBox label="KEMBALI" />
                 {/* button submit */}

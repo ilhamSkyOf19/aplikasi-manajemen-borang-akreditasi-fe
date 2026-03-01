@@ -17,17 +17,25 @@ type Props = {
 };
 const RiwayatPic: FC<Props> = () => {
   // call use
-  const { pathname, dataRiwayat, isLoadingRiwayat, user } = useRiwayat();
+  const { pathname, dataRiwayat, isLoadingRiwayat, user, id } = useRiwayat();
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
       <div className="w-full flex flex-col justify-start items-start">
         {/* title page */}
         <BreadCrumbs
           pathname={pathname}
-          link={[pathname.split("/").slice(0, -1).join("/")]}
+          link={
+            pathname ===
+            "/dashboard/verifikasi-kebutuhan-dokumentasi-pic/riwayat"
+              ? [pathname.split("/").slice(0, -1).join("/")]
+              : [
+                  pathname.split("/").slice(0, -2).join("/"),
+                  `${pathname.split("/").slice(0, -1).join("/")}/${id}`,
+                ]
+          }
         />
 
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-4 p-4 rounded-lg">
+        <div className="card w-full bg-primary-white flex flex-col justify-start items-start mt-4 p-4 rounded-lg">
           {isLoadingRiwayat ? (
             <div className="w-full flex flex-col justify-start items-start">
               {/* title skeleton */}
@@ -77,10 +85,6 @@ const RiwayatPic: FC<Props> = () => {
               <div className="w-full flex flex-row justify-start items-start gap-2 pb-3 border-b border-primary-black/50">
                 <History className="size-6" />
                 <h2 className="text-base lg:text-xl font-semibold">Riwayat</h2>
-                <span className="text-base lg:text-xl font-semibold">-</span>
-                <span className="text-base lg:text-xl font-semibold">
-                  {dataRiwayat?.data?.[0].highlightDataEmpy}
-                </span>
               </div>
 
               {/* tanggal di buat  */}
@@ -101,7 +105,7 @@ const RiwayatPic: FC<Props> = () => {
                       dataRiwayat?.data?.[0].createdData ?? "",
                     )}
                     sizeSmall
-                    medium
+                    normal
                   />
                 </div>
               </div>
@@ -119,11 +123,13 @@ const RiwayatPic: FC<Props> = () => {
                 {/* value */}
                 <div className="w-full flex flex-row justify-start items-start gap-2">
                   <div className="w-full flex flex-col gap-4 justify-start items-start pt-1.5 lg:pt-1">
-                    {dataRiwayat?.data?.[0].id === 0 ? (
-                      <div className="w-full flex flex-row justify-start items-start">
-                        <span className="text-xs lg:text-sm">
-                          tidak ada revisi
-                        </span>
+                    {dataRiwayat?.data?.[0].id === 0 ||
+                    (dataRiwayat?.data?.length === 1 &&
+                      dataRiwayat.data?.map(
+                        (item) => item.status === "disetujui",
+                      )) ? (
+                      <div className="w-full flex flex-row justify-start items-start gap-2 ml-6 lg:ml-10">
+                        <FieldData label="Tidak ada revisi" sizeSmall normal />
                       </div>
                     ) : (
                       dataRiwayat?.data
@@ -305,7 +311,7 @@ const RiwayatPic: FC<Props> = () => {
                       <FieldData
                         label={formatTanggalPanjang(item.createdAt)}
                         sizeSmall
-                        medium
+                        normal
                       />
                     </div>
                   </div>

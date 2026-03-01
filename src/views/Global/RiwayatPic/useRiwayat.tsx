@@ -21,7 +21,7 @@ const useRiwayat = () => {
   // pathname
   const pathname = useLocation().pathname.split("/").slice(0, -1).join("/");
 
-  return { pathname, dataRiwayat, isLoadingRiwayat, user };
+  return { pathname, dataRiwayat, isLoadingRiwayat, user, id };
 };
 
 export default useRiwayat;

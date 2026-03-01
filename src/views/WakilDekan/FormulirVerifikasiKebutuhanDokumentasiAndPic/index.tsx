@@ -1,6 +1,7 @@
 import { type FC } from "react";
 import useFormulirVerifikasiKebutuhanDokumentasiAndPic from "./useFormulirVerifikasiKebutuhanDokumentasiAndPic";
 import BreadCrumbs from "../../../components/BreadCrumbs";
+import TitlePage from "../../../components/TitlePage";
 
 const FormulirVerfikasiKebutuhanDokumentasiAndPic: FC = () => {
   // call use
@@ -17,6 +18,13 @@ const FormulirVerfikasiKebutuhanDokumentasiAndPic: FC = () => {
             `${pathname.split("/").slice(0, -1).join("/")}/${id}`,
           ]}
         />
+        <div className="card w-full flex flex-col justify-start items-start lg:w-1/2 bg-white p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
+          {/* title page */}
+          <TitlePage
+            bigTitle={"Formulir Revisi Kebutuhan Dokumentasi dan PIC"}
+            smallTitle={`Halaman untuk melakukan verifikasi kebutuhan dokumentasi dan PIC.`}
+          />
+        </div>
       </div>
     </div>
   );

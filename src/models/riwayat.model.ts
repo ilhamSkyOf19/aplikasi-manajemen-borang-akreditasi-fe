@@ -11,15 +11,11 @@ export interface IRiwayat {
   keterangan: string;
   createdData?: Date | null;
   highlightDataEmpy?: string;
-  kebutuhanDokumen?: Pick<
-    IKebutuhanDokumen,
-    "id" | "namaDokumen" | "status"
-  > | null;
   pic?:
     | (Pick<IPic, "id" | "status"> & {
         kebutuhanDokumen: Pick<IKebutuhanDokumen, "id" | "namaDokumen">;
         timAkreditasi: Pick<ITimAkreditasi, "id" | "namaTimAkreditasi">;
-        pj: PayloadUserType[];
+        pj: Pick<PayloadUserType, "id" | "nama">[];
       })
     | null;
   createdAt: Date;

@@ -282,18 +282,66 @@ const route = createBrowserRouter([
               </RoleGuard>
             ),
           },
+          {
+            path: "detail/:id",
+
+            loader: async ({ params }) => {
+              if (!params.id || isNaN(Number(params.id))) {
+                return redirect(
+                  "/dashboard/verifikasi-kebutuhan-dokumentasi-pic",
+                );
+              }
+            },
+            element: <KelolaPicDetailPage />,
+          },
+
+          // pic riwayat wakil dekan
+          {
+            path: "riwayat/:id",
+
+            loader: async ({ params }) => {
+              if (!params.id || isNaN(Number(params.id))) {
+                return redirect(
+                  "/dashboard/verifikasi-kebutuhan-dokumentasi-pic",
+                );
+              }
+            },
+            element: (
+              <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+                <RiwayatPage
+                  title="Riwayat PIC"
+                  content="Riwayat PIC"
+                  bigTitle="Riwayat PIC"
+                  smallTitle="Halaman daftar riwayat PIC"
+                  type="pic"
+                />
+              </RoleGuard>
+            ),
+          },
+          // pic riwayat wakil dekan
+          {
+            path: "detail/riwayat/:id",
+
+            loader: async ({ params }) => {
+              if (!params.id || isNaN(Number(params.id))) {
+                return redirect(
+                  "/dashboard/verifikasi-kebutuhan-dokumentasi-pic",
+                );
+              }
+            },
+            element: (
+              <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+                <RiwayatPage
+                  title="Riwayat PIC"
+                  content="Riwayat PIC"
+                  bigTitle="Riwayat PIC"
+                  smallTitle="Halaman daftar riwayat PIC"
+                  type="pic"
+                />
+              </RoleGuard>
+            ),
+          },
         ],
-      },
-
-      {
-        path: "verifikasi-kebutuhan-dokumentasi-pic/detail/:id",
-
-        loader: async ({ params }) => {
-          if (!params.id || isNaN(Number(params.id))) {
-            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
-          }
-        },
-        element: <KelolaPicDetailPage />,
       },
 
       // pic riwayat kaprodi
@@ -307,28 +355,6 @@ const route = createBrowserRouter([
         },
         element: (
           <RoleGuard allowedRoles={["kaprodi"]}>
-            <RiwayatPage
-              title="Riwayat PIC"
-              content="Riwayat PIC"
-              bigTitle="Riwayat PIC"
-              smallTitle="Halaman daftar riwayat PIC"
-              type="pic"
-            />
-          </RoleGuard>
-        ),
-      },
-
-      // pic riwayat wakil dekan
-      {
-        path: "verifikasi-kebutuhan-dokumentasi-pic/riwayat/:id",
-
-        loader: async ({ params }) => {
-          if (!params.id || isNaN(Number(params.id))) {
-            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
-          }
-        },
-        element: (
-          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
             <RiwayatPage
               title="Riwayat PIC"
               content="Riwayat PIC"

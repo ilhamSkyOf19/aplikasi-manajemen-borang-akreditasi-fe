@@ -53,9 +53,9 @@ const ModalDelete: FC<Props> = ({
             }}
           >
             {isLoadingDelete ? (
-              <span className="loading loading-spinner text-primary-white"></span>
+              <span className="loading loading-spinner text-primary-white loading-xs"></span>
             ) : (
-              <span className="text-white text-sm font-medium">Hapus</span>
+              <span className="text-white">Hapus</span>
             )}
           </button>
         </div>

@@ -5,6 +5,7 @@ import { PicService } from "../../../services/pic.service";
 import { useAuthStore } from "../../../stores/authStore";
 import { useRef } from "react";
 import type { UpdateStatusType } from "../../../types/constanst.type";
+import { RiwayatService } from "../../../services/riwayat.service";
 
 const useKelolaPicDetail = () => {
   // query client
@@ -94,7 +95,7 @@ const useKelolaPicDetail = () => {
   const { mutateAsync: mutateUpdateStatus, isPending: isPendingUpdateStatus } =
     useMutation({
       mutationFn: (data: UpdateStatusType) =>
-        PicService.updateStatus(+id, data),
+        RiwayatService.updateStatus(+id, data),
       onSuccess: (data) => {
         console.log(data);
 
@@ -119,7 +120,7 @@ const useKelolaPicDetail = () => {
   // handle riwayat
   const handleRiwayat = () => {
     return navigate(
-      `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/riwayat/${dataPic?.data?.id}`,
+      `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/detail/riwayat/${dataPic?.data?.id}`,
     );
   };
 

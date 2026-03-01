@@ -12,7 +12,9 @@ const FieldDataBasic: FC<FieldDataBasicProps> = ({ typeData, value }) => {
       {/* type */}
       <span className="text-xs flex-2 lg:text-sm">{typeData}</span>
       <span className="mx-1.5 text-xs lg:text-sm">:</span>
-      <span className="text-xs flex-3 lg:text-sm">{value}</span>
+      <div className="flex-3 flex flex-row justify-start items-start">
+        <span className="text-xs lg:text-sm">{value}</span>
+      </div>
     </div>
   );
 };

@@ -181,7 +181,7 @@ const KelolaPicDetail: FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="btn btn-sm"
+                  className="btn btn-sm lg:btn-md"
                 >
                   kembali
                 </button>
@@ -193,7 +193,7 @@ const KelolaPicDetail: FC = () => {
                         {/* setujui */}
                         <button
                           type="button"
-                          className="btn btn-success btn-sm"
+                          className="btn btn-success btn-sm lg:btn-md"
                           onClick={() => handleShowModalUpdate()}
                         >
                           setujui
@@ -205,7 +205,7 @@ const KelolaPicDetail: FC = () => {
                     <Link
                       to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/detail/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
                       type="button"
-                      className="btn btn-info btn-sm"
+                      className="btn btn-info btn-sm lg:btn-md"
                     >
                       revisi
                     </Link>
@@ -219,7 +219,7 @@ const KelolaPicDetail: FC = () => {
                       <Link
                         to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
                         type="button"
-                        className="btn btn-info btn-sm"
+                        className="btn btn-info btn-sm lg:btn-md"
                       >
                         ubah
                       </Link>
@@ -230,7 +230,7 @@ const KelolaPicDetail: FC = () => {
                         onClick={() =>
                           handleShowModalDelete(dataPic?.data?.id ?? 0)
                         }
-                        className="btn btn-error btn-sm"
+                        className="btn btn-error btn-sm lg:btn-md"
                       >
                         delete
                       </button>
@@ -253,6 +253,7 @@ const KelolaPicDetail: FC = () => {
       {/* modal status */}
       <ModalStatusDiSetujui
         modalRef={modalUpdateRef}
+        jenisRiwayat="pic"
         handleAksi={handleUpdateStatus}
         handleCloseModal={handleCloseModalUpdate}
         isLoading={isPendingUpdateStatus}

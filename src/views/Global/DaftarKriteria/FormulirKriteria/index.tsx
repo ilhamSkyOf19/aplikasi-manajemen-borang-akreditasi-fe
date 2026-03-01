@@ -78,7 +78,7 @@ const FormulirKriteria: FC = () => {
               />
 
               {/* action */}
-              <div className="w-full mt-6 flex flex-row justify-center items-center gap-4">
+              <div className="w-full mt-6 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
                 <ButtonBackBox label="KEMBALI" />
                 {/* button submit */}
