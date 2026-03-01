@@ -243,9 +243,9 @@ const index: FC = () => {
         modalRef={modalDeleteRef}
       />
 
-      {/* modal daftar anggota */}
+      {/* modal daftar pic */}
       <ModalDaftarAnggota
-        label="Nama Tim"
+        label="Daftar PIC"
         disableAksi={user?.role === "kaprodi"}
         modalRef={modalDaftarPjRef}
         handleCloseModal={handleCloseModalDaftarPj}

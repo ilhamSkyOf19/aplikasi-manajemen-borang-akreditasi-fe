@@ -44,7 +44,7 @@ const KelolaPicDetail: FC = () => {
           {isLoading ? (
             <div className="w-1/2 h-6 rounded-full skeleton" />
           ) : (
-            <h1 className="text-base lg:text-lg">
+            <h1 className="text-base lg:text-lg font-semibold">
               Data Kebutuhan Dokumentasi Dan PIC
             </h1>
           )}
@@ -73,7 +73,7 @@ const KelolaPicDetail: FC = () => {
               </div>
             </>
           ) : (
-            <div className="w-full flex flex-col justify-start items-start mt-4 gap-4">
+            <div className="w-full flex flex-col justify-start items-start mt-4 gap-5 lg:gap-4">
               {/* nama dokumen */}
               <FieldDataBasic
                 typeData="Nama Dokumen"
@@ -111,40 +111,41 @@ const KelolaPicDetail: FC = () => {
                   Penanggung Jawab
                 </span>
                 <span className="mx-1.5 text-xs lg:text-sm">:</span>
-                <div className="flex-3 flex flex-col justify-start items-start gap-1.5">
-                  {dataPic?.data?.pj.map((pj, index) => (
-                    <div
-                      key={pj.id}
-                      className={cn(
-                        "w-full flex flex-row justify-start items-center",
-                      )}
-                    >
-                      {/* nama */}
-                      <div className="flex flex-row justify-start items-start gap-4">
-                        {/* number */}
-                        <span className="text-xs lg:text-sm w-1">
-                          {index + 1}.
-                        </span>
 
-                        {/* nama */}
-                        <span className="text-xs lg:text-sm">{pj.nama}</span>
-                      </div>
+                <div className="flex-3">
+                  <ol className="pl-4 space-y-3 lg:space-y-2 list-decimal w-full marker:text-xs lg:marker:text-sm">
+                    {dataPic?.data?.pj.map((pj) => (
+                      <li key={pj.id} className="w-full">
+                        <div
+                          className={cn(
+                            "w-full flex flex-row justify-start items-center ml-1",
+                          )}
+                        >
+                          {/* nama */}
+                          <div className="flex flex-row justify-start items-start gap-3">
+                            <span className="text-xs lg:text-sm">
+                              {pj.nama}
+                              {/* aksi */}
+                              {user?.role === "wakil_dekan_1" && (
+                                <>
+                                  <span className="text-xs font-semibold mx-2">
+                                    -
+                                  </span>
 
-                      {/* aksi */}
-                      {user?.role === "wakil_dekan_1" && (
-                        <>
-                          <span className="text-sm font-semibold mx-4">-</span>
-
-                          <Link
-                            to={`/dashboard/kelola-user?search=${pj.email}`}
-                            className="text-xs text-primary-purple hover:underline lg:text-sm"
-                          >
-                            Lihat
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  ))}
+                                  <Link
+                                    to={`/dashboard/kelola-user?search=${pj.email}`}
+                                    className="text-xs text-primary-purple hover:underline lg:text-sm"
+                                  >
+                                    Lihat
+                                  </Link>
+                                </>
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
                 </div>
               </div>
               {/* Riwayat */}
@@ -174,7 +175,7 @@ const KelolaPicDetail: FC = () => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="btn btn-sm lg:btn-md"
+                  className="btn btn-sm"
                 >
                   kembali
                 </button>
@@ -182,10 +183,7 @@ const KelolaPicDetail: FC = () => {
                 {user?.role === "wakil_dekan_1" && (
                   <>
                     {/* setujui */}
-                    <button
-                      type="button"
-                      className="btn btn-success btn-sm lg:btn-md"
-                    >
+                    <button type="button" className="btn btn-success btn-sm">
                       setujui
                     </button>
 
@@ -193,7 +191,7 @@ const KelolaPicDetail: FC = () => {
                     <Link
                       to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
                       type="button"
-                      className="btn btn-info btn-sm lg:btn-md"
+                      className="btn btn-info btn-sm"
                     >
                       revisi
                     </Link>
@@ -207,7 +205,7 @@ const KelolaPicDetail: FC = () => {
                       <Link
                         to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
                         type="button"
-                        className="btn btn-info btn-sm lg:btn-md"
+                        className="btn btn-info btn-sm"
                       >
                         ubah
                       </Link>
@@ -218,7 +216,7 @@ const KelolaPicDetail: FC = () => {
                         onClick={() =>
                           handleShowModalDelete(dataPic?.data?.id ?? 0)
                         }
-                        className="btn btn-error btn-sm lg:btn-md"
+                        className="btn btn-error btn-sm"
                       >
                         delete
                       </button>

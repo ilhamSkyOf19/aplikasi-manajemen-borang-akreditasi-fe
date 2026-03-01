@@ -9,13 +9,11 @@ const ButtonBackBox: FC<Props> = ({ label }: Props) => {
   const navigate = useNavigate();
   return (
     <button
-      className="w-full h-10 bg-gray-300/70 rounded-md flex justify-center items-center hover:bg-gray-300 transition-all duration-300 ease-in-out"
+      className="btn btn-sm lg:btn-md"
       type="button"
       onClick={() => navigate(-1)}
     >
-      <span className="text-primary-black text-sm font-medium uppercase">
-        {label || "KEMBALI"}
-      </span>
+      {label ? label : "Kembali"}
     </button>
   );
 };

@@ -9,7 +9,7 @@ type Props = {
   datas: PayloadUserType[];
   title: string;
   disableAksi?: boolean;
-  label?: string;
+  label: string;
 };
 const ModalDaftarAnggota: FC<Props> = ({
   handleCloseModal,
@@ -18,6 +18,7 @@ const ModalDaftarAnggota: FC<Props> = ({
   title,
   datas,
   disableAksi,
+  label,
 }) => {
   return (
     <dialog
@@ -34,12 +35,12 @@ const ModalDaftarAnggota: FC<Props> = ({
       >
         {/* icon alert */}
         <div className="w-full pb-2 border-b border-primary-black">
-          <h3 className="font-semibold text-base lg:text-lg">Daftar Anggota</h3>
+          <h3 className="font-semibold text-base lg:text-lg">{label}</h3>
         </div>
 
         {/* nama tim akreditasi */}
         <div className="flex flex-col justify-start items-start mt-4">
-          <h3 className="text-base font-semibold">Nama Tim Akreditasi</h3>
+          <h3 className="text-sm font-semibold">Nama Tim Akreditasi</h3>
 
           <div className="flex flex-row justify-start items-start gap-2 ml-6 mt-2">
             <span className="text-sm">-</span>
@@ -48,43 +49,30 @@ const ModalDaftarAnggota: FC<Props> = ({
         </div>
 
         <div className="flex flex-col justify-start items-start mt-4">
-          <h3 className="text-base font-semibold">Nama Tim Akreditasi</h3>
+          <h3 className="text-sm font-semibold">Nama Tim Akreditasi</h3>
 
           <div className="flex flex-row justify-start items-start gap-2 ml-6 mt-2">
-            <div className="flex flex-col justify-start items-start gap-2">
+            <ol className="list-decimal pl-5 flex flex-col gap-2">
               {datas.map((item, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    "w-full flex flex-row justify-start items-center gap-6",
-                    index > 0 && "pt-2",
-                  )}
-                >
-                  {/* nama */}
-                  <div className="flex flex-row justify-start items-start gap-4">
-                    {/* number */}
-                    <span className="text-sm">{index + 1}.</span>
-
-                    {/* nama */}
+                <li key={index}>
+                  <div className="flex items-center gap-6">
                     <span className="text-sm">{item.nama}</span>
+
+                    {!disableAksi && (
+                      <>
+                        <span className="text-sm font-semibold">-</span>
+                        <Link
+                          to={`/dashboard/kelola-user?search=${item.email}`}
+                          className="text-sm text-primary-purple hover:underline"
+                        >
+                          Lihat
+                        </Link>
+                      </>
+                    )}
                   </div>
-
-                  {/* aksi */}
-                  {!disableAksi && (
-                    <>
-                      <span className="text-sm font-semibold">-</span>
-
-                      <Link
-                        to={`/dashboard/kelola-user?search=${item.email}`}
-                        className="text-sm text-primary-purple hover:underline"
-                      >
-                        Lihat
-                      </Link>
-                    </>
-                  )}
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </div>
 

@@ -7,7 +7,7 @@ import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import type { ResponsePicType } from "../../../models/pic.model";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
 
 const useKelolaPic = () => {
@@ -117,35 +117,15 @@ const useKelolaPic = () => {
     active: false,
   });
 
-  const modalDaftarPjRef = useRef<HTMLDialogElement>(null);
-
-  const handleShowModalDaftarPj = useCallback(
-    (id: number) => {
-      if (!dataPic?.data?.data.length) return;
-
-      const findData = dataPic.data.data.find((item) => item.id === id);
-      if (!findData) return;
-
-      setIsDataPicDetail({
-        data: findData,
-        active: true,
-      });
-
-      modalDaftarPjRef.current?.showModal();
-    },
-    [dataPic, setIsDataPicDetail],
-  );
-
-  const handleCloseModalDaftarPj = useCallback(() => {
-    modalDaftarPjRef.current?.close();
-
-    setTimeout(() => {
-      setIsDataPicDetail({
-        data: null,
-        active: false,
-      });
-    }, 200);
-  }, [setIsDataPicDetail]);
+  // use modal daftar pj
+  const {
+    handleCloseModalDetail: handleCloseModalDaftarPj,
+    handleShowModalDetail: handleShowModalDaftarPj,
+    modalRef: modalDaftarPjRef,
+  } = useHandleModalDataDetail<ResponsePicType>({
+    dataList: dataPic?.data?.data,
+    setIsShowModal: setIsDataPicDetail,
+  });
 
   // use modal data detail
   const {

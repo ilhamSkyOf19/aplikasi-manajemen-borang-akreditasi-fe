@@ -4,7 +4,6 @@ import useKebutuhanDokumentasiDetail from "./useKebutuhanDokumentasiDetail";
 import { Link } from "react-router-dom";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
-import ModalRiwayat from "../../../components/modalComponents/ModalRiwayat";
 import FieldDataStatus from "../../../components/FieldStatus";
 import FieldDataAction from "../../../components/FieldDataAction";
 import FieldDataBasic from "../../../components/FieldDataBasic";
@@ -21,10 +20,6 @@ const KebutuhanDokumentasiDetail: FC = () => {
     modalDeleteRef,
     handleCloseModalDelete,
     navigate,
-    handleCloseModalRiwayat,
-    handleShowModalRiwayat,
-    modalRiwayatRef,
-    idRiwayat,
   } = useKebutuhanDokumentasiDetail();
 
   return (
@@ -90,7 +85,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
               <FieldDataAction
                 typeData="Riwayat"
                 label="Lihat riwayat"
-                action={handleShowModalRiwayat}
+                action={() => {}}
               />
 
               {/* tanggal buat */}
@@ -151,13 +146,6 @@ const KebutuhanDokumentasiDetail: FC = () => {
         isLoadingDelete={isPendingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
-      />
-
-      {/* modal riwayat */}
-      <ModalRiwayat
-        id={idRiwayat}
-        modalRef={modalRiwayatRef}
-        handleCloseModal={handleCloseModalRiwayat}
       />
     </div>
   );

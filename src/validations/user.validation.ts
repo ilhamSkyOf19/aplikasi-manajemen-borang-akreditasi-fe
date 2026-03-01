@@ -18,7 +18,10 @@ export class UserValidation {
       .trim()
       .min(min, `${field} minimal ${min} karakter`)
       .max(max, `${field} maksimal ${max} karakter`)
-      .regex(/^[A-Za-z\s]+$/, `${field} hanya boleh berisi huruf`);
+      .regex(
+        /^[A-Za-z\s.,]+$/,
+        `${field} hanya boleh berisi huruf, spasi, titik dan koma`,
+      );
   }
 
   // only char schema update
@@ -37,7 +40,7 @@ export class UserValidation {
           if (!val) return true; // kalau undefined → lolos
           if (val.length < min) return false;
           if (val.length > max) return false;
-          if (!/^[A-Za-z\s]+$/.test(val)) return false;
+          if (!/^[A-Za-z\s.,]+$/.test(val)) return false;
           return true;
         },
         {

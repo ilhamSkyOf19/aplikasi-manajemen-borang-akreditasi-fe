@@ -73,7 +73,7 @@ type FieldDataProps = {
 const FieldData: FC<FieldDataProps> = ({ typeData, value }) => {
   return (
     <div className="flex flex-col justify-start items-start mt-4">
-      <h3 className="text-base font-semibold">{typeData}</h3>
+      <h3 className="text-sm font-semibold">{typeData}</h3>
 
       <div className="flex flex-row justify-start items-start gap-2 ml-6 mt-2">
         <span className="text-sm">-</span>
