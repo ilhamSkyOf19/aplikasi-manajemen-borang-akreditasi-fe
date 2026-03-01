@@ -59,25 +59,23 @@ const ModalDataDetail: FC<Props> = ({
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-6">
           {/* button close */}
-          <button className="btn" onClick={() => handleCloseModal()}>
-            <span className="text-xs lg:text-sm">Close</span>
+          <button className="btn btn-sm" onClick={() => handleCloseModal()}>
+            tutup
           </button>
 
           {/* button update */}
-          <Link to={linkUpdate} type="button" className="btn btn-info">
-            <span className="text-xs lg:text-sm text-primary-white">Ubah</span>
+          <Link to={linkUpdate} type="button" className="btn btn-info btn-sm">
+            ubah
           </Link>
 
           {/* button delete */}
           {disableDelete !== true && (
             <button
               type="button"
-              className="btn btn-error"
+              className="btn btn-error btn-sm"
               onClick={() => handleShowModalDelete(isShowModal.id)}
             >
-              <span className="text-xs lg:text-sm text-primary-white">
-                Hapus
-              </span>
+              hapus
             </button>
           )}
         </div>
@@ -116,26 +114,21 @@ const FieldDataModalList: FC<FieldDataModalListProps> = ({
       {/* type */}
       <span className="text-xs flex-2 lg:text-sm">{typeData}</span>
       <span className="mx-1.5 text-xs lg:text-sm">:</span>
-      <ol className="flex-3 list-decimal">
-        {values.length > 0 ? (
-          values.map((item, index) => (
-            <li
-              key={index}
-              className="flex flex-row justify-start items-start gap-1"
-            >
-              {/* number */}
-              <span className="text-xs lg:text-sm">{index + 1}.</span>
-
-              {/* label */}
-              <span className="text-xs lg:text-sm">{item}</span>
-            </li>
-          ))
-        ) : (
-          <li className="flex flex-row justify-start items-start gap-1">
-            <span className="text-xs lg:text-sm">-</span>
-          </li>
-        )}
-      </ol>
+      <div className="flex-3">
+        <ol className="list-decimal pl-5 flex flex-col gap-2 marker:text-xs">
+          {values.length > 0 ? (
+            values.map((item, index) => (
+              <li key={index}>
+                <div className="flex items-center gap-6 ml-1">
+                  <span className="text-xs">{item}</span>
+                </div>
+              </li>
+            ))
+          ) : (
+            <span className="text-sm">-</span>
+          )}
+        </ol>
+      </div>
     </div>
   );
 };

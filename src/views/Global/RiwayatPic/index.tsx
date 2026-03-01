@@ -43,25 +43,19 @@ const RiwayatPic: FC<Props> = () => {
               <div className="w-full flex flex-col justify-start items-start gap-4 mt-6">
                 <div className="w-1/4 h-4 lg:h-5 skeleton rounded-full" />
                 {Array.from({ length: 1 }, (_, i) => (
-                  <div className="w-full flex flex-col justify-start items-start gap-2">
-                    <div
-                      key={i}
-                      className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-6 lg:ml-10 "
-                    />
+                  <div
+                    key={i}
+                    className="w-full flex flex-col justify-start items-start gap-2"
+                  >
+                    <div className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-6 lg:ml-10 " />
 
                     {Array.from({ length: 5 }, (_, i) => (
                       <div
                         key={i}
                         className="w-full flex flex-col justify-start gap-2 mt-2"
                       >
-                        <div
-                          key={i}
-                          className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-20 lg:ml-24"
-                        />
-                        <div
-                          key={i}
-                          className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-30 lg:ml-38 mt-2"
-                        />
+                        <div className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-20 lg:ml-24" />
+                        <div className="w-1/2 lg:w-1/4 h-4 lg:h-5 skeleton rounded-full ml-30 lg:ml-38 mt-2" />
                       </div>
                     ))}
                   </div>

@@ -265,17 +265,24 @@ const route = createBrowserRouter([
       },
       // formulir kebutuhan dokumentasi & pic
       {
-        path: "verifikasi-kebutuhan-dokumentasi-pic/formulir-verifikasi-kebutuhan-dokumentasi-pic/:id",
-        loader: async ({ params }) => {
-          if (!params.id || isNaN(Number(params.id))) {
-            return redirect("/dashboard/verifikasi-kebutuhan-dokumentasi-pic");
-          }
-        },
-        element: (
-          <RoleGuard allowedRoles={["wakil_dekan_1"]}>
-            <FormulirVerifikasiKebutuhanDokumentasiAndPicPage />
-          </RoleGuard>
-        ),
+        path: "verifikasi-kebutuhan-dokumentasi-pic",
+        children: [
+          {
+            path: "detail/formulir-verifikasi-kebutuhan-dokumentasi-pic/:id",
+            loader: async ({ params }) => {
+              if (!params.id || isNaN(Number(params.id))) {
+                return redirect(
+                  "/dashboard/verifikasi-kebutuhan-dokumentasi-pic",
+                );
+              }
+            },
+            element: (
+              <RoleGuard allowedRoles={["wakil_dekan_1"]}>
+                <FormulirVerifikasiKebutuhanDokumentasiAndPicPage />
+              </RoleGuard>
+            ),
+          },
+        ],
       },
 
       {

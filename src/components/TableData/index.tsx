@@ -201,7 +201,7 @@ const TableData: FC<Props> = ({
                             e.stopPropagation();
                             handleAksiDetail?.(row.fields.id);
                           }}
-                          className="text-primary-purple hover:underline text-sm"
+                          className="text-primary-purple hover:underline text-xs"
                         >
                           Lihat
                         </button>

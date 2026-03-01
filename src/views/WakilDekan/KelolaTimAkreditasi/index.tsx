@@ -202,6 +202,7 @@ const KelolaTimAkreditasi: FC = () => {
 
       {/* modal daftar anggota */}
       <ModalDaftarAnggota
+        label="Daftar Anggota"
         modalRef={modalDaftarAnggotaRef}
         handleCloseModal={handleCloseModalDaftarAnggota}
         datas={isShowModalDataDetail?.data?.user || []}

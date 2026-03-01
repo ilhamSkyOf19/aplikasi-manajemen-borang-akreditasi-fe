@@ -1,10 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useModalDelete from "../../../hooks/useModalDelete";
 import { PicService } from "../../../services/pic.service";
 import { useAuthStore } from "../../../stores/authStore";
+import { useRef } from "react";
+import type { UpdateStatusType } from "../../../types/constanst.type";
 
 const useKelolaPicDetail = () => {
+  // query client
+  const queryClient = useQueryClient();
+
   // user from store
   const user = useAuthStore((state) => state.user);
   // use modal delete
@@ -67,6 +72,50 @@ const useKelolaPicDetail = () => {
     }
   };
 
+  // modal update sucess
+  const modalUpdateRef = useRef<HTMLDialogElement | null>(null);
+
+  // handle modal delete show
+  const handleShowModalUpdate = () => {
+    // show modal
+    if (modalUpdateRef.current) {
+      modalUpdateRef.current.showModal();
+    }
+  };
+
+  // handle modal delete close
+  const handleCloseModalUpdate = () => {
+    if (modalUpdateRef.current) {
+      modalUpdateRef.current.close();
+    }
+  };
+
+  // handle update status
+  const { mutateAsync: mutateUpdateStatus, isPending: isPendingUpdateStatus } =
+    useMutation({
+      mutationFn: (data: UpdateStatusType) =>
+        PicService.updateStatus(+id, data),
+      onSuccess: (data) => {
+        console.log(data);
+
+        // close modal update
+        handleCloseModalUpdate();
+
+        // query client
+        queryClient.invalidateQueries({ queryKey: ["kelola-pic-detail"] });
+      },
+      onError: (error) => console.log(error),
+    });
+
+  // handle mutate update
+  const handleUpdateStatus = async (data: UpdateStatusType) => {
+    try {
+      return await mutateUpdateStatus(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // handle riwayat
   const handleRiwayat = () => {
     return navigate(
@@ -86,6 +135,11 @@ const useKelolaPicDetail = () => {
     navigate,
     handleRiwayat,
     user,
+    handleUpdateStatus,
+    isPendingUpdateStatus,
+    modalUpdateRef,
+    handleShowModalUpdate,
+    handleCloseModalUpdate,
   };
 };
 

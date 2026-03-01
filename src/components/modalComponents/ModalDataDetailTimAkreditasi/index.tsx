@@ -120,6 +120,7 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
 
       {/* modal daftar anggota */}
       <ModalDaftarAnggota
+        label="Daftar Anggota"
         datas={datas?.user || []}
         modalRef={modalRefDaftarAnggota}
         handleCloseModal={handleCloseModalDaftarAnggota}
@@ -161,39 +162,27 @@ const FieldDataModalList: FC<FieldDataModalListProps> = ({
       {/* type */}
       <span className="text-xs flex-2 lg:text-sm">{typeData}</span>
       <span className="mx-1.5 text-xs lg:text-sm">:</span>
-      <ol className="flex-3 flex flex-col justify-start items-start gap-1.5">
-        {values.length > 0 ? (
-          values.map((item, index) => (
-            <li
-              key={index}
-              className="w-full flex flex-row justify-start items-start gap-1"
-            >
-              <div className="flex-6 flex flex-row justify-start items-start gap-1">
-                {/* number */}
-                <span className="text-xs lg:text-sm w-3">{index + 1}.</span>
-
-                {/* label */}
-                <span className="text-xs lg:text-sm">{item.nama}</span>
-              </div>
-
-              {/* action list */}
-              <div className="flex-1 flex flex-row justify-end items-start">
-                <button
-                  type="button"
-                  onClick={() => action(item.email)}
-                  className="text-xs text-primary-purple"
-                >
-                  lihat
-                </button>
+      <div className="flex-3">
+        <ol className="list-decimal pl-5 flex flex-col gap-2 marker:text-xs">
+          {values.map((item, index) => (
+            <li key={index}>
+              <div className="flex items-center gap-1 ml-1">
+                <span className="text-xs">
+                  {item.nama}{" "}
+                  <span className="text-xs font-semibold mx-0.5">-</span>
+                  <button
+                    type="button"
+                    onClick={() => action(item.email)}
+                    className="text-xs text-primary-purple"
+                  >
+                    lihat
+                  </button>
+                </span>
               </div>
             </li>
-          ))
-        ) : (
-          <li className="flex flex-row justify-start items-start gap-1">
-            <span className="text-xs lg:text-sm">-</span>
-          </li>
-        )}
-      </ol>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import type {
   ResponsePicWithMetaType,
   UpdatePicType,
 } from "../models/pic.model";
-import type { Status } from "../types/constanst.type";
+import type { Status, UpdateStatusType } from "../types/constanst.type";
 import type { PaginationType } from "../types/pagination.type";
 import type { ResponseStructure } from "../types/response";
 
@@ -58,6 +58,18 @@ export class PicService {
   ): Promise<ResponseStructure<ResponsePicType | null>> {
     const result = await instanceAxios.patch<ResponseStructure<null>>(
       `/pic/update/${id}`,
+      data,
+    );
+    return result.data;
+  }
+
+  // update status
+  static async updateStatus(
+    id: number,
+    data: UpdateStatusType,
+  ): Promise<ResponseStructure<ResponsePicType | null>> {
+    const result = await instanceAxios.patch<ResponseStructure<null>>(
+      `/pic/update-status-pic/${id}`,
       data,
     );
     return result.data;

@@ -13,6 +13,8 @@ const BreadCrumbs: FC<Props> = ({ pathname, link }) => {
 
   const navigate = useNavigate();
 
+  console.log(path);
+
   return (
     <div className="breadcrumbs text-sm ">
       <ul className="flex flex-wrap">

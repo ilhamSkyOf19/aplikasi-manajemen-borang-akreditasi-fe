@@ -52,23 +52,24 @@ const ModalDaftarAnggota: FC<Props> = ({
           <h3 className="text-sm font-semibold">Nama Tim Akreditasi</h3>
 
           <div className="flex flex-row justify-start items-start gap-2 ml-6 mt-2">
-            <ol className="list-decimal pl-5 flex flex-col gap-2">
+            <ol className="list-decimal pl-5 flex flex-col gap-2 lg:marker:text-sm">
               {datas.map((item, index) => (
                 <li key={index}>
-                  <div className="flex items-center gap-6">
-                    <span className="text-sm">{item.nama}</span>
-
-                    {!disableAksi && (
-                      <>
-                        <span className="text-sm font-semibold">-</span>
-                        <Link
-                          to={`/dashboard/kelola-user?search=${item.email}`}
-                          className="text-sm text-primary-purple hover:underline"
-                        >
-                          Lihat
-                        </Link>
-                      </>
-                    )}
+                  <div className="flex items-center gap-6 ml-1">
+                    <span className="text-sm">
+                      {item.nama}{" "}
+                      {!disableAksi && (
+                        <>
+                          <span className="text-sm font-semibold mx-2">-</span>
+                          <Link
+                            to={`/dashboard/kelola-user?search=${item.email}`}
+                            className="text-sm text-primary-purple hover:underline"
+                          >
+                            Lihat
+                          </Link>
+                        </>
+                      )}
+                    </span>
                   </div>
                 </li>
               ))}

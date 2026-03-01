@@ -13,6 +13,7 @@ type Props = {
   register: UseFormRegisterReturn;
   max: number;
   defaultValue?: string;
+  disabled?: boolean;
 };
 
 const InputFieldNonIconText: FC<Props> = ({
@@ -24,6 +25,7 @@ const InputFieldNonIconText: FC<Props> = ({
   register,
   max,
   defaultValue,
+  disabled,
 }) => {
   // simpan sebagai number | null
   const [isValue, setIsValue] = useState<string>("");
@@ -73,6 +75,7 @@ const InputFieldNonIconText: FC<Props> = ({
           id={name}
           placeholder={placeholder}
           className="w-full h-full border-none outline-none text-sm placeholder:text-sm"
+          {...(disabled && { disabled: true })}
           maxLength={max}
           onChange={(e) => {
             let value = e.target.value;

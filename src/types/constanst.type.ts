@@ -12,3 +12,9 @@ export type Status = "menunggu" | "revisi" | "disetujui";
 
 // jenis riwayat
 export type JenisRiwayat = "dokumen_borang" | "kebutuhan_dokumen" | "pic";
+
+// update status
+export interface UpdateStatusType {
+  status: Status;
+  keterangan: string;
+}
