@@ -133,7 +133,7 @@ const FormulirKebutuhanDokumentasi: FC = () => {
               {/* keterangan */}
               <InputFieldNonIconTextArea
                 register={register("keterangan")}
-                label="keterangan"
+                label="keterangan dokumentasi"
                 max={1000}
                 name="keterangan"
                 required={true}
@@ -142,6 +142,20 @@ const FormulirKebutuhanDokumentasi: FC = () => {
                 defaultValue={dataKebutuhanDokumentasi?.keterangan}
                 rows={10}
               />
+
+              {/* keterangan update */}
+              {formulirUpdate && (
+                <InputFieldNonIconTextArea
+                  register={register("keteranganUpdate")}
+                  label="keterangan update"
+                  max={1000}
+                  name="keteranganUpdate"
+                  required={true}
+                  placeholder="masukan keterangan update"
+                  errorMessage={errors.keteranganUpdate?.message}
+                  rows={10}
+                />
+              )}
 
               {/* action */}
               <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">

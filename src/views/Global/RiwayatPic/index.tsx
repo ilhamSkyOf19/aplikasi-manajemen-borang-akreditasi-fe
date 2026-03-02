@@ -10,6 +10,7 @@ import {
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
 import { cn } from "../../../utils/cn";
+import ComponentData from "./ComponentData";
 
 type Props = {
   bigTitle: string;
@@ -18,6 +19,7 @@ type Props = {
 const RiwayatPic: FC<Props> = () => {
   // call use
   const { pathname, dataRiwayat, isLoadingRiwayat, user, id } = useRiwayat();
+
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
       <div className="w-full flex flex-col justify-start items-start">
@@ -123,173 +125,50 @@ const RiwayatPic: FC<Props> = () => {
                 {/* value */}
                 <div className="w-full flex flex-row justify-start items-start gap-2">
                   <div className="w-full flex flex-col gap-4 justify-start items-start pt-1.5 lg:pt-1">
-                    {dataRiwayat?.data?.[0].id === 0 ||
-                    (dataRiwayat?.data?.length === 1 &&
-                      dataRiwayat.data?.map(
-                        (item) => item.status === "disetujui",
-                      )) ? (
+                    {(dataRiwayat && dataRiwayat?.data?.[0]?.id === 0) ||
+                    dataRiwayat?.data?.every(
+                      (item) => item.status === "disetujui",
+                    ) ? (
                       <div className="w-full flex flex-row justify-start items-start gap-2 ml-6 lg:ml-10">
                         <FieldData label="Tidak ada revisi" sizeSmall normal />
                       </div>
                     ) : (
-                      dataRiwayat?.data
-                        ?.filter((item) => item.status !== "disetujui")
-                        .map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-col justify-start items-center ml-6 lg:ml-10"
-                          >
-                            {/* label */}
-                            <div className="w-full flex flex-row justify-start items-start gap-2">
-                              <span className="text-xs lg:text-base font-semibold">
-                                -
-                              </span>
-                              <span className="text-xs lg:text-base font-semibold text-error">
-                                Revisi {index + 1}
-                              </span>
-                            </div>
-
-                            {/* revisi detail */}
-                            <div className="w-full flex flex-col justify-start items-start mt-2 gap-8">
-                              {/* nama dokumentasi */}
-                              <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                <div className="flex flex-col justify-start items-start">
-                                  {/* nama dokumentasi */}
-                                  <FieldData
-                                    label="Nama Dokumentasi"
-                                    semibold
-                                    sizeBase
-                                  />
-                                  <div className="flex flex-row justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                    <FieldData
-                                      label={
-                                        item.pic?.kebutuhanDokumen
-                                          ?.namaDokumen ?? "-"
-                                      }
-                                      sizeSmall
-                                      normal
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* tim akreditasi */}
-                              <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                <div className="flex flex-col justify-start items-start">
-                                  <FieldData
-                                    label="Tim Akreditasi"
-                                    semibold
-                                    sizeBase
-                                  />
-
-                                  <div className="flex flex-row justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                    <FieldData
-                                      label={
-                                        item.pic?.timAkreditasi
-                                          .namaTimAkreditasi ?? "-"
-                                      }
-                                      sizeSmall
-                                      normal
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* penanggung jawab pj */}
-                              <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                <div className="flex flex-col justify-start items-start">
-                                  <FieldData
-                                    label="Penanggung Jawab (PJ)"
-                                    semibold
-                                    sizeBase
-                                  />
-
-                                  <div className="flex flex-col justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                    {item.pic?.pj.map((item, index) => (
-                                      <FieldData
-                                        key={index}
-                                        label={item.nama}
-                                        sizeSmall
-                                        normal
-                                      />
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* keterangan */}
-                              <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                <div className="flex flex-col justify-start items-start">
-                                  <FieldData
-                                    label="Keterangan Revisi"
-                                    semibold
-                                    sizeBase
-                                  />
-
-                                  <div className="flex flex-col justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                    <FieldData
-                                      label={item.keterangan ?? "-"}
-                                      sizeSmall
-                                      normal
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* tanggal revisi */}
-                              <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                <div className="flex flex-col justify-start items-start">
-                                  <FieldData
-                                    label="Tanggal Revisi"
-                                    semibold
-                                    sizeBase
-                                  />
-
-                                  <div className="flex flex-col justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                    <FieldData
-                                      label={
-                                        formatTanggalPanjang(item.createdAt) ??
-                                        "-"
-                                      }
-                                      sizeSmall
-                                      normal
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* aksi */}
-                              {user?.role === "kaprodi" &&
-                                index === (dataRiwayat.data?.length ?? 0) - 2 &&
-                                !dataRiwayat?.data?.find(
-                                  (item) => item.status === "disetujui",
-                                ) && (
-                                  <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
-                                    <div className="flex flex-col justify-start items-start">
-                                      <FieldData
-                                        label="Aksi"
-                                        semibold
-                                        sizeBase
-                                      />
-
-                                      <div className="flex flex-row justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                                        <button
-                                          type="button"
-                                          className="btn btn-info btn-sm lg:btn-md"
-                                        >
-                                          Revisi
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-                        ))
+                      <ComponentData
+                        dataRiwayat={dataRiwayat?.data ?? []}
+                        type="revisi"
+                        user={user}
+                      />
                     )}
                   </div>
                 </div>
               </div>
+
+              {/* data menunggu */}
+              {dataRiwayat?.data?.[0].id !== 0 &&
+                dataRiwayat?.data?.some(
+                  (item) => item.status === "menunggu",
+                ) && (
+                  <div className="w-full flex flex-col justify-start items-start gap-2 mt-8">
+                    {/* label */}
+                    <div className="flex flex-row justify-start items-center gap-4">
+                      <h3 className="text-sm lg:text-base font-semibold">
+                        Daftar Menunggu
+                      </h3>
+                      <PencilLineIcon className="size-4 lg:size-5" />
+                    </div>
+
+                    {/* value */}
+                    <div className="w-full flex flex-row justify-start items-start gap-2">
+                      <ComponentData
+                        dataRiwayat={dataRiwayat?.data ?? []}
+                        type="menunggu"
+                        user={user}
+                      />
+                    </div>
+                  </div>
+                )}
+
+              {/* disetujui */}
 
               {dataRiwayat?.data
                 ?.filter((item) => item.status === "disetujui")

@@ -1,18 +1,11 @@
 import { create } from "zustand";
-import type { UserRole } from "../types/constanst.type";
-
-type User = {
-  id: number;
-  nama: string;
-  email: string;
-  role: UserRole;
-};
+import type { ResponseUserType } from "../models/user.model";
 
 type AuthState = {
-  user: User | null;
+  user: ResponseUserType | null;
   isAuthenticated: boolean;
   isInitialized: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: ResponseUserType | null) => void;
   logout: () => void;
 };
 

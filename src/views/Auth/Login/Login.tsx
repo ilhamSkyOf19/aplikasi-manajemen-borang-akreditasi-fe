@@ -1,7 +1,6 @@
 import { type FC } from "react";
 import logoFikom from "../../../assets/logos/logo-fikom.webp";
 import InputFieldWithIconPassword from "../../../components/inputComponents/InputFieldWithIconPassword";
-import ButtonSubmit from "../../../components/buttonComponents/ButtonSubmit";
 import useLogin from "./useLogin";
 import { cn } from "../../../utils/cn";
 import InputFieldWithIconText from "../../../components/inputComponents/InputFieldWithIconText";
@@ -89,7 +88,18 @@ const Login: FC = () => {
               >
                 Lupa Password?
               </button>
-              <ButtonSubmit isLoading={isPending} />
+              <button
+                className={cn(
+                  "w-full btn btn-sm lg:btn-md bg-primary-purple relative overflow-hidden before:content-[''] before:absolute before:inset-0 before:bg-primary-black/20 before:opacity-0 hover:before:opacity-100 before:transition-all before:duration-300 before:ease-in-out",
+                )}
+                type="submit"
+              >
+                {isPending ? (
+                  <span className="loading loading-spinner loading-xs text-primary-white"></span>
+                ) : (
+                  <span className="text-white font-medium">Log in</span>
+                )}
+              </button>
             </div>
           </form>
         </div>

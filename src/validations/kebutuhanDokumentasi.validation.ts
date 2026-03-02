@@ -78,6 +78,7 @@ export class KebutuhanDokumenValidation {
       keterangan: this.stringUpdateSchema("keterangan", 1, 1000).optional(),
       kriteriaId: this.onlyNumberSchema("kriteria", 1, 99999).optional(),
       pendekatanId: this.onlyNumberSchema("pendekatan", 1, 99999).optional(),
+      keteranganUpdate: this.stringSchema("keterangan update", 1, 1000),
     })
     .strict() satisfies z.ZodType<UpdateKebutuhanDokumenType>;
 }

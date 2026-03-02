@@ -182,10 +182,6 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                           tanggalDibuat: formatTanggalPanjang(
                             item.createdAt || new Date(),
                           ),
-                          disableAksi: {
-                            update: item.status !== "menunggu",
-                            delete: item.status !== "menunggu",
-                          },
                         },
                       }))}
                     aksi={true}
