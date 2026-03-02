@@ -36,12 +36,15 @@ const FormulirKebutuhanDokumentasi: FC = () => {
       {/* breadcrumbs */}
       <div className="w-full mb-2">
         <BreadCrumbs
-          pathname={
-            formulirUpdate
-              ? "/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi"
-              : pathname
+          pathname={pathname}
+          link={
+            pathname.split("/").includes("detail")
+              ? [
+                  pathname.split("/").slice(0, -2).join("/"),
+                  `${pathname.split("/").slice(0, -1).join("/")}/${dataKebutuhanDokumentasi?.id}`,
+                ]
+              : [pathname.split("/").slice(0, -1).join("/")]
           }
-          link={["/dashboard/kelola-kebutuhan-dokumentasi"]}
         />
       </div>
       <div className="card w-full flex flex-col justify-start items-start lg:w-1/2 bg-white p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
@@ -141,7 +144,7 @@ const FormulirKebutuhanDokumentasi: FC = () => {
               />
 
               {/* action */}
-              <div className="w-full mt-10 flex flex-row justify-center items-center gap-4">
+              <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
                 <ButtonBackBox label="KEMBALI" />
                 {/* button submit */}

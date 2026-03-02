@@ -9,7 +9,7 @@ const ButtonBackBox: FC<Props> = ({ label }: Props) => {
   const navigate = useNavigate();
   return (
     <button
-      className="btn btn-sm lg:btn-md"
+      className="btn btn-sm lg:btn-md font-medium"
       type="button"
       onClick={() => navigate(-1)}
     >

@@ -1,28 +1,42 @@
-import { type FC, type RefObject } from "react";
+import { type FC, type Ref, type RefObject } from "react";
 import type {
   JenisRiwayat,
+  ModalUpdateStatusHandle,
   UpdateStatusType,
 } from "../../../types/constanst.type";
-import useModalStatusDisetujui from "./useModalStatusDisetujui";
 import { cn } from "../../../utils/cn";
 import InputFieldNonIconTextArea from "../../inputComponents/InputFieldNonIconTextArea";
+import useModalUpdateStatus from "./useModalStatus";
+import InputFieldChoose from "../../inputComponents/InputFieldChoose";
+import ButtonCancelText from "../../buttonComponents/ButtonCancelText";
+
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
   handleAksi: (data: UpdateStatusType) => void;
   isLoading?: boolean;
   jenisRiwayat: JenisRiwayat;
+  ref: Ref<ModalUpdateStatusHandle>;
 };
-const ModalStatusDiSetujui: FC<Props> = ({
+const ModalUpdateStatus: FC<Props> = ({
   handleCloseModal,
   modalRef,
   handleAksi,
   isLoading,
   jenisRiwayat,
+  ref,
 }) => {
   // use function
-  const { errors, register, handleSubmit } = useModalStatusDisetujui({
+  const {
+    errors,
+    register,
+    handleSubmit,
+    statusController,
+    handleCloseModalResetInput,
+  } = useModalUpdateStatus({
     jenisRiwayat,
+    handleCloseModal,
+    ref,
   });
 
   return (
@@ -40,21 +54,10 @@ const ModalStatusDiSetujui: FC<Props> = ({
 
         <form
           onSubmit={handleSubmit(handleAksi)}
-          className="w-full flex flex-col justify-start items-start mt-4 gap-4"
+          className="w-full flex flex-col justify-start items-start mt-4"
         >
-          {/* status */}
-          <div className="w-full flex flex-col justify-start items-start gap-2">
-            {/* label */}
-            <p className="text-sm font-medium">Status</p>
-
-            {/* status */}
-            <p className="ml-6 px-3 py-0.5 bg-success rounded-full text-xs lg:text-sm">
-              disetujui
-            </p>
-          </div>
-
           {/* jenis */}
-          <div className="w-full flex flex-col justify-start items-start gap-2">
+          <div className="w-full flex flex-col justify-start items-start gap-2 mb-2">
             {/* label */}
             <p className="text-sm font-medium">Jenis Data</p>
 
@@ -64,6 +67,18 @@ const ModalStatusDiSetujui: FC<Props> = ({
             </p>
           </div>
 
+          {/* status choose */}
+          <InputFieldChoose<UpdateStatusType>
+            controller={statusController}
+            label="Status"
+            chooseList={[
+              { label: "Revisi", value: "revisi" },
+              { label: "Setujui", value: "disetujui" },
+            ]}
+            placeholder="Pilih status"
+            required
+          />
+
           {/* keterangan */}
           <InputFieldNonIconTextArea
             register={register("keterangan")}
@@ -72,25 +87,20 @@ const ModalStatusDiSetujui: FC<Props> = ({
             name="keterangan"
             placeholder="Masukan keterangan"
             rows={6}
-            defaultValue="Pengajuan telah disetujui"
             errorMessage={errors.keterangan?.message}
             required
           />
 
-          <div className="w-full flex flex-row justify-end items-end gap-2">
+          <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
             {/* button close */}
-            <div className="modal-action">
-              <button className="btn btn-sm" onClick={() => handleCloseModal()}>
-                Batal
-              </button>
-            </div>
+            <ButtonCancelText handleCancel={handleCloseModalResetInput} />
 
             {/* button kirim */}
             <button
               disabled={isLoading}
               type="submit"
               className={cn(
-                "btn btn-success btn-sm",
+                "btn btn-success btn-sm lg:btn-md text-primary-white font-medium",
                 isLoading && "bg-success",
               )}
             >
@@ -107,4 +117,4 @@ const ModalStatusDiSetujui: FC<Props> = ({
   );
 };
 
-export default ModalStatusDiSetujui;
+export default ModalUpdateStatus;

@@ -80,10 +80,10 @@ const FormulirKriteria: FC = () => {
               {/* action */}
               <div className="w-full mt-6 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
-                <ButtonBackBox label="KEMBALI" />
+                <ButtonBackBox label="Kembali" />
                 {/* button submit */}
                 <ButtonSubmit
-                  label={`${formulirUpdate ? "UBAH" : "SIMPAN"}`}
+                  label={`${formulirUpdate ? "Ubah" : "Submit"}`}
                   isLoading={isPending}
                 />
               </div>

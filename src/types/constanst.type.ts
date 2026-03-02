@@ -19,3 +19,7 @@ export interface UpdateStatusType {
   keterangan: string;
   jenisRiwayat: JenisRiwayat;
 }
+
+export interface ModalUpdateStatusHandle {
+  handleCloseModal: () => void;
+}

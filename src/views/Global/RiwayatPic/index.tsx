@@ -351,7 +351,7 @@ const FieldData: FC<FieldDataProps> = ({
   sizeSmall,
 }) => {
   return (
-    <div className="flex flex-row justify-start items-center gap-2">
+    <div className="flex flex-row justify-start items-start gap-2">
       <span
         className={cn(
           sizeBase && "text-xs lg:text-base",

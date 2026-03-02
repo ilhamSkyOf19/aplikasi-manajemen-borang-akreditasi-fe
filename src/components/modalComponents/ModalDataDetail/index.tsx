@@ -1,6 +1,8 @@
 import { Fragment, type FC, type RefObject } from "react";
-import { Link } from "react-router-dom";
 import { cn } from "../../../utils/cn";
+import ButtonUpdateText from "../../buttonComponents/ButtonUpdateText";
+import ButtonCloseText from "../../buttonComponents/ButtonCloseText";
+import ButtonDeleteTextNonLoading from "../../buttonComponents/ButtonDeleteTextNonLoading";
 
 type Props = {
   isShowModal: {
@@ -59,24 +61,16 @@ const ModalDataDetail: FC<Props> = ({
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-6">
           {/* button close */}
-          <button className="btn btn-sm" onClick={() => handleCloseModal()}>
-            tutup
-          </button>
+          <ButtonCloseText handleClose={handleCloseModal} />
 
           {/* button update */}
-          <Link to={linkUpdate} type="button" className="btn btn-info btn-sm">
-            ubah
-          </Link>
+          <ButtonUpdateText link={linkUpdate} />
 
           {/* button delete */}
           {disableDelete !== true && (
-            <button
-              type="button"
-              className="btn btn-error btn-sm"
-              onClick={() => handleShowModalDelete(isShowModal.id)}
-            >
-              hapus
-            </button>
+            <ButtonDeleteTextNonLoading
+              handleDelete={() => handleShowModalDelete(isShowModal.id)}
+            />
           )}
         </div>
       </div>

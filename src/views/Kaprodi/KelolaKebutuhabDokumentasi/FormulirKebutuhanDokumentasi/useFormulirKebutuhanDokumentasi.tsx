@@ -37,8 +37,17 @@ const useFomulirKebutuhanDokumentasi = () => {
   // destruct
   const [dataKebutuhanDokumentasi, dataKriteria] = data;
 
+  // current pathname
+  const currentPathName = useLocation().pathname.split("/");
+
   // pathname
-  const pathname = useLocation().pathname;
+  let pathname: string;
+
+  if (currentPathName.includes("detail")) {
+    pathname = useLocation().pathname.split("/").slice(0, -1).join("/");
+  } else {
+    pathname = useLocation().pathname.split("/").slice(0, 4).join("/");
+  }
   // use form
   const {
     register,

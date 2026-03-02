@@ -16,7 +16,7 @@ const ButtonSubmit: FC<Props> = ({ label, isLoading }: Props) => {
       {isLoading ? (
         <span className="loading loading-spinner loading-xs text-primary-white"></span>
       ) : (
-        <span className="text-white">{label || "Simpan"}</span>
+        <span className="text-white font-medium">{label || "Submit"}</span>
       )}
     </button>
   );

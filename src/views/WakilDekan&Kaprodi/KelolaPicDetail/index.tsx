@@ -8,7 +8,11 @@ import FieldDataBasic from "../../../components/FieldDataBasic";
 import FieldDataAction from "../../../components/FieldDataAction";
 import FieldDataStatus from "../../../components/FieldStatus";
 import { cn } from "../../../utils/cn";
-import ModalStatusDiSetujui from "../../../components/modalComponents/ModalStatusDisetujui";
+import ModalUpdateStatus from "../../../components/modalComponents/ModalUpdateStatus";
+import ModalKonfirmasiRevisi from "../../../components/modalComponents/ModalKonfirmasiRevisi";
+import ButtonUpdateText from "../../../components/buttonComponents/ButtonUpdateText";
+import ButtonDeleteTextNonLoading from "../../../components/buttonComponents/ButtonDeleteTextNonLoading";
+import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
 
 const KelolaPicDetail: FC = () => {
   // call use
@@ -21,7 +25,6 @@ const KelolaPicDetail: FC = () => {
     isPendingDelete,
     modalDeleteRef,
     handleCloseModalDelete,
-    navigate,
     handleRiwayat,
     user,
     handleUpdateStatus,
@@ -29,6 +32,10 @@ const KelolaPicDetail: FC = () => {
     handleCloseModalUpdate,
     handleShowModalUpdate,
     modalUpdateRef,
+    handleKonfirmasiRevisi,
+    modalKonfirmasiRevisiRef,
+    modalUpdateStatusComponent,
+    handleCloseModalKonfirmasiRevisi,
   } = useKelolaPicDetail();
 
   return (
@@ -178,37 +185,20 @@ const KelolaPicDetail: FC = () => {
               {/* aksi */}
               <div className="w-full mt-4 flex flex-row justify-end items-center gap-3">
                 {/* button kembali */}
-                <button
-                  type="button"
-                  onClick={() => navigate(-1)}
-                  className="btn btn-sm lg:btn-md"
-                >
-                  kembali
-                </button>
+                <ButtonBackBox />
 
                 {user?.role === "wakil_dekan_1" && (
                   <>
-                    {dataPic?.data?.status !== "disetujui" && (
-                      <>
-                        {/* setujui */}
-                        <button
-                          type="button"
-                          className="btn btn-success btn-sm lg:btn-md"
-                          onClick={() => handleShowModalUpdate()}
-                        >
-                          setujui
-                        </button>
-                      </>
-                    )}
-
-                    {/* revisi */}
-                    <Link
-                      to={`/dashboard/verifikasi-kebutuhan-dokumentasi-pic/detail/formulir-verifikasi-kebutuhan-dokumentasi-pic/${dataPic?.data?.id ?? 0}`}
-                      type="button"
-                      className="btn btn-info btn-sm lg:btn-md"
-                    >
-                      revisi
-                    </Link>
+                    <>
+                      {/* status */}
+                      <button
+                        type="button"
+                        className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
+                        onClick={() => handleShowModalUpdate()}
+                      >
+                        status
+                      </button>
+                    </>
                   </>
                 )}
 
@@ -216,24 +206,16 @@ const KelolaPicDetail: FC = () => {
                   dataPic?.data?.status !== "disetujui" && (
                     <>
                       {/* button ubah */}
-                      <Link
-                        to={`/dashboard/kelola-pic/ubah-pic/${dataPic?.data?.id ?? 0}`}
-                        type="button"
-                        className="btn btn-info btn-sm lg:btn-md"
-                      >
-                        ubah
-                      </Link>
+                      <ButtonUpdateText
+                        link={`/dashboard/kelola-pic/detail/ubah-pic/${dataPic?.data?.id ?? 0}`}
+                      />
 
                       {/* button delete */}
-                      <button
-                        type="button"
-                        onClick={() =>
+                      <ButtonDeleteTextNonLoading
+                        handleDelete={() =>
                           handleShowModalDelete(dataPic?.data?.id ?? 0)
                         }
-                        className="btn btn-error btn-sm lg:btn-md"
-                      >
-                        delete
-                      </button>
+                      />
                     </>
                   )}
               </div>
@@ -251,12 +233,22 @@ const KelolaPicDetail: FC = () => {
       />
 
       {/* modal status */}
-      <ModalStatusDiSetujui
+      <ModalUpdateStatus
+        ref={modalUpdateStatusComponent}
         modalRef={modalUpdateRef}
         jenisRiwayat="pic"
         handleAksi={handleUpdateStatus}
         handleCloseModal={handleCloseModalUpdate}
         isLoading={isPendingUpdateStatus}
+      />
+
+      {/* modal konfirmasi revisi */}
+      <ModalKonfirmasiRevisi
+        type={dataPic?.data?.status === "revisi" ? "revisi" : "disetujui"}
+        modalRef={modalKonfirmasiRevisiRef}
+        handleCloseModal={handleCloseModalKonfirmasiRevisi}
+        handleKonfirmasi={handleKonfirmasiRevisi}
+        isPending={isPendingUpdateStatus}
       />
     </div>
   );

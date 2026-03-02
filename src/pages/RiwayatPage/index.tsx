@@ -7,7 +7,7 @@ type Props = {
   content: string;
   bigTitle: string;
   smallTitle: string;
-  type: "pic" | "dokumen_borang" | "kebutuhan_dokumentasi";
+  type: "pic" | "dokumen_borang";
 };
 const RiwayatPage: FC<Props> = ({
   content,

@@ -1,5 +1,6 @@
 import { type FC, type RefObject } from "react";
 import { cn } from "../../../utils/cn";
+import ButtonCloseText from "../../buttonComponents/ButtonCloseText";
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
@@ -52,13 +53,7 @@ const ModalKeteranganDokumen: FC<Props> = ({
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-4 pr-2 lg:pr-0">
           {/* button close */}
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn" onClick={() => handleCloseModal()}>
-                <span className="text-xs lg:text-sm">Tutup</span>
-              </button>
-            </form>
-          </div>
+          <ButtonCloseText handleClose={handleCloseModal} />
         </div>
       </div>
     </dialog>

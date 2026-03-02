@@ -3,6 +3,7 @@ import { cn } from "../../../utils/cn";
 import type { ITimAkreditasi } from "../../../models/timAkreditasi.model";
 import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import ButtonCloseText from "../../buttonComponents/ButtonCloseText";
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
@@ -69,15 +70,9 @@ const ModalDaftarTim: FC<Props> = ({
           </div>
         )}
 
-        <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
+        <div className="w-full flex flex-row justify-end items-end gap-2 mt-6">
           {/* button close */}
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn" onClick={() => handleCloseModal()}>
-                <span className="text-xs lg:text-sm">Tutup</span>
-              </button>
-            </form>
-          </div>
+          <ButtonCloseText handleClose={() => handleCloseModal()} />
         </div>
       </div>
     </dialog>

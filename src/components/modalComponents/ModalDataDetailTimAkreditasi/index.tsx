@@ -1,10 +1,13 @@
 import { useRef, type FC, type RefObject } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { cn } from "../../../utils/cn";
 import type { ResponseTimAkreditasiType } from "../../../models/timAkreditasi.model";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import type { PayloadUserType } from "../../../models/user.model";
 import ModalDaftarAnggota from "../ModalDaftarAnggota";
+import ButtonDeleteTextNonLoading from "../../buttonComponents/ButtonDeleteTextNonLoading";
+import ButtonUpdateText from "../../buttonComponents/ButtonUpdateText";
+import ButtonCloseText from "../../buttonComponents/ButtonCloseText";
 
 type Props = {
   datas: ResponseTimAkreditasiType | null;
@@ -81,7 +84,7 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
             />
           ) : (
             <FieldDataModalList
-              typeData={"Tanggal Dibuat"}
+              typeData={"Daftar Tim"}
               values={datas?.user || []}
               action={handleRedirectToDataUser}
             />
@@ -90,30 +93,18 @@ const ModalDataDetailTimAkreditasi: FC<Props> = ({
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-8">
           {/* button close */}
-          <button className="btn" onClick={() => handleCloseModal()}>
-            <span className="text-xs lg:text-sm">Close</span>
-          </button>
+          <ButtonCloseText handleClose={handleCloseModal} />
 
           {/* button update */}
-          <Link
-            to={`/dashboard/kelola-tim-akreditasi/ubah-tim-akreditasi/${datas?.id}`}
-            type="button"
-            className="btn btn-info"
-          >
-            <span className="text-xs lg:text-sm text-primary-white">Ubah</span>
-          </Link>
+          <ButtonUpdateText
+            link={`/dashboard/kelola-tim-akreditasi/ubah-tim-akreditasi/${datas?.id}`}
+          />
 
           {/* button delete */}
           {disableDelete !== true && (
-            <button
-              type="button"
-              className="btn btn-error"
-              onClick={() => handleShowModalDelete(datas?.id || 0)}
-            >
-              <span className="text-xs lg:text-sm text-primary-white">
-                Hapus
-              </span>
-            </button>
+            <ButtonDeleteTextNonLoading
+              handleDelete={() => handleShowModalDelete(datas?.id || 0)}
+            />
           )}
         </div>
       </div>

@@ -86,36 +86,35 @@ const useKelolaKebutuhanDokumentasi = () => {
     {
       label: "nama dokumentasi",
       key: "namaDokumen",
-      size: 20,
+      size: 25,
     },
     {
       label: "Kriteria",
       key: "kriteria",
-      size: 14,
+      size: 15,
     },
     {
       label: "Pendekatan",
       key: "pendekatan",
-      size: 14,
+      size: 15,
     },
-    { label: "Status", key: "status", size: 13 },
-    { label: "Tanggal dibuat", key: "tanggalDibuat", size: 13 },
+    { label: "Status", key: "status", size: 17 },
+    { label: "Tanggal dibuat", key: "tanggalDibuat", size: 17 },
   ];
 
   //   header loading
   const headerLoading = [
     {
       label: "nama dokumentasi",
-      size: 20,
+      size: 25,
     },
     {
       label: "kriteria",
-      size: 14,
+      size: 15,
     },
-    { label: "pendekatan", size: 14 },
-    { label: "Tanggal dibuat", size: 13 },
-    { label: "Riwayat", size: 13 },
-    { label: "Status", size: 13 },
+    { label: "pendekatan", size: 15 },
+    { label: "Tanggal dibuat", size: 17 },
+    { label: "Status", size: 17 },
   ];
 
   // handle detail

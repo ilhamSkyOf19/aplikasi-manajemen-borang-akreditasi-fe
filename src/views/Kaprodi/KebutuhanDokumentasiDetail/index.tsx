@@ -7,6 +7,9 @@ import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import FieldDataStatus from "../../../components/FieldStatus";
 import FieldDataAction from "../../../components/FieldDataAction";
 import FieldDataBasic from "../../../components/FieldDataBasic";
+import ButtonUpdateText from "../../../components/buttonComponents/ButtonUpdateText";
+import ButtonDeleteTextNonLoading from "../../../components/buttonComponents/ButtonDeleteTextNonLoading";
+import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
 
 const KebutuhanDokumentasiDetail: FC = () => {
   // call use
@@ -28,7 +31,7 @@ const KebutuhanDokumentasiDetail: FC = () => {
       <div className="w-full mb-2">
         <BreadCrumbs
           pathname={pathname}
-          link={["/dashboard/kelola-kebutuhan-dokumentasi"]}
+          link={[pathname.split("/").slice(0, -1).join("/")]}
         />
       </div>
 
@@ -81,13 +84,6 @@ const KebutuhanDokumentasiDetail: FC = () => {
                 value={`${dataKebutuhanDokumentasi?.data?.pendekatan?.tahap} - ${dataKebutuhanDokumentasi?.data?.pendekatan?.keterangan}`}
               />
 
-              {/* Riwayat */}
-              <FieldDataAction
-                typeData="Riwayat"
-                label="Lihat riwayat"
-                action={() => {}}
-              />
-
               {/* tanggal buat */}
               <FieldDataBasic
                 typeData="Tanggal dibuat"
@@ -105,35 +101,25 @@ const KebutuhanDokumentasiDetail: FC = () => {
               {/* aksi */}
               <div className="w-full mt-4 flex flex-row justify-end items-center gap-3">
                 {/* button kembali */}
-                <button
-                  type="button"
-                  onClick={() => navigate(-1)}
-                  className="btn btn-sm btn-soft"
-                >
-                  kembali
-                </button>
+                <ButtonBackBox label="Kembali" />
 
-                {/* button ubah */}
-                <Link
-                  to={`/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${dataKebutuhanDokumentasi?.data?.id ?? 0}`}
-                  type="button"
-                  className="btn btn-info btn-sm btn-soft"
-                >
-                  ubah
-                </Link>
+                {dataKebutuhanDokumentasi?.data?.status === "menunggu" && (
+                  <>
+                    {/* button ubah */}
+                    <ButtonUpdateText
+                      link={`/dashboard/kelola-kebutuhan-dokumentasi/detail/ubah-kebutuhan-dokumentasi/${dataKebutuhanDokumentasi?.data?.id ?? 0}`}
+                    />
 
-                {/* button delete */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleShowModalDelete(
-                      dataKebutuhanDokumentasi?.data?.id ?? 0,
-                    )
-                  }
-                  className="btn btn-soft btn-error btn-sm"
-                >
-                  delete
-                </button>
+                    {/* button delete */}
+                    <ButtonDeleteTextNonLoading
+                      handleDelete={() =>
+                        handleShowModalDelete(
+                          dataKebutuhanDokumentasi?.data?.id ?? 0,
+                        )
+                      }
+                    />
+                  </>
+                )}
               </div>
             </>
           )}

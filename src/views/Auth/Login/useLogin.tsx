@@ -33,7 +33,7 @@ const useLogin = () => {
     onError: (error) => {
       console.log(error);
       if (error instanceof AxiosError) {
-        if (error.status === 400) {
+        if (error.status === 401) {
           // set error
           setError("identifier", {
             message: "Login gagal. Cek kembali data Anda.",

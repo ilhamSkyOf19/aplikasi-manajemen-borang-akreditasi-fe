@@ -182,19 +182,15 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                           tanggalDibuat: formatTanggalPanjang(
                             item.createdAt || new Date(),
                           ),
+                          disableAksi: {
+                            update: item.status !== "menunggu",
+                            delete: item.status !== "menunggu",
+                          },
                         },
                       }))}
                     aksi={true}
                     handleShowModalDelete={handleShowModalDelete}
                     linkUpdate="kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi"
-                    fieldAksi={[
-                      {
-                        header: "Riwayat",
-                        label: "Lihat riwayat",
-                        size: 13,
-                        handleAksiWithParams: (_id: number) => () => {},
-                      },
-                    ]}
                     fieldColor={[
                       {
                         header: "Status",

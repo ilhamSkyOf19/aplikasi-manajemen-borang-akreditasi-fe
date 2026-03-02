@@ -3,11 +3,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useModalDelete from "../../../hooks/useModalDelete";
 import { PicService } from "../../../services/pic.service";
 import { useAuthStore } from "../../../stores/authStore";
-import { useRef } from "react";
-import type { UpdateStatusType } from "../../../types/constanst.type";
+import type {
+  ModalUpdateStatusHandle,
+  UpdateStatusType,
+} from "../../../types/constanst.type";
 import { RiwayatService } from "../../../services/riwayat.service";
+import useModalBasic from "../../../hooks/useModalBasic";
+import { useRef, useState } from "react";
 
 const useKelolaPicDetail = () => {
+  // state pending update
+  const [isDataPendingUpdate, setIsDataPendingUpdate] =
+    useState<UpdateStatusType | null>(null);
   // query client
   const queryClient = useQueryClient();
 
@@ -20,6 +27,9 @@ const useKelolaPicDetail = () => {
     idDelete,
     modalDeleteRef,
   } = useModalDelete();
+
+  // use modal component
+  const modalUpdateStatusComponent = useRef<ModalUpdateStatusHandle>(null);
 
   // navigate
   const navigate = useNavigate();
@@ -73,32 +83,26 @@ const useKelolaPicDetail = () => {
     }
   };
 
-  // modal update sucess
-  const modalUpdateRef = useRef<HTMLDialogElement | null>(null);
+  // modal ref update
+  const {
+    modalRef: modalUpdateRef,
+    handleShowModal: handleShowModalUpdate,
+    handleCloseModal: handleCloseModalUpdate,
+  } = useModalBasic();
 
-  // handle modal delete show
-  const handleShowModalUpdate = () => {
-    // show modal
-    if (modalUpdateRef.current) {
-      modalUpdateRef.current.showModal();
-    }
-  };
-
-  // handle modal delete close
-  const handleCloseModalUpdate = () => {
-    if (modalUpdateRef.current) {
-      modalUpdateRef.current.close();
-    }
-  };
+  // modal konfirmasi
+  const {
+    modalRef: modalKonfirmasiRevisiRef,
+    handleShowModal: handleShowModalKonfirmasiRevisi,
+    handleCloseModal: handleCloseModalKonfirmasiRevisi,
+  } = useModalBasic();
 
   // handle update status
   const { mutateAsync: mutateUpdateStatus, isPending: isPendingUpdateStatus } =
     useMutation({
       mutationFn: (data: UpdateStatusType) =>
         RiwayatService.updateStatus(+id, data),
-      onSuccess: (data) => {
-        console.log(data);
-
+      onSuccess: () => {
         // close modal update
         handleCloseModalUpdate();
 
@@ -111,16 +115,49 @@ const useKelolaPicDetail = () => {
   // handle mutate update
   const handleUpdateStatus = async (data: UpdateStatusType) => {
     try {
+      // check status
+      if (
+        (data.status === "revisi" && dataPic?.data?.status === "revisi") ||
+        (data.status === "revisi" && dataPic?.data?.status === "disetujui")
+      ) {
+        // simpan data ke state pending update
+        setIsDataPendingUpdate(data);
+
+        // open modal konfirmasi revisi
+        handleShowModalKonfirmasiRevisi();
+        return;
+      }
+
+      // check data
       return await mutateUpdateStatus(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // handle modal konfirmasi revisi
+  const handleKonfirmasiRevisi = async (isConfirm: boolean) => {
+    if (!isConfirm) {
+      handleCloseModalKonfirmasiRevisi();
+      return;
+    }
+
+    if (isDataPendingUpdate) {
+      await mutateUpdateStatus(isDataPendingUpdate);
+    }
+
+    setIsDataPendingUpdate(null);
+
+    // close modal update status
+    modalUpdateStatusComponent.current?.handleCloseModal();
+
+    handleCloseModalKonfirmasiRevisi();
+  };
+
   // handle riwayat
   const handleRiwayat = () => {
     return navigate(
-      `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/detail/riwayat/${dataPic?.data?.id}`,
+      `/dashboard/${user?.role === "kaprodi" ? "kelola-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/detail/riwayat/${dataPic?.data?.id}`,
     );
   };
 
@@ -141,6 +178,11 @@ const useKelolaPicDetail = () => {
     modalUpdateRef,
     handleShowModalUpdate,
     handleCloseModalUpdate,
+    modalKonfirmasiRevisiRef,
+    handleShowModalKonfirmasiRevisi,
+    handleCloseModalKonfirmasiRevisi,
+    handleKonfirmasiRevisi,
+    modalUpdateStatusComponent,
   };
 };
 

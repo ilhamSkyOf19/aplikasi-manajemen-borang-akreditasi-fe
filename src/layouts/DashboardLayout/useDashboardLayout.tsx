@@ -18,8 +18,6 @@ const useDashboardLayout = () => {
     ? lastSegment?.split("-").join(" ")
     : pathname.split("/").slice(0, -1).pop()?.split("-").join(" ");
 
-  console.log(path);
-
   return { handleSidebar, isClose, path };
 };
 

@@ -1,18 +1,15 @@
 import { type FC } from "react";
-import TitlePage from "../../../../components/TitlePage";
-import ButtonSubmit from "../../../../components/buttonComponents/ButtonSubmit";
-import BreadCrumbs from "../../../../components/BreadCrumbs";
-import { cn } from "../../../../utils/cn";
-import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
-import SkeletonForm from "../../../../components/SkeletonForm";
+import TitlePage from "../../../components/TitlePage";
+import ButtonSubmit from "../../../components/buttonComponents/ButtonSubmit";
+import BreadCrumbs from "../../../components/BreadCrumbs";
+import { cn } from "../../../utils/cn";
+import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
+import SkeletonForm from "../../../components/SkeletonForm";
 import useFormulirPic from "./useFormulirPic";
-import type {
-  CreatePicType,
-  UpdatePicType,
-} from "../../../../models/pic.model";
-import InputFieldChooseWithSearch from "../../../../components/inputComponents/InputFieldChooseWithSearch";
-import DaftarPilihanInput from "../../../../components/DaftarPilihanInput";
-import InputFieldNonIconTextArea from "../../../../components/inputComponents/InputFieldNonIconTextArea";
+import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
+import InputFieldChooseWithSearch from "../../../components/inputComponents/InputFieldChooseWithSearch";
+import DaftarPilihanInput from "../../../components/DaftarPilihanInput";
+import InputFieldNonIconTextArea from "../../../components/inputComponents/InputFieldNonIconTextArea";
 
 const FormulirPic: FC = () => {
   // call use formulir pic
@@ -40,6 +37,7 @@ const FormulirPic: FC = () => {
     isPjActive,
     dataPic,
     errors,
+    currentPathname,
   } = useFormulirPic();
 
   return (
@@ -47,23 +45,22 @@ const FormulirPic: FC = () => {
       {/* breadcrumbs */}
       <div className="w-full mb-2">
         <BreadCrumbs
-          pathname={
-            formulirUpdate
-              ? "/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi"
-              : pathname
+          pathname={pathname}
+          link={
+            currentPathname.includes("detail")
+              ? [
+                  pathname.split("/").slice(0, -2).join("/"),
+                  `${pathname.split("/").slice(0, -1).join("/")}/${dataPic?.data?.data?.id}`,
+                ]
+              : [pathname.split("/").slice(0, -1).join("/")]
           }
-          link={["/dashboard/kelola-kebutuhan-dokumentasi"]}
         />
       </div>
       <div className="card w-full flex flex-col justify-start items-start lg:w-1/2 bg-base-100 p-5 lg:p-8 lg:rounded-md lg:shadow-sm">
         {/* title page */}
         <TitlePage
-          bigTitle={
-            formulirUpdate
-              ? "Ubah Kebutuhan Dokumentasi"
-              : "Tambah Kebutuhan Dokumentasi"
-          }
-          smallTitle={`Halaman untuk ${formulirUpdate ? "mengubah" : "menambah"} Kebutuhan Dokumentasi.`}
+          bigTitle={formulirUpdate ? "Ubah PIC" : "Tambah PIC"}
+          smallTitle={`Halaman untuk ${formulirUpdate ? "mengubah" : "menambah"} PIC.`}
         />
 
         {/* form */}
@@ -185,12 +182,12 @@ const FormulirPic: FC = () => {
               />
 
               {/* action */}
-              <div className="w-full mt-10 flex flex-row justify-center items-center gap-4">
+              <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
-                <ButtonBackBox label="KEMBALI" />
+                <ButtonBackBox label="Kembali" />
                 {/* button submit */}
                 <ButtonSubmit
-                  label={`${formulirUpdate ? "UBAH" : "SIMPAN"}`}
+                  label={`${formulirUpdate ? "Ubah" : "Simpan"}`}
                   isLoading={isPending}
                 />
               </div>

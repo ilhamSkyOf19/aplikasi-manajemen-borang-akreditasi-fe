@@ -105,7 +105,7 @@ const useKelolaPic = () => {
   // handle riwayat
   const handleRiwayat = (id: number) => {
     return navigate(
-      `/dashboard/${user?.role === "kaprodi" ? "kelola-kebutuhan-dokumentasi-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/riwayat/${id}`,
+      `/dashboard/${user?.role === "kaprodi" ? "kelola-pic" : "verifikasi-kebutuhan-dokumentasi-pic"}/riwayat/${id}`,
     );
   };
 

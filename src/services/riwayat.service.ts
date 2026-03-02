@@ -25,6 +25,7 @@ export class RiwayatService {
     const result = await instanceAxios.patch<
       ResponseStructure<ResponsePicType | null>
     >(`/riwayat/update-status/${id}`, data);
+
     return result.data;
   }
 }

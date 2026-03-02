@@ -1,19 +1,26 @@
 import { useMutation, useQueries } from "@tanstack/react-query";
-import { TimAkreditasiService } from "../../../../services/timAkreditasi.service";
-import { KebutuhanDokumentasiService } from "../../../../services/kebutuhanDokumentasi.service";
+import { TimAkreditasiService } from "../../../services/timAkreditasi.service";
+import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { PicService } from "../../../../services/pic.service";
+import { PicService } from "../../../services/pic.service";
 import { useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PicValidation } from "../../../../validations/pic.validation";
-import type {
-  CreatePicType,
-  UpdatePicType,
-} from "../../../../models/pic.model";
+import { PicValidation } from "../../../validations/pic.validation";
+import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
 import { useEffect, useState } from "react";
 
 const useFormulirPic = () => {
-  const { pathname } = useLocation();
+  // current pathname
+  const currentPathname = useLocation().pathname.split("/");
+
+  let pathname: string;
+
+  if (currentPathname.includes("detail")) {
+    pathname = currentPathname.slice(0, -1).join("/");
+  } else {
+    pathname = currentPathname.slice(0, 4).join("/");
+  }
+
   // state pj
   const [isPj, setIsPj] = useState<{ id: number; nama: string }[]>([]);
 
@@ -271,6 +278,7 @@ const useFormulirPic = () => {
     isPjActive: isPj,
     dataPic,
     errors,
+    currentPathname,
   };
 };
 

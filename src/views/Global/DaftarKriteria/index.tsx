@@ -173,6 +173,7 @@ const DaftarKriteria: FC = () => {
                         user?.role === "kaprodi" ||
                         user?.role === "tim_akreditasi"
                           ? {
+                              id: item.id,
                               kriteria: `C${item.kriteria}`,
                               namaKriteria: item.namaKriteria,
                             }

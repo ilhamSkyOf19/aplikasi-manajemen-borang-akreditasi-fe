@@ -10,7 +10,7 @@ type Props = {
 const TitlePage: FC<Props> = ({ bigTitle, smallTitle, labelAdd, linkAdd }) => {
   return (
     <div className="w-full flex flex-row justify-between items-start">
-      <div className="flex-4 lg:flex-none flex flex-col justify-start items-start">
+      <div className="flex-4 flex flex-col justify-start items-start">
         {/* title */}
         <h2 className="text-lg font-medium lg:text-xl">{bigTitle}</h2>
 

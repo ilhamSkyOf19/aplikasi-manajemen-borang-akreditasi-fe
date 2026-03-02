@@ -119,7 +119,10 @@ const TableData: FC<Props> = ({
               <tr
                 key={index}
                 className={cn(
-                  !aksi && "h-12",
+                  !aksi ||
+                    (row.fields.disableAksi?.delete &&
+                      row.fields.disableAksi?.update &&
+                      "h-12"),
                   aksiLink &&
                     "hover:bg-primary-purple group transition-all duration-150",
                   isDataModalActive === row.fields.id && "lg:bg-primary-purple",
