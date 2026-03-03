@@ -3,18 +3,18 @@ import { UserService } from "../../../services/user.service";
 import { useState } from "react";
 import type { ResponseUserType } from "../../../models/user.model";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { useFilter } from "../../../hooks/useFilter";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
+import useModal from "../../../hooks/useModal";
 
 const useKelolaUser = () => {
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    modalDeleteRef,
-    idDelete,
-  } = useModalDelete();
+    handleCloseModal: handleCloseModalDelete,
+    handleShowModal: handleShowModalDelete,
+    modalRef: modalDeleteRef,
+    idModal: idDelete,
+  } = useModal();
 
   // call use animation toast
   const { isAnimationOut, isToast, handleSetToast } = useToastAnimation();

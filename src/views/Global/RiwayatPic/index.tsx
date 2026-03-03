@@ -28,7 +28,8 @@ const RiwayatPic: FC<Props> = () => {
           pathname={pathname}
           link={
             pathname ===
-            "/dashboard/verifikasi-kebutuhan-dokumentasi-pic/riwayat"
+              "/dashboard/verifikasi-kebutuhan-dokumentasi-pic/riwayat" ||
+            "/dashboard/kelola-pic/riwayat"
               ? [pathname.split("/").slice(0, -1).join("/")]
               : [
                   pathname.split("/").slice(0, -2).join("/"),
@@ -158,7 +159,7 @@ const RiwayatPic: FC<Props> = () => {
                     </div>
 
                     {/* value */}
-                    <div className="w-full flex flex-row justify-start items-start gap-2">
+                    <div className="w-full flex flex-col lg:flex-row justify-start items-start gap-2">
                       <ComponentData
                         dataRiwayat={dataRiwayat?.data ?? []}
                         type="menunggu"

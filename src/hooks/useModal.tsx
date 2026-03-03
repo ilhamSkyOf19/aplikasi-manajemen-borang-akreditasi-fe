@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const useModalBasic = () => {
+const useModal = () => {
   // state
   const [idModal, setIdModal] = useState<number>(0);
   // ref
@@ -25,4 +25,4 @@ const useModalBasic = () => {
   return { modalRef, handleCloseModal, handleShowModal, idModal };
 };
 
-export default useModalBasic;
+export default useModal;

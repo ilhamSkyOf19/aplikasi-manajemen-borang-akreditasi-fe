@@ -212,9 +212,7 @@ const TableData: FC<Props> = ({
 
                       {/* aksi link sm */}
                       <div className={cn("lg:hidden", !aksiLink && "hidden")}>
-                        {" "}
                         <div className="flex justify-end">
-                          {" "}
                           <span
                             className={cn(
                               "text-xs text-primary-purple",
@@ -222,10 +220,9 @@ const TableData: FC<Props> = ({
                                 "group-hover:text-primary-white transition-colors duration-150 ease-in-out",
                             )}
                           >
-                            {" "}
-                            Lihat{" "}
-                          </span>{" "}
-                        </div>{" "}
+                            Lihat
+                          </span>
+                        </div>
                       </div>
 
                       {/* UPDATE */}

@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TimAkreditasiService } from "../../../services/timAkreditasi.service";
 import { useFilter } from "../../../hooks/useFilter";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
 import { useState } from "react";
 import type { ResponseTimAkreditasiType } from "../../../models/timAkreditasi.model";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
+import useModal from "../../../hooks/useModal";
 
 const useKelolaTimAkreditasi = () => {
   // call use animation toast
@@ -13,11 +13,11 @@ const useKelolaTimAkreditasi = () => {
 
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    idDelete,
-    modalDeleteRef,
-  } = useModalDelete();
+    handleCloseModal: handleCloseModalDelete,
+    handleShowModal: handleShowModalDelete,
+    idModal: idDelete,
+    modalRef: modalDeleteRef,
+  } = useModal();
 
   // query client
   const queryClient = useQueryClient();

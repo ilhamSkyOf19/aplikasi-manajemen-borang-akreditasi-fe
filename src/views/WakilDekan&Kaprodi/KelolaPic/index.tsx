@@ -6,7 +6,6 @@ import DropDown from "../../../components/DropDown";
 import SkeletonTable from "../../../components/SkeletonTable";
 import TableData from "../../../components/TableData";
 import Toast from "../../../components/Toast";
-import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 import ModalKeteranganDokumen from "../../../components/modalComponents/ModalKeteranganDokumen";
 
@@ -23,11 +22,6 @@ const index: FC = () => {
     headerLoading,
     isAnimationOut,
     isToast,
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    modalDeleteRef,
-    handleDelete,
-    isLoadingDelete,
     user,
     isDataPicDetail,
     handleCloseModalDaftarPj,
@@ -38,6 +32,7 @@ const index: FC = () => {
     modalKeteranganRef,
     handleAksiDetail,
   } = useKelolaPic();
+
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
       {/* toast create */}
@@ -166,7 +161,7 @@ const index: FC = () => {
                         fields: {
                           id: item.id,
                           namaDokumen: item.kebutuhanDokumen.namaDokumen,
-                          status: item.status,
+                          status: item.statusRiwayat ?? item.status,
                           disableAksi:
                             user?.role === "kaprodi" &&
                             item.status === "disetujui"
@@ -178,9 +173,8 @@ const index: FC = () => {
                         },
                       }))}
                     {...(user?.role === "kaprodi" && {
-                      aksi: true,
-                      handleShowModalDelete: handleShowModalDelete,
-                      linkUpdate: "kelola-pic/ubah-pic",
+                      aksiDetail: true,
+                      handleAksiDetail: handleRiwayat,
                     })}
                     {...(user?.role === "wakil_dekan_1" && {
                       aksiDetail: true,
@@ -190,7 +184,7 @@ const index: FC = () => {
                       {
                         header: "Keterangan Dokumen",
                         label: "Lihat keterangan",
-                        size: 17,
+                        size: 20,
 
                         handleAksiWithParams: (id: number) =>
                           handleShowModalKeterangan(id),
@@ -198,23 +192,17 @@ const index: FC = () => {
                       {
                         header: "PIC",
                         label: "Lihat PIC",
-                        size: 17,
+                        size: 17.3,
 
                         handleAksiWithParams: (id: number) =>
                           handleShowModalDaftarPj(id),
-                      },
-                      {
-                        header: "Riwayat",
-                        label: "Lihat riwayat",
-                        size: 17,
-                        handleAksiWithParams: (id: number) => handleRiwayat(id),
                       },
                     ]}
                     fieldColor={[
                       {
                         header: "Status",
                         key: "status",
-                        size: 17,
+                        size: 17.3,
 
                         colorFn: (status: string) =>
                           status === "menunggu"
@@ -234,14 +222,6 @@ const index: FC = () => {
           )}
         </div>
       </div>
-
-      {/* modal delete */}
-      <ModalDelete
-        handleDelete={handleDelete}
-        isLoadingDelete={isLoadingDelete}
-        handleCloseModal={handleCloseModalDelete}
-        modalRef={modalDeleteRef}
-      />
 
       {/* modal daftar pic */}
       <ModalDaftarAnggota

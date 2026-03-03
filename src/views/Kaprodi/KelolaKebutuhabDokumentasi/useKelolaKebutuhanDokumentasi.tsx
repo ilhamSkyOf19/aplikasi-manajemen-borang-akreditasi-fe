@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import { useFilter } from "../../../hooks/useFilter";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
 import type { Status } from "../../../types/constanst.type";
 import { useNavigate } from "react-router-dom";
+import useModal from "../../../hooks/useModal";
 
 const useKelolaKebutuhanDokumentasi = () => {
   const navigate = useNavigate();
@@ -17,11 +17,11 @@ const useKelolaKebutuhanDokumentasi = () => {
 
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    idDelete,
-    modalDeleteRef,
-  } = useModalDelete();
+    handleShowModal: handleCloseModalDelete,
+    handleCloseModal: handleShowModalDelete,
+    idModal: idDelete,
+    modalRef: modalDeleteRef,
+  } = useModal();
 
   // use filter status
   const { filter: status, setFilter: setStatus } = useFilter("status", [

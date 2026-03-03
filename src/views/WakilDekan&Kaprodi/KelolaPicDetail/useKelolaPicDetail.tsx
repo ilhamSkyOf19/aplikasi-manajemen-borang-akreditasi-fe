@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { PicService } from "../../../services/pic.service";
 import { useAuthStore } from "../../../stores/authStore";
 import type {
@@ -8,8 +7,8 @@ import type {
   UpdateStatusType,
 } from "../../../types/constanst.type";
 import { RiwayatService } from "../../../services/riwayat.service";
-import useModalBasic from "../../../hooks/useModalBasic";
 import { useRef, useState } from "react";
+import useModal from "../../../hooks/useModal";
 
 const useKelolaPicDetail = () => {
   // state pending update
@@ -22,11 +21,11 @@ const useKelolaPicDetail = () => {
   const user = useAuthStore((state) => state.user);
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    idDelete,
-    modalDeleteRef,
-  } = useModalDelete();
+    handleCloseModal: handleCloseModalDelete,
+    handleShowModal: handleShowModalDelete,
+    idModal: idDelete,
+    modalRef: modalDeleteRef,
+  } = useModal();
 
   // use modal component
   const modalUpdateStatusComponent = useRef<ModalUpdateStatusHandle>(null);
@@ -88,14 +87,14 @@ const useKelolaPicDetail = () => {
     modalRef: modalUpdateRef,
     handleShowModal: handleShowModalUpdate,
     handleCloseModal: handleCloseModalUpdate,
-  } = useModalBasic();
+  } = useModal();
 
   // modal konfirmasi
   const {
     modalRef: modalKonfirmasiRevisiRef,
     handleShowModal: handleShowModalKonfirmasiRevisi,
     handleCloseModal: handleCloseModalKonfirmasiRevisi,
-  } = useModalBasic();
+  } = useModal();
 
   // handle update status
   const { mutateAsync: mutateUpdateStatus, isPending: isPendingUpdateStatus } =
@@ -104,7 +103,7 @@ const useKelolaPicDetail = () => {
         RiwayatService.updateStatus(+id, data),
       onSuccess: () => {
         // close modal update
-        handleCloseModalUpdate();
+        modalUpdateStatusComponent.current?.handleCloseModal();
 
         // query client
         queryClient.invalidateQueries({ queryKey: ["kelola-pic-detail"] });

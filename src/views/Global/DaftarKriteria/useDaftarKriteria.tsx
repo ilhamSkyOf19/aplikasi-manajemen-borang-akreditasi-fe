@@ -5,8 +5,8 @@ import type { ResponseKriteriaType } from "../../../models/kriteria.model";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
 import { useFilter } from "../../../hooks/useFilter";
 import { useHandleModalDataDetail } from "../../../hooks/useHandleModalDataDetail";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
+import useModal from "../../../hooks/useModal";
 
 const UseDaftarKriteria = () => {
   // user
@@ -17,11 +17,11 @@ const UseDaftarKriteria = () => {
 
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    idDelete,
-    modalDeleteRef,
-  } = useModalDelete();
+    handleShowModal: handleCloseModalDelete,
+    handleCloseModal: handleShowModalDelete,
+    idModal: idDelete,
+    modalRef: modalDeleteRef,
+  } = useModal();
 
   // use filter status
   const { filter: filterStatus, setFilter: setFilterStatus } = useFilter(

@@ -1,16 +1,16 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { KebutuhanDokumentasiService } from "../../../services/kebutuhanDokumentasi.service";
-import useModalDelete from "../../../hooks/useModalDelete";
+import useModal from "../../../hooks/useModal";
 
 const useKebutuhanDokumentasiDetail = () => {
   // use modal delete
   const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    idDelete,
-    modalDeleteRef,
-  } = useModalDelete();
+    handleCloseModal: handleCloseModalDelete,
+    handleShowModal: handleShowModalDelete,
+    idModal: idDelete,
+    modalRef: modalDeleteRef,
+  } = useModal();
 
   // navigate
   const navigate = useNavigate();

@@ -10,6 +10,7 @@ import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
 import InputFieldChooseWithSearch from "../../../components/inputComponents/InputFieldChooseWithSearch";
 import DaftarPilihanInput from "../../../components/DaftarPilihanInput";
 import InputFieldNonIconTextArea from "../../../components/inputComponents/InputFieldNonIconTextArea";
+import ModalAlertDataDuplikat from "../../../components/modalComponents/ModalAlertDataDuplikat";
 
 const FormulirPic: FC = () => {
   // call use formulir pic
@@ -38,6 +39,8 @@ const FormulirPic: FC = () => {
     dataPic,
     errors,
     currentPathname,
+    handleCloseModalDuplikat,
+    modalDuplikatRef,
   } = useFormulirPic();
 
   return (
@@ -181,6 +184,20 @@ const FormulirPic: FC = () => {
                 errorMessage={errors.keterangan?.message}
               />
 
+              {/* keterangan */}
+              {formulirUpdate && (
+                <InputFieldNonIconTextArea
+                  register={register("keteranganUpdate")}
+                  label="Keterangan Update"
+                  max={1000}
+                  required
+                  name="keteranganUpdate"
+                  placeholder="masukan keterangan update"
+                  rows={8}
+                  errorMessage={errors.keteranganUpdate?.message}
+                />
+              )}
+
               {/* action */}
               <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
@@ -195,6 +212,12 @@ const FormulirPic: FC = () => {
           )}
         </form>
       </div>
+
+      {/* modal alert */}
+      <ModalAlertDataDuplikat
+        handleCloseModal={handleCloseModalDuplikat}
+        modalRef={modalDuplikatRef}
+      />
     </div>
   );
 };

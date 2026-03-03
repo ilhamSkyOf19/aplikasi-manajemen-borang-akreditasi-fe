@@ -8,6 +8,7 @@ export interface IPic {
   id: number;
   timAkreditasi: Omit<ITimAkreditasi, "user">;
   kebutuhanDokumen: Omit<IKebutuhanDokumen, "createdAt" | "updatedAt">;
+  statusRiwayat: Status;
   pj: PayloadUserType[];
   status: Status;
   keterangan: string;
@@ -21,10 +22,13 @@ export interface CreatePicType {
   kebutuhanDokumenId: number;
   pjId: number[];
   keterangan: string;
+  keteranganUpdate?: string;
 }
 
 // update
-export interface UpdatePicType extends Partial<Omit<CreatePicType, "status">> {}
+export interface UpdatePicType extends Partial<Omit<CreatePicType, "status">> {
+  keteranganUpdate: string;
+}
 
 // response
 export interface ResponsePicType extends IPic {}

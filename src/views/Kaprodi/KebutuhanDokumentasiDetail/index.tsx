@@ -1,11 +1,9 @@
 import { type FC } from "react";
 import BreadCrumbs from "../../../components/BreadCrumbs";
 import useKebutuhanDokumentasiDetail from "./useKebutuhanDokumentasiDetail";
-import { Link } from "react-router-dom";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import FieldDataStatus from "../../../components/FieldStatus";
-import FieldDataAction from "../../../components/FieldDataAction";
 import FieldDataBasic from "../../../components/FieldDataBasic";
 import ButtonUpdateText from "../../../components/buttonComponents/ButtonUpdateText";
 import ButtonDeleteTextNonLoading from "../../../components/buttonComponents/ButtonDeleteTextNonLoading";
@@ -22,7 +20,6 @@ const KebutuhanDokumentasiDetail: FC = () => {
     isPendingDelete,
     modalDeleteRef,
     handleCloseModalDelete,
-    navigate,
   } = useKebutuhanDokumentasiDetail();
 
   return (

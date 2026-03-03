@@ -69,9 +69,7 @@ const SkeletonTable: FC<Props> = ({
               ))}
 
             {/* aksi */}
-            {aksi && (
-              <th className={cn("w-[10%] hidden lg:table-cell")}>Aksi</th>
-            )}
+            {aksi && <th className={cn("w-[10%] text-center")}>Aksi</th>}
           </tr>
         </thead>
       </table>

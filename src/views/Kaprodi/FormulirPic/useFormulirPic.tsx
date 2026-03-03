@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PicValidation } from "../../../validations/pic.validation";
 import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
 import { useEffect, useState } from "react";
+import useModal from "../../../hooks/useModal";
+import { AxiosError } from "axios";
 
 const useFormulirPic = () => {
   // current pathname
@@ -30,6 +32,13 @@ const useFormulirPic = () => {
     namaTimAkreditasi: string;
     anggota: { id: number; nama: string }[];
   } | null>(null);
+
+  // modal alert duplikat
+  const {
+    handleCloseModal: handleCloseModalDuplikat,
+    handleShowModal: handleShowModalDuplikat,
+    modalRef: modalDuplikatRef,
+  } = useModal();
 
   // navigate
   const navigate = useNavigate();
@@ -128,7 +137,11 @@ const useFormulirPic = () => {
       });
     },
     onError: (error) => {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data.meta.statusCode === 409) {
+          handleShowModalDuplikat();
+        }
+      }
     },
   });
 
@@ -230,6 +243,7 @@ const useFormulirPic = () => {
           timAkreditasiId: Number(data.timAkreditasiId),
           keterangan: data.keterangan?.trim(),
           pjId: [...(data.pjId ?? [])].map(Number).sort(),
+          keteranganUpdate: null,
         };
 
         const originalData = {
@@ -237,6 +251,7 @@ const useFormulirPic = () => {
           timAkreditasiId: dataPic?.data?.data?.timAkreditasi.id,
           keterangan: dataPic?.data?.data?.keterangan.trim(),
           pjId: dataPic?.data?.data?.pj.map((pj) => pj.id).sort(),
+          keteranganUpdate: data.keteranganUpdate,
         };
 
         if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
@@ -279,6 +294,8 @@ const useFormulirPic = () => {
     dataPic,
     errors,
     currentPathname,
+    modalDuplikatRef,
+    handleCloseModalDuplikat,
   };
 };
 

@@ -1,10 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useFilter } from "../../../hooks/useFilter";
 import { PicService } from "../../../services/pic.service";
 import type { Status } from "../../../types/constanst.type";
 import { useNavigate } from "react-router-dom";
 import { useToastAnimation } from "../../../hooks/useToastAnimationOut";
-import useModalDelete from "../../../hooks/useModalDelete";
 import { useAuthStore } from "../../../stores/authStore";
 import type { ResponsePicType } from "../../../models/pic.model";
 import { useState } from "react";
@@ -14,8 +13,6 @@ const useKelolaPic = () => {
   // get user from store
   const user = useAuthStore((state) => state.user);
 
-  // use query client
-  const queryClient = useQueryClient();
   // navigate
   const navigate = useNavigate();
 
@@ -31,7 +28,7 @@ const useKelolaPic = () => {
   ]);
 
   //   call use animation toast
-  const { isAnimationOut, isToast, handleSetToast } = useToastAnimation();
+  const { isAnimationOut, isToast } = useToastAnimation();
 
   //   query
   const { data: dataPic, isLoading: isLoadingPic } = useQuery({
@@ -44,7 +41,7 @@ const useKelolaPic = () => {
     {
       label: "jenis dokumentasi",
       key: "namaDokumen",
-      size: 26,
+      size: 30,
     },
   ];
 
@@ -52,12 +49,11 @@ const useKelolaPic = () => {
   const headerLoading = [
     {
       label: "jenis dokumentasi",
-      size: 16,
+      size: 30,
     },
     { label: "Keterangan Dokumen", size: 20 },
-    { label: "PIC", size: 14 },
-    { label: "Riwayat", size: 14 },
-    { label: "Status", size: 14 },
+    { label: "PIC", size: 17.3 },
+    { label: "Status", size: 17.3 },
   ];
 
   // handle detail
@@ -67,40 +63,40 @@ const useKelolaPic = () => {
     );
   };
 
-  // use modal delete
-  const {
-    handleCloseModalDelete,
-    handleShowModalDelete,
-    modalDeleteRef,
-    idDelete,
-  } = useModalDelete();
+  // // use modal delete
+  // const {
+  //   handleCloseModalDelete,
+  //   handleShowModalDelete,
+  //   modalDeleteRef,
+  //   idDelete,
+  // } = useModalDelete();
 
-  //   handle delete
-  const { mutateAsync: mutateDelete, isPending: isLoadingDelete } = useMutation(
-    {
-      mutationFn: async (id: number) => {
-        return PicService.delete(id);
-      },
-      onSuccess: () => {
-        // show toast
-        handleSetToast("deleted");
+  // //   handle delete
+  // const { mutateAsync: mutateDelete, isPending: isLoadingDelete } = useMutation(
+  //   {
+  //     mutationFn: async (id: number) => {
+  //       return PicService.delete(id);
+  //     },
+  //     onSuccess: () => {
+  //       // show toast
+  //       handleSetToast("deleted");
 
-        // close modal delete
-        handleCloseModalDelete();
+  //       // close modal delete
+  //       handleCloseModalDelete();
 
-        // refetch
-        queryClient.invalidateQueries({ queryKey: ["kelola-pic"] });
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    },
-  );
+  //       // refetch
+  //       queryClient.invalidateQueries({ queryKey: ["kelola-pic"] });
+  //     },
+  //     onError: (error) => {
+  //       console.log(error);
+  //     },
+  //   },
+  // );
 
-  // handle delete
-  const handleDelete = async () => {
-    await mutateDelete(idDelete);
-  };
+  // // handle delete
+  // const handleDelete = async () => {
+  //   await mutateDelete(idDelete);
+  // };
 
   // handle riwayat
   const handleRiwayat = (id: number) => {
@@ -153,11 +149,6 @@ const useKelolaPic = () => {
     headerLoading,
     isAnimationOut,
     isToast,
-    handleShowModalDelete,
-    handleCloseModalDelete,
-    modalDeleteRef,
-    isLoadingDelete,
-    handleDelete,
     user,
     modalDaftarPjRef,
     handleShowModalDaftarPj,
