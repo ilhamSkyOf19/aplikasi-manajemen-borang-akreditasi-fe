@@ -33,7 +33,7 @@ export default function InputFieldChoose<T extends FieldValues = any>({
       {/* label */}
       <div className="w-full text-base relative flex flex-row justify-between items-center">
         <div className="flex-2 relative">
-          <label htmlFor={"nama"} className="capitalize text-sm">
+          <label htmlFor={""} className="capitalize text-sm">
             {label}
           </label>
 

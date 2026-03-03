@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { cn } from "../../../../utils/cn";
 import type { ResponseRiwayatType } from "../../../../models/riwayat.model";
 import { formatTanggalPanjang } from "../../../../utils/formatDate";
-import type { ResponseUserType } from "../../../../models/user.model";
+import type { PayloadUserType } from "../../../../models/user.model";
+import RiwayatPic from "..";
 
 type Props = {
   dataRiwayat: ResponseRiwayatType[];
   type: "menunggu" | "revisi";
-  user: ResponseUserType | null;
+  user: PayloadUserType | null;
 };
 
 const ComponentData: FC<Props> = ({ dataRiwayat, type, user }) => {
@@ -16,6 +17,36 @@ const ComponentData: FC<Props> = ({ dataRiwayat, type, user }) => {
   const filteredData = dataRiwayat.filter(
     (item) => item.status === (type === "menunggu" ? "menunggu" : "revisi"),
   );
+
+  //  find menunggu flag kebutuhan dokumen
+  const flagMenungguKebutuhanDokumentasi =
+    dataRiwayat.filter(
+      (item) =>
+        item.status === "menunggu" &&
+        item.flagRevisi?.includes("kebutuhan_dokumen"),
+    ).length > 0
+      ? true
+      : false;
+
+  //  find menunggu flag pic
+  const flagMenungguPic =
+    dataRiwayat.filter(
+      (item) => item.status === "menunggu" && item.flagRevisi?.includes("pic"),
+    ).length > 0
+      ? true
+      : false;
+
+  // ambil revisi terbaru (index 0 karena sudah order desc)
+  const latestRevisi = dataRiwayat
+    .filter((item) => item.status === "revisi")
+    .at(-1);
+
+  const flagRevisiKebutuhanDokumentasi =
+    latestRevisi?.flagRevisi?.some((flag) => flag === "kebutuhan_dokumen") ??
+    false;
+
+  const flagRevisiPic =
+    latestRevisi?.flagRevisi?.some((flag) => flag === "pic") ?? false;
 
   return (
     <>
@@ -131,28 +162,40 @@ const ComponentData: FC<Props> = ({ dataRiwayat, type, user }) => {
             {user?.role === "kaprodi" &&
               type !== "menunggu" &&
               index === filteredData.length - 1 &&
-              !dataRiwayat.some((item) => item.status === "disetujui") && (
+              !dataRiwayat.some((item) => item.status === "disetujui") &&
+              ((!flagMenungguKebutuhanDokumentasi &&
+                flagRevisiKebutuhanDokumentasi) ||
+                (!flagMenungguPic && flagRevisiPic)) && (
                 <div className="flex flex-row justify-start items-start ml-6 lg:ml-12">
                   <div className="flex flex-col justify-start items-start">
                     <FieldData label="Aksi" semibold sizeBase />
 
                     <div className="flex flex-row justify-start items-start gap-2 mt-2 ml-8 lg:ml-12">
-                      {/* revisi dokumen */}
-                      <Link
-                        to={`/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${item.pic?.kebutuhanDokumen.id}`}
-                        className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
-                      >
-                        Revisi Dokumen
-                      </Link>
+                      {flagRevisiKebutuhanDokumentasi &&
+                        !flagMenungguKebutuhanDokumentasi && (
+                          <>
+                            {/* revisi dokumen */}
+                            <Link
+                              to={`/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${item.pic?.kebutuhanDokumen.id}`}
+                              className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
+                            >
+                              Revisi Dokumen
+                            </Link>
+                          </>
+                        )}
 
-                      {/* revisi pic */}
-                      <Link
-                        to={`/dashboard/kelola-pic/ubah-pic/${item.pic?.id}`}
-                        type="button"
-                        className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
-                      >
-                        Revisi Pic
-                      </Link>
+                      {flagRevisiPic && !flagMenungguPic && (
+                        <>
+                          {/* revisi pic */}
+                          <Link
+                            to={`/dashboard/kelola-pic/ubah-pic/${item.pic?.id}`}
+                            type="button"
+                            className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
+                          >
+                            Revisi Pic
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

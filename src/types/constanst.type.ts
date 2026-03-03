@@ -18,8 +18,17 @@ export interface UpdateStatusType {
   status: Status;
   keterangan: string;
   jenisRiwayat: JenisRiwayat;
+  flagRevisi?: FlagRevisi[];
 }
 
+// flag revisi
+export type FlagRevisi = "dokumen_borang" | "pic" | "kebutuhan_dokumen";
+
+export const FLAG_REVISI_VALUES = [
+  "dokumen_borang",
+  "pic",
+  "kebutuhan_dokumen",
+] as const;
 export interface ModalUpdateStatusHandle {
   handleCloseModal: () => void;
 }

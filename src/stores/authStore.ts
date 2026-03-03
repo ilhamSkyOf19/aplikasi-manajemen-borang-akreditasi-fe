@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import type { ResponseUserType } from "../models/user.model";
+import type { PayloadUserType } from "../models/user.model";
 
 type AuthState = {
-  user: ResponseUserType | null;
+  user: PayloadUserType | null;
   isAuthenticated: boolean;
   isInitialized: boolean;
-  setUser: (user: ResponseUserType | null) => void;
+  setUser: (user: PayloadUserType | null) => void;
   logout: () => void;
 };
 

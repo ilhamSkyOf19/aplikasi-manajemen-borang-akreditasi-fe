@@ -4,8 +4,15 @@ import ButtonCancelText from "../../buttonComponents/ButtonCancelText";
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
+  bigTitle: string;
+  smallTitle: string;
 };
-const ModalAlertDataDuplikat: FC<Props> = ({ handleCloseModal, modalRef }) => {
+const ModalAlert: FC<Props> = ({
+  handleCloseModal,
+  modalRef,
+  bigTitle,
+  smallTitle,
+}) => {
   return (
     <dialog
       ref={modalRef}
@@ -19,14 +26,11 @@ const ModalAlertDataDuplikat: FC<Props> = ({ handleCloseModal, modalRef }) => {
           <AlertCircle className="size-20 text-error" />
         </div>
         <h3 className="font-bold text-base lg:text-lg text-center mb-4">
-          Data sudah tersedia di sistem dan tidak dapat dibuat ulang.
+          {bigTitle}
         </h3>
 
         {/* content */}
-        <p className="text-sm lg:text-sm text-center">
-          Silakan periksa kembali daftar data yang telah dibuat atau lakukan
-          pembaruan pada data yang sudah tersedia.
-        </p>
+        <p className="text-sm lg:text-sm text-center">{smallTitle}</p>
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
           {/* button close */}
@@ -37,4 +41,4 @@ const ModalAlertDataDuplikat: FC<Props> = ({ handleCloseModal, modalRef }) => {
   );
 };
 
-export default ModalAlertDataDuplikat;
+export default ModalAlert;

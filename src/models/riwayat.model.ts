@@ -1,4 +1,4 @@
-import type { JenisRiwayat, Status } from "../types/constanst.type";
+import type { FlagRevisi, JenisRiwayat, Status } from "../types/constanst.type";
 import type { IKebutuhanDokumen } from "./kebutuhanDokumentasi.model";
 import type { IPic } from "./pic.model";
 import type { ITimAkreditasi } from "./timAkreditasi.model";
@@ -8,6 +8,7 @@ export interface IRiwayat {
   id: number;
   jenis: JenisRiwayat;
   status: Status;
+  flagRevisi?: FlagRevisi[] | null;
   keterangan: string;
   createdData?: Date | null;
   highlightDataEmpy?: string;
@@ -40,7 +41,9 @@ export interface CreateRiwayatType extends Omit<
 // update
 export interface UpdateRiwayatType extends Partial<
   Omit<CreateRiwayatType, "kebutuhanDokumenId" | "picId">
-> {}
+> {
+  flagRevisi?: FlagRevisi[];
+}
 
 // response
 export interface ResponseRiwayatType extends IRiwayat {}

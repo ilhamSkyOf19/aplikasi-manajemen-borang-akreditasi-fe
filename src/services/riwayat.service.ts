@@ -1,5 +1,4 @@
 import instanceAxios from "../libs/axios";
-import type { ResponsePicType } from "../models/pic.model";
 import type { ResponseRiwayatType } from "../models/riwayat.model";
 import type { UpdateStatusType } from "../types/constanst.type";
 import type { ResponseStructure } from "../types/response";
@@ -21,9 +20,9 @@ export class RiwayatService {
   static async updateStatus(
     id: number,
     data: UpdateStatusType,
-  ): Promise<ResponseStructure<ResponsePicType | null>> {
+  ): Promise<ResponseStructure<ResponseRiwayatType | null>> {
     const result = await instanceAxios.patch<
-      ResponseStructure<ResponsePicType | null>
+      ResponseStructure<ResponseRiwayatType | null>
     >(`/riwayat/update-status/${id}`, data);
 
     return result.data;

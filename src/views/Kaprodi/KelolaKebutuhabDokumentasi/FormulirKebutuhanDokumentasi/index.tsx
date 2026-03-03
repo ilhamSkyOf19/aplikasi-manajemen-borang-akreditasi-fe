@@ -13,6 +13,7 @@ import type {
 } from "../../../../models/kebutuhanDokumentasi.model";
 import InputFieldNonIconTextArea from "../../../../components/inputComponents/InputFieldNonIconTextArea";
 import SkeletonForm from "../../../../components/SkeletonForm";
+import ModalAlert from "../../../../components/modalComponents/ModalAlert";
 
 const FormulirKebutuhanDokumentasi: FC = () => {
   // use formulir kriteria
@@ -29,6 +30,8 @@ const FormulirKebutuhanDokumentasi: FC = () => {
     kriteriaController,
     pendekatanController,
     loadingData,
+    handleCloseModalAlert,
+    modalAlertRef,
   } = useFomulirKebutuhanDokumentasi();
 
   return (
@@ -171,6 +174,14 @@ const FormulirKebutuhanDokumentasi: FC = () => {
           )}
         </form>
       </div>
+
+      {/* modal alert */}
+      <ModalAlert
+        modalRef={modalAlertRef}
+        handleCloseModal={handleCloseModalAlert}
+        bigTitle="Data sedang  proses menunggu verifikasi."
+        smallTitle="Perubahan tidak dapat dilakukan hingga proses revisi atau verifikasi selesai."
+      />
     </div>
   );
 };

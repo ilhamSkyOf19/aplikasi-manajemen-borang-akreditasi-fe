@@ -10,12 +10,21 @@ import type {
   UpdateKebutuhanDokumenType,
 } from "../../../../models/kebutuhanDokumentasi.model";
 import { KebutuhanDokumenValidation } from "../../../../validations/kebutuhanDokumentasi.validation";
+import useModal from "../../../../hooks/useModal";
+import { AxiosError } from "axios";
 
 const useFomulirKebutuhanDokumentasi = () => {
   // navigate
   const navigate = useNavigate();
   // get id from params
   const { id } = useParams() as { id: string };
+
+  // modal alert
+  const {
+    modalRef: modalAlertRef,
+    handleCloseModal: handleCloseModalAlert,
+    handleShowModal: handleShowModalAlert,
+  } = useModal();
 
   // get query
   const data = useQueries({
@@ -118,7 +127,13 @@ const useFomulirKebutuhanDokumentasi = () => {
       return () => clearTimeout(timer);
     },
     onError: (error) => {
-      console.log(error);
+      // check error
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.meta?.statusCode === 409) {
+          // show modal
+          handleShowModalAlert();
+        }
+      }
     },
   });
 
@@ -178,6 +193,8 @@ const useFomulirKebutuhanDokumentasi = () => {
     kriteriaController,
     pendekatanController,
     loadingData: dataKebutuhanDokumentasi?.isLoading,
+    modalAlertRef,
+    handleCloseModalAlert,
   };
 };
 

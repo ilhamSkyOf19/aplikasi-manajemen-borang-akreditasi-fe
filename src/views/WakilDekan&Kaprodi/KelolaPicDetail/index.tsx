@@ -196,7 +196,7 @@ const KelolaPicDetail: FC = () => {
                         className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
                         onClick={() => handleShowModalUpdate()}
                       >
-                        status
+                        Verifikasi
                       </button>
                     </>
                   </>

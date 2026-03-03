@@ -10,7 +10,7 @@ import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
 import InputFieldChooseWithSearch from "../../../components/inputComponents/InputFieldChooseWithSearch";
 import DaftarPilihanInput from "../../../components/DaftarPilihanInput";
 import InputFieldNonIconTextArea from "../../../components/inputComponents/InputFieldNonIconTextArea";
-import ModalAlertDataDuplikat from "../../../components/modalComponents/ModalAlertDataDuplikat";
+import ModalAlert from "../../../components/modalComponents/ModalAlert";
 
 const FormulirPic: FC = () => {
   // call use formulir pic
@@ -214,7 +214,10 @@ const FormulirPic: FC = () => {
       </div>
 
       {/* modal alert */}
-      <ModalAlertDataDuplikat
+      <ModalAlert
+        bigTitle="Data sudah tersedia di sistem dan tidak dapat dibuat ulang."
+        smallTitle="Silakan periksa kembali daftar data yang telah dibuat atau lakukan
+          pembaruan pada data yang sudah tersedia."
         handleCloseModal={handleCloseModalDuplikat}
         modalRef={modalDuplikatRef}
       />

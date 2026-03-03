@@ -1,5 +1,6 @@
 import z from "zod";
 import type {
+  FlagRevisi,
   JenisRiwayat,
   Status,
   UpdateStatusType,
@@ -30,6 +31,17 @@ export class StatusValidation {
         ["pic", "dokumen_borang"] as JenisRiwayat[],
         "Status tidak valid",
       ),
+      flagRevisi: z
+        .array(
+          z.enum(
+            ["pic", "kebutuhan_dokumen", "dokumen_borang"] as FlagRevisi[],
+            "flag revisi tidak valid",
+          ),
+        )
+        .nonempty({
+          message: `flag revisi harus berupa array yang tidak kosong`,
+        })
+        .optional(),
     })
     .strict() satisfies z.ZodType<UpdateStatusType>;
 }

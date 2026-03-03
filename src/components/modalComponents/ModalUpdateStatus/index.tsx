@@ -9,6 +9,9 @@ import InputFieldNonIconTextArea from "../../inputComponents/InputFieldNonIconTe
 import useModalUpdateStatus from "./useModalStatus";
 import InputFieldChoose from "../../inputComponents/InputFieldChoose";
 import ButtonCancelText from "../../buttonComponents/ButtonCancelText";
+import ErrorFieldInput from "../../ErrorFieldInput";
+import { X } from "lucide-react";
+import InputFieldChooseFlagRevisi from "../../inputComponents/InputFieldChooseFlagRevisi";
 
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
@@ -33,6 +36,10 @@ const ModalUpdateStatus: FC<Props> = ({
     handleSubmit,
     statusController,
     handleCloseModalResetInput,
+    watch,
+    handleChooseFlagRevisi,
+    handleRemoveChooseFlagRevisi,
+    isFlagRevisi,
   } = useModalUpdateStatus({
     jenisRiwayat,
     handleCloseModal,
@@ -49,7 +56,7 @@ const ModalUpdateStatus: FC<Props> = ({
       <div className="modal-box w-[90vw] lg:w-lg">
         {/* title */}
         <div className="w-full pb-2 border-b border-primary-black/50">
-          <h2 className="text-base font-semibold">Setujui Pengajuan</h2>
+          <h2 className="text-base font-semibold">Verifikasi Data</h2>
         </div>
 
         <form
@@ -78,6 +85,16 @@ const ModalUpdateStatus: FC<Props> = ({
             placeholder="Pilih status"
             required
           />
+
+          {/* check status */}
+          {watch("status") === "revisi" && (
+            <InputFieldChooseFlagRevisi
+              handleChooseFlag={handleChooseFlagRevisi}
+              isFlagRevisi={isFlagRevisi}
+              errorMessage={errors.flagRevisi?.message}
+              handleRemoveChooseFlag={handleRemoveChooseFlagRevisi}
+            />
+          )}
 
           {/* keterangan */}
           <InputFieldNonIconTextArea
