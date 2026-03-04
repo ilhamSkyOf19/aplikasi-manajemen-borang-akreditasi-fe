@@ -11,6 +11,7 @@ import type {
 import { TimAkreditasiValidation } from "../../../../validations/timAkreditasi.validation";
 import { useFilter } from "../../../../hooks/useFilter";
 import { UserService } from "../../../../services/user.service";
+import useConfirm from "../../../../hooks/useConfirm";
 
 const useFormulirTimAkreditasi = () => {
   // state choose anggota / user
@@ -21,6 +22,13 @@ const useFormulirTimAkreditasi = () => {
   const navigate = useNavigate();
   // get id from params
   const { id } = useParams() as { id: string };
+
+  const {
+    confirm,
+    handleCancel,
+    handleConfirm,
+    modalRef: modalRefConfirm,
+  } = useConfirm();
 
   // use search
   const { filter: searchUsers, setFilter: handleSearchUsers } =
@@ -130,21 +138,31 @@ const useFormulirTimAkreditasi = () => {
     data: CreateTimAkreditasiType | UpdateTimAkreditasiType,
   ) => {
     try {
-      // check same data
-      if (
-        JSON.stringify(data) ===
-        JSON.stringify({
-          namaTimAkreditasi: dataTimAkreditasi?.data?.data?.namaTimAkreditasi,
-          users: dataTimAkreditasi?.data?.data?.user.map((user) => user.id),
-        })
-      ) {
-        navigate("/dashboard/kelola-tim-akreditasi", {
-          state: {
-            status: "notUpdated",
-          },
-        });
+      if (id) {
+        // check same data
+        if (
+          JSON.stringify(data) ===
+          JSON.stringify({
+            namaTimAkreditasi: dataTimAkreditasi?.data?.data?.namaTimAkreditasi,
+            users: dataTimAkreditasi?.data?.data?.user.map((user) => user.id),
+          })
+        ) {
+          navigate("/dashboard/kelola-tim-akreditasi", {
+            state: {
+              status: "notUpdated",
+            },
+          });
 
-        return;
+          return;
+        }
+
+        // check confirm
+        const isConfirm = await confirm();
+
+        // check
+        if (!isConfirm) {
+          return;
+        }
       }
 
       await mutateAsync(data);
@@ -210,6 +228,9 @@ const useFormulirTimAkreditasi = () => {
     chooseUser,
     setPageUsers,
     loadingDataTimAkreditasi: dataTimAkreditasi.isLoading,
+    modalRefConfirm,
+    handleCancel,
+    handleConfirm,
   };
 };
 

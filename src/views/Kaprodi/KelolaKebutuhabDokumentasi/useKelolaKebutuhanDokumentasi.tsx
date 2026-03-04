@@ -17,8 +17,8 @@ const useKelolaKebutuhanDokumentasi = () => {
 
   // use modal delete
   const {
-    handleShowModal: handleCloseModalDelete,
-    handleCloseModal: handleShowModalDelete,
+    handleShowModal: handleShowModalDelete,
+    handleCloseModal: handleCloseModalDelete,
     idModal: idDelete,
     modalRef: modalDeleteRef,
   } = useModal();

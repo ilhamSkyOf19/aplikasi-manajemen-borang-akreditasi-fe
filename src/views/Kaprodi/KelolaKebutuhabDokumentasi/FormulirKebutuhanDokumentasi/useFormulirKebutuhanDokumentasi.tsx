@@ -19,6 +19,9 @@ const useFomulirKebutuhanDokumentasi = () => {
   // get id from params
   const { id } = useParams() as { id: string };
 
+  // use location
+  const location = useLocation();
+
   // modal alert
   const {
     modalRef: modalAlertRef,
@@ -111,6 +114,15 @@ const useFomulirKebutuhanDokumentasi = () => {
       }
     },
     onSuccess: () => {
+      // check state from location state
+      if (location?.state?.callback) {
+        return navigate(location?.state?.callback, {
+          state: {
+            status: id ? "updated" : "created",
+          },
+        });
+      }
+
       // navigate
       navigate("/dashboard/kelola-kebutuhan-dokumentasi", {
         state: {

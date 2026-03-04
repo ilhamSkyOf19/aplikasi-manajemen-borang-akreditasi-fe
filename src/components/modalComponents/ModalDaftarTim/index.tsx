@@ -1,7 +1,6 @@
 import { type FC, type RefObject } from "react";
 import { cn } from "../../../utils/cn";
 import type { ITimAkreditasi } from "../../../models/timAkreditasi.model";
-import { CornerDownRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import ButtonCloseText from "../../buttonComponents/ButtonCloseText";
 type Props = {
@@ -27,48 +26,48 @@ const ModalDaftarTim: FC<Props> = ({
     >
       <div className={cn("modal-box w-[80vw] lg:w-xl", customClassName)}>
         {/* icon alert */}
-        <h3 className="font-bold text-base lg:text-lg">Daftar Tim - {nama}</h3>
+        <div className="w-full pb-2 border-b border-primary-black">
+          <h3 className="font-semibold text-base lg:text-lg">Daftar Tim</h3>
+        </div>
 
-        {datas.length > 0 ? (
-          <div className="w-full flex flex-row justify-start items-start gap-2 mt-2 pl-4">
-            {/* arrow corner down */}
-            <div className="flex-1">
-              <CornerDownRight />
-            </div>
+        <div className="flex flex-col justify-start items-start mt-4">
+          <h3 className="text-sm font-semibold">
+            Daftar tim akreditasi - {nama}
+          </h3>
 
-            <div className="flex-12 w-full flex flex-col justify-start items-start pt-0.5">
-              <ol className="w-full">
+          {datas.length > 0 ? (
+            <div className="ml-6 w-full flex flex-col justify-start items-start pt-0.5">
+              <ol className="list-decimal pl-2 flex flex-col gap-2 lg:marker:text-sm mt-2">
                 {datas.map((item, index) => (
-                  <div
-                    key={index}
-                    className="w-full  flex flex-row justify-between items-center pb-2 border-b border-primary-black/30"
-                  >
-                    {/* nama */}
-                    <div className="flex flex-row justify-start items-start gap-2">
-                      {/* number */}
-                      <span className="text-sm">{index + 1}.</span>
-
-                      {/* nama */}
-                      <span className="text-sm">{item.namaTimAkreditasi}</span>
+                  <li key={index}>
+                    <div className="flex items-center gap-6 ml-1">
+                      <span className="text-sm">
+                        {item.namaTimAkreditasi}{" "}
+                        {true && (
+                          <>
+                            <span className="text-sm font-semibold mx-2">
+                              -
+                            </span>
+                            <Link
+                              to={`/dashboard/kelola-tim-akreditasi?search=${item.namaTimAkreditasi}`}
+                              className="text-sm text-primary-purple hover:underline"
+                            >
+                              Kelola
+                            </Link>
+                          </>
+                        )}
+                      </span>
                     </div>
-
-                    {/* aksi */}
-                    <Link
-                      to={`/dashboard/kelola-tim-akreditasi?search=${item.namaTimAkreditasi}`}
-                      className="text-sm text-primary-purple hover:underline"
-                    >
-                      Kelola
-                    </Link>
-                  </div>
+                  </li>
                 ))}
               </ol>
             </div>
-          </div>
-        ) : (
-          <div className="w-full flex flex-row justify-center items-center mt-4">
-            <span className="text-sm">Belum ada tim akreditasi</span>
-          </div>
-        )}
+          ) : (
+            <div className="w-full flex flex-row justify-center items-center mt-4">
+              <span className="text-sm">Belum ada tim akreditasi</span>
+            </div>
+          )}
+        </div>
 
         <div className="w-full flex flex-row justify-end items-end gap-2 mt-6">
           {/* button close */}

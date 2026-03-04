@@ -13,6 +13,7 @@ import ModalKonfirmasiRevisi from "../../../components/modalComponents/ModalKonf
 import ButtonUpdateText from "../../../components/buttonComponents/ButtonUpdateText";
 import ButtonDeleteTextNonLoading from "../../../components/buttonComponents/ButtonDeleteTextNonLoading";
 import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
+import { generateStatus } from "../../../utils/generate";
 
 const KelolaPicDetail: FC = () => {
   // call use
@@ -179,7 +180,11 @@ const KelolaPicDetail: FC = () => {
               {/* status */}
               <FieldDataStatus
                 typeData="Status Terkini"
-                value={dataPic?.data?.status ?? "menunggu"}
+                value={generateStatus(
+                  dataPic?.data?.statusRiwayat,
+                  dataPic?.data?.status,
+                  dataPic?.data?.kebutuhanDokumen.status,
+                )}
               />
 
               {/* aksi */}

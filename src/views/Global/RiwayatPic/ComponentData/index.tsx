@@ -1,10 +1,9 @@
 import { type FC } from "react";
-import { Link } from "react-router-dom";
 import { cn } from "../../../../utils/cn";
 import type { ResponseRiwayatType } from "../../../../models/riwayat.model";
 import { formatTanggalPanjang } from "../../../../utils/formatDate";
 import type { PayloadUserType } from "../../../../models/user.model";
-import RiwayatPic from "..";
+import useComponentData from "./useComponentData";
 
 type Props = {
   dataRiwayat: ResponseRiwayatType[];
@@ -13,40 +12,15 @@ type Props = {
 };
 
 const ComponentData: FC<Props> = ({ dataRiwayat, type, user }) => {
-  // filter data
-  const filteredData = dataRiwayat.filter(
-    (item) => item.status === (type === "menunggu" ? "menunggu" : "revisi"),
-  );
-
-  //  find menunggu flag kebutuhan dokumen
-  const flagMenungguKebutuhanDokumentasi =
-    dataRiwayat.filter(
-      (item) =>
-        item.status === "menunggu" &&
-        item.flagRevisi?.includes("kebutuhan_dokumen"),
-    ).length > 0
-      ? true
-      : false;
-
-  //  find menunggu flag pic
-  const flagMenungguPic =
-    dataRiwayat.filter(
-      (item) => item.status === "menunggu" && item.flagRevisi?.includes("pic"),
-    ).length > 0
-      ? true
-      : false;
-
-  // ambil revisi terbaru (index 0 karena sudah order desc)
-  const latestRevisi = dataRiwayat
-    .filter((item) => item.status === "revisi")
-    .at(-1);
-
-  const flagRevisiKebutuhanDokumentasi =
-    latestRevisi?.flagRevisi?.some((flag) => flag === "kebutuhan_dokumen") ??
-    false;
-
-  const flagRevisiPic =
-    latestRevisi?.flagRevisi?.some((flag) => flag === "pic") ?? false;
+  // call use
+  const {
+    filteredData,
+    flagMenungguKebutuhanDokumentasi,
+    flagMenungguPic,
+    flagRevisiKebutuhanDokumentasi,
+    flagRevisiPic,
+    handleRedirectLink,
+  } = useComponentData(dataRiwayat, type);
 
   return (
     <>
@@ -175,25 +149,36 @@ const ComponentData: FC<Props> = ({ dataRiwayat, type, user }) => {
                         !flagMenungguKebutuhanDokumentasi && (
                           <>
                             {/* revisi dokumen */}
-                            <Link
-                              to={`/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${item.pic?.kebutuhanDokumen.id}`}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleRedirectLink(
+                                  `/dashboard/kelola-kebutuhan-dokumentasi/ubah-kebutuhan-dokumentasi/${item.pic?.kebutuhanDokumen.id}`,
+                                  `/dashboard/kelola-pic/riwayat/${item.pic?.id}`,
+                                )
+                              }
                               className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
                             >
                               Revisi Dokumen
-                            </Link>
+                            </button>
                           </>
                         )}
 
                       {flagRevisiPic && !flagMenungguPic && (
                         <>
                           {/* revisi pic */}
-                          <Link
-                            to={`/dashboard/kelola-pic/ubah-pic/${item.pic?.id}`}
+                          <button
                             type="button"
+                            onClick={() =>
+                              handleRedirectLink(
+                                `/dashboard/kelola-pic/ubah-pic/${item.pic?.id}`,
+                                `/dashboard/kelola-pic/riwayat/${item.pic?.id}`,
+                              )
+                            }
                             className="btn btn-info btn-sm lg:btn-md text-primary-white font-medium"
                           >
                             Revisi Pic
-                          </Link>
+                          </button>
                         </>
                       )}
                     </div>

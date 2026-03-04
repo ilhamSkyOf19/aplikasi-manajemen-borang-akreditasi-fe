@@ -258,6 +258,7 @@ const DaftarKriteria: FC = () => {
         isLoadingDelete={isLoadingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
+        listData={["Data PIC", "Data Kebutuhan Dokumentasi"]}
       />
     </div>
   );

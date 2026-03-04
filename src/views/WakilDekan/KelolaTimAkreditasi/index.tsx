@@ -215,6 +215,7 @@ const KelolaTimAkreditasi: FC = () => {
         isLoadingDelete={isLoadingDelete}
         handleCloseModal={handleCloseModalDelete}
         modalRef={modalDeleteRef}
+        listData={["Data PIC"]}
       />
     </div>
   );

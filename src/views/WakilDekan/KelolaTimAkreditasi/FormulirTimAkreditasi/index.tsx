@@ -13,6 +13,7 @@ import type {
 import InputFieldChooseWithSearch from "../../../../components/inputComponents/InputFieldChooseWithSearch";
 import SkeletonForm from "../../../../components/SkeletonForm";
 import DaftarPilihanInput from "../../../../components/DaftarPilihanInput";
+import ModalAlert from "../../../../components/modalComponents/ModalAlert";
 
 const FormulirTimAkreditasi: FC = () => {
   // use formulir kriteria
@@ -33,6 +34,9 @@ const FormulirTimAkreditasi: FC = () => {
     handleRemoveUser,
     setPageUsers,
     loadingDataTimAkreditasi,
+    handleCancel,
+    handleConfirm,
+    modalRefConfirm,
   } = useFormulirTimAkreditasi();
 
   return (
@@ -127,6 +131,15 @@ const FormulirTimAkreditasi: FC = () => {
           )}
         </form>
       </div>
+
+      {/* modal confirm */}
+      <ModalAlert
+        modalRef={modalRefConfirm}
+        handleCloseModal={handleCancel}
+        handleConfirm={handleConfirm}
+        bigTitle="Apakah Anda yakin ingin mengubah data ini?"
+        smallTitle="Data ini saling terhubung dengan data lain. Mohon pastikan sebelum melakukan perubahan."
+      />
     </div>
   );
 };

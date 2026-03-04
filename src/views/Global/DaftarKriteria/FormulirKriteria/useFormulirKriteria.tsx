@@ -10,12 +10,21 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { KriteriaService } from "../../../../services/kriteria.service";
 import { useEffect } from "react";
 import { AxiosError } from "axios";
+import useConfirm from "../../../../hooks/useConfirm";
 
 const useFormulirKriteria = () => {
   // navigate
   const navigate = useNavigate();
   // get id from params
   const { id } = useParams() as { id: string };
+
+  // use modal konfirmasi
+  const {
+    confirm,
+    handleCancel,
+    handleConfirm,
+    modalRef: modalRefConfirm,
+  } = useConfirm();
 
   // get query
   const { data: dataKriteria, isLoading } = useQuery({
@@ -93,17 +102,27 @@ const useFormulirKriteria = () => {
   const onSubmit = async (data: CreateKriteriaType | UpdateKriteriaType) => {
     try {
       // check same data
-      if (
-        data.kriteria === dataKriteria?.data?.kriteria &&
-        data.namaKriteria === dataKriteria?.data?.namaKriteria
-      ) {
-        navigate("/dashboard/daftar-kriteria", {
-          state: {
-            status: "notUpdated",
-          },
-        });
+      if (id) {
+        if (
+          data.kriteria === dataKriteria?.data?.kriteria &&
+          data.namaKriteria === dataKriteria?.data?.namaKriteria
+        ) {
+          navigate("/dashboard/daftar-kriteria", {
+            state: {
+              status: "notUpdated",
+            },
+          });
 
-        return;
+          return;
+        }
+
+        // confirm
+        const isConfirm = await confirm();
+
+        // check
+        if (!isConfirm) {
+          return;
+        }
       }
 
       await mutateAsync(data);
@@ -124,6 +143,9 @@ const useFormulirKriteria = () => {
     namaKriteria: dataKriteria?.data?.namaKriteria,
     formulirUpdate: id,
     isLoading,
+    modalRefConfirm,
+    handleConfirm,
+    handleCancel,
   };
 };
 

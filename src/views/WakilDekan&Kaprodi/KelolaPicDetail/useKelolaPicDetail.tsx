@@ -108,7 +108,9 @@ const useKelolaPicDetail = () => {
         // query client
         queryClient.invalidateQueries({ queryKey: ["kelola-pic-detail"] });
       },
-      onError: (error) => console.log(error),
+      onError: (error) => {
+        console.log(error);
+      },
     });
 
   // handle mutate update
@@ -127,8 +129,10 @@ const useKelolaPicDetail = () => {
         return;
       }
 
-      // check data
-      return await mutateUpdateStatus(data);
+      const payload =
+        data.status === "disetujui" ? { ...data, flagRevisi: undefined } : data;
+
+      return await mutateUpdateStatus(payload);
     } catch (error) {
       console.log(error);
     }

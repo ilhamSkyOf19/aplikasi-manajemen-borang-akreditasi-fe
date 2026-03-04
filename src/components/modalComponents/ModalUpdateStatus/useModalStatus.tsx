@@ -42,6 +42,8 @@ const useModalUpdateStatus = (params: {
     name: "status",
   });
 
+  console.log(errors);
+
   // handle choose anggota / user
   const handleChooseFlagRevisi = (flag: FlagRevisi | "semua", nama: string) => {
     // check flag
@@ -67,8 +69,6 @@ const useModalUpdateStatus = (params: {
       setIsFlagRevisi((prev) => [...prev, { flag, nama }]);
     }
   };
-
-  console.log(isFlagRevisi);
 
   // handle remove
   const handleRemoveChooseFlagRevisi = () => {
@@ -108,6 +108,9 @@ const useModalUpdateStatus = (params: {
     setTimeout(() => {
       // reset
       reset();
+
+      // set flag revisi
+      setIsFlagRevisi([]);
     }, 500);
   };
 

@@ -1,9 +1,11 @@
 import { AlertCircle } from "lucide-react";
 import { type FC, type RefObject } from "react";
 import ButtonCancelText from "../../buttonComponents/ButtonCancelText";
+import ButtonNext from "../../buttonComponents/ButtonNext";
 type Props = {
   modalRef: RefObject<HTMLDialogElement | null>;
   handleCloseModal: () => void;
+  handleConfirm?: () => void;
   bigTitle: string;
   smallTitle: string;
 };
@@ -12,6 +14,7 @@ const ModalAlert: FC<Props> = ({
   modalRef,
   bigTitle,
   smallTitle,
+  handleConfirm,
 }) => {
   return (
     <dialog
@@ -32,9 +35,11 @@ const ModalAlert: FC<Props> = ({
         {/* content */}
         <p className="text-sm lg:text-sm text-center">{smallTitle}</p>
 
-        <div className="w-full flex flex-row justify-end items-end gap-2 mt-4">
+        <div className="w-full flex flex-row justify-end items-end gap-2 mt-8">
           {/* button close */}
           <ButtonCancelText handleCancel={handleCloseModal} />
+
+          {handleConfirm && <ButtonNext handleNext={handleConfirm} />}
         </div>
       </div>
     </dialog>

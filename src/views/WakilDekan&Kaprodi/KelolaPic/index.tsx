@@ -8,6 +8,7 @@ import TableData from "../../../components/TableData";
 import Toast from "../../../components/Toast";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 import ModalKeteranganDokumen from "../../../components/modalComponents/ModalKeteranganDokumen";
+import { generateStatus } from "../../../utils/generate";
 
 const index: FC = () => {
   // call use kelola pic
@@ -35,7 +36,7 @@ const index: FC = () => {
 
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
-      {/* toast create */}
+      {/* toast create = pindahkan ke riwayat */}
       <Toast
         toast={isToast === "created"}
         isAnimationOut={isAnimationOut}
@@ -161,7 +162,11 @@ const index: FC = () => {
                         fields: {
                           id: item.id,
                           namaDokumen: item.kebutuhanDokumen.namaDokumen,
-                          status: item.statusRiwayat ?? item.status,
+                          status: generateStatus(
+                            item.statusRiwayat,
+                            item.status,
+                            item.kebutuhanDokumen.status,
+                          ),
                           disableAksi:
                             user?.role === "kaprodi" &&
                             item.status === "disetujui"

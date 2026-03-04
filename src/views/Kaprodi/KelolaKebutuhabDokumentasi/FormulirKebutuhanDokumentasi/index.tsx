@@ -163,10 +163,10 @@ const FormulirKebutuhanDokumentasi: FC = () => {
               {/* action */}
               <div className="w-full mt-10 flex flex-row justify-end items-center gap-4">
                 {/* button back */}
-                <ButtonBackBox label="KEMBALI" />
+                <ButtonBackBox label="Kembali" />
                 {/* button submit */}
                 <ButtonSubmit
-                  label={`${formulirUpdate ? "UBAH" : "SIMPAN"}`}
+                  label={`${formulirUpdate ? "Ubah" : "Kirim"}`}
                   isLoading={isPending}
                 />
               </div>

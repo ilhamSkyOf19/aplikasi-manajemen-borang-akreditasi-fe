@@ -9,8 +9,6 @@ import InputFieldNonIconTextArea from "../../inputComponents/InputFieldNonIconTe
 import useModalUpdateStatus from "./useModalStatus";
 import InputFieldChoose from "../../inputComponents/InputFieldChoose";
 import ButtonCancelText from "../../buttonComponents/ButtonCancelText";
-import ErrorFieldInput from "../../ErrorFieldInput";
-import { X } from "lucide-react";
 import InputFieldChooseFlagRevisi from "../../inputComponents/InputFieldChooseFlagRevisi";
 
 type Props = {

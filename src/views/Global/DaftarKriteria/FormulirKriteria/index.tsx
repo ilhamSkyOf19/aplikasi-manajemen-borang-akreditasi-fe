@@ -8,6 +8,7 @@ import BreadCrumbs from "../../../../components/BreadCrumbs";
 import { cn } from "../../../../utils/cn";
 import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
 import SkeletonForm from "../../../../components/SkeletonForm";
+import ModalAlert from "../../../../components/modalComponents/ModalAlert";
 
 const FormulirKriteria: FC = () => {
   // use formulir kriteria
@@ -22,6 +23,9 @@ const FormulirKriteria: FC = () => {
     namaKriteria,
     formulirUpdate,
     isLoading,
+    handleCancel,
+    handleConfirm,
+    modalRefConfirm,
   } = useFormulirKriteria();
   return (
     <div className="w-full flex flex-col justify-start items-start">
@@ -91,6 +95,15 @@ const FormulirKriteria: FC = () => {
           )}
         </form>
       </div>
+
+      {/* modal confirm */}
+      <ModalAlert
+        handleCloseModal={handleCancel}
+        handleConfirm={handleConfirm}
+        modalRef={modalRefConfirm}
+        bigTitle="Apakah Anda yakin ingin mengubah data ini?"
+        smallTitle="Data ini saling terhubung dengan data lain. Mohon pastikan sebelum melakukan perubahan."
+      />
     </div>
   );
 };

@@ -38,9 +38,6 @@ export class StatusValidation {
             "flag revisi tidak valid",
           ),
         )
-        .nonempty({
-          message: `flag revisi harus berupa array yang tidak kosong`,
-        })
         .optional(),
     })
     .strict() satisfies z.ZodType<UpdateStatusType>;

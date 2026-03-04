@@ -12,8 +12,11 @@ import useModal from "../../../hooks/useModal";
 import { AxiosError } from "axios";
 
 const useFormulirPic = () => {
+  // use location
+  const location = useLocation();
+
   // current pathname
-  const currentPathname = useLocation().pathname.split("/");
+  const currentPathname = location.pathname.split("/");
 
   let pathname: string;
 
@@ -129,6 +132,13 @@ const useFormulirPic = () => {
       }
     },
     onSuccess: () => {
+      if (location?.state?.callback) {
+        return navigate(location?.state?.callback, {
+          state: {
+            status: id ? "updated" : "created",
+          },
+        });
+      }
       // navigate
       navigate("/dashboard/kelola-pic", {
         state: {
