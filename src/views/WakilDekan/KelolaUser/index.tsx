@@ -11,6 +11,8 @@ import Toast from "../../../components/Toast";
 import Pagination from "../../../components/Pagination";
 import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDaftarTim from "../../../components/modalComponents/ModalDaftarTim";
+import { cn } from "../../../utils/cn";
+import { UsersRound } from "lucide-react";
 
 const KelolaUser: FC = () => {
   // call use
@@ -78,7 +80,13 @@ const KelolaUser: FC = () => {
           linkAdd="/dashboard/kelola-user/tambah-user"
         />
 
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
+        <div
+          className={cn(
+            "w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg",
+            isLoading &&
+              "mask-alpha mask-b-from-black mask-b-from-40% mask-b-to-transparent",
+          )}
+        >
           {/* input field  search */}
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
@@ -90,18 +98,24 @@ const KelolaUser: FC = () => {
             </div>
 
             {/* filter role */}
-            <div className="w-35 lg:w-50">
-              <div className="w-full flex flex-row justify-end items-center">
-                <DropDown
-                  handleChange={(e) => setFilterRole(e.target.value)}
-                  listChoose={[
-                    { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
-                    { value: "kaprodi", label: "kaprodi" },
-                    { value: "tim_akreditasi", label: "Tim Akreditasi" },
-                    { value: "semua", label: "Semua" },
-                  ]}
-                  placeholder="Pilih status"
-                />
+            <div className="w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2">
+              <h3 className="text-xs font-medium lg:hidden">Filter :</h3>
+
+              <div className="flex flex-row justify-start items-center">
+                <div className="w-35 lg:w-50">
+                  <div className="w-full flex flex-row justify-end items-center">
+                    <DropDown
+                      handleChange={(e) => setFilterRole(e.target.value)}
+                      listChoose={[
+                        { value: "wakil_dekan_1", label: "Wakil Dekan 1" },
+                        { value: "kaprodi", label: "kaprodi" },
+                        { value: "tim_akreditasi", label: "Tim Akreditasi" },
+                        { value: "semua", label: "Semua" },
+                      ]}
+                      placeholder="Pilih status"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -151,6 +165,8 @@ const KelolaUser: FC = () => {
                     aksiLink={true}
                     handleAksiLink={handleShowModalDetail}
                     isDataModalActive={0}
+                    titleEmpty="Data User Tidak Tersedia"
+                    icondDataEmpty={UsersRound}
                   />
                 </div>
 
@@ -204,6 +220,8 @@ const KelolaUser: FC = () => {
                         handleAksiWithParams: handleShowModalDaftarTim,
                       },
                     ]}
+                    titleEmpty="Data User Tidak Tersedia"
+                    icondDataEmpty={UsersRound}
                   />
                 </div>
               </>

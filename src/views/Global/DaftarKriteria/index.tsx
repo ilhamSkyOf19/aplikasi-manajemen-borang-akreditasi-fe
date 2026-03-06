@@ -11,6 +11,7 @@ import SkeletonTable from "../../../components/SkeletonTable";
 import DropDown from "../../../components/DropDown";
 import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
 import { cn } from "../../../utils/cn";
+import { ScrollText } from "lucide-react";
 
 const DaftarKriteria: FC = () => {
   // call use
@@ -84,7 +85,13 @@ const DaftarKriteria: FC = () => {
           })}
         />
 
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
+        <div
+          className={cn(
+            "w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg",
+            isLoading &&
+              "mask-alpha mask-b-from-black mask-b-from-40% mask-b-to-transparent",
+          )}
+        >
           {/* input field  search */}
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
@@ -92,22 +99,26 @@ const DaftarKriteria: FC = () => {
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
-            <div
-              className={cn(
-                "w-30 lg:w-40",
-                user?.role !== "wakil_dekan_1" && "hidden",
-              )}
-            >
-              <div className="w-full flex flex-row justify-end items-center">
-                <DropDown
-                  handleChange={(e) => setFilterStatus(e.target.value)}
-                  listChoose={[
-                    { value: "baru", label: "Baru" },
-                    { value: "revisi", label: "Revisi" },
-                    { value: "semua", label: "Semua" },
-                  ]}
-                  placeholder="Pilih status"
-                />
+            <div className="w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2">
+              {/* label */}
+              <h3 className="text-xs font-medium lg:hidden">Filter :</h3>
+              <div
+                className={cn(
+                  "w-30 lg:w-40",
+                  user?.role !== "wakil_dekan_1" && "hidden",
+                )}
+              >
+                <div className="w-full flex flex-row lg:justify-end justify-start items-center">
+                  <DropDown
+                    handleChange={(e) => setFilterStatus(e.target.value)}
+                    listChoose={[
+                      { value: "baru", label: "Baru" },
+                      { value: "revisi", label: "Revisi" },
+                      { value: "semua", label: "Semua" },
+                    ]}
+                    placeholder="Pilih status"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -149,6 +160,8 @@ const DaftarKriteria: FC = () => {
                     aksiLink={true}
                     handleAksiLink={handleShowModalDetail}
                     isDataModalActive={isShowModal && isShowModal?.data?.id}
+                    titleEmpty="Data Kriteria Tidak Tersedia"
+                    icondDataEmpty={ScrollText}
                   />
                 </div>
 
@@ -203,6 +216,8 @@ const DaftarKriteria: FC = () => {
                       user?.role === "kaprodi") && {
                       size: "table-md lg:table-md",
                     })}
+                    titleEmpty="Data Kriteria Tidak Tersedia"
+                    icondDataEmpty={ScrollText}
                   />
                 </div>
               </>

@@ -29,6 +29,17 @@ export const FLAG_REVISI_VALUES = [
   "pic",
   "kebutuhan_dokumen",
 ] as const;
+
+// type notifikasi
+export type TypeNotifikasi =
+  | "KRITERIA_DITAMBAH"
+  | "KRITERIA_DIEDIT"
+  | "KRITERIA_DIHAPUS"
+  | "PIC_BARU_PERLU_VERIFIKASI"
+  | "PIC_DIREVISI_KAPRODI"
+  | "PIC_DISETUJUI_WD1"
+  | "PIC_DIREVISI_WD1";
+
 export interface ModalUpdateStatusHandle {
   handleCloseModal: () => void;
 }

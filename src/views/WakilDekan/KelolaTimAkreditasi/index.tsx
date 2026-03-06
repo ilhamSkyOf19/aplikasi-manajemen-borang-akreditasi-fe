@@ -10,6 +10,8 @@ import { formatTanggalPanjang } from "../../../utils/formatDate";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
 import ModalDataDetailTimAkreditasi from "../../../components/modalComponents/ModalDataDetailTimAkreditasi";
+import { cn } from "../../../utils/cn";
+import { UserCog } from "lucide-react";
 
 const KelolaTimAkreditasi: FC = () => {
   // call use
@@ -75,7 +77,13 @@ const KelolaTimAkreditasi: FC = () => {
           linkAdd="/dashboard/kelola-tim-akreditasi/tambah-tim-akreditasi"
         />
 
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
+        <div
+          className={cn(
+            "w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg",
+            isLoading &&
+              "mask-alpha mask-b-from-black mask-b-from-40% mask-b-to-transparent",
+          )}
+        >
           {/* input field  search */}
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
@@ -135,6 +143,8 @@ const KelolaTimAkreditasi: FC = () => {
                     aksiLink={true}
                     handleAksiLink={handleShowModalDataDetail}
                     isDataModalActive={0}
+                    titleEmpty="Data Tim Akreditasi Tidak Tersedia"
+                    icondDataEmpty={UserCog}
                   />
                 </div>
 
@@ -175,6 +185,8 @@ const KelolaTimAkreditasi: FC = () => {
                         handleAksiWithParams: handleShowModalDaftarAnggota,
                       },
                     ]}
+                    titleEmpty="Data Tim Akreditasi Tidak Tersedia"
+                    icondDataEmpty={UserCog}
                   />
                 </div>
               </>

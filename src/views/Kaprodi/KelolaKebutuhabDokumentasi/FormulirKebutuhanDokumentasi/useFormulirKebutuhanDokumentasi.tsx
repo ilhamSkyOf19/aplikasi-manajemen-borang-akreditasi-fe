@@ -39,7 +39,7 @@ const useFomulirKebutuhanDokumentasi = () => {
         refetchOnWindowFocus: false,
       },
       {
-        queryKey: ["formulir-kebutuhan-dokumentasi-kriteria"],
+        queryKey: ["daftar-kriteria"],
         queryFn: async () => KriteriaService.readAll({}),
         refetchOnWindowFocus: false,
       },

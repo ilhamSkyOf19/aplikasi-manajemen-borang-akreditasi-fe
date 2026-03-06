@@ -1,7 +1,8 @@
-import { type FC } from "react";
+import { type ElementType, type FC } from "react";
 import { cn } from "../../utils/cn";
 import { Pencil, Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
+import DataEmpty from "../DataEmpty";
 
 type Props = {
   header: { key: string; label: string; size: number }[];
@@ -33,9 +34,11 @@ type Props = {
     color?: string;
     colorFn?: (item: any) => string;
   }[];
-  emptyMessage?: string;
+  titleEmpty?: string;
+  descriptionEmpty?: string;
   currentPage: number;
   labelButtonUpdate?: string;
+  icondDataEmpty?: ElementType;
 };
 const TableData: FC<Props> = ({
   header,
@@ -48,12 +51,14 @@ const TableData: FC<Props> = ({
   handleShowModalDelete,
   size,
   fieldAksi,
-  emptyMessage,
+  titleEmpty,
+  descriptionEmpty,
   currentPage,
   fieldColor,
   labelButtonUpdate,
   aksiDetail,
   handleAksiDetail,
+  icondDataEmpty,
 }) => {
   // first number
   const firstNumber = currentPage * 10 - 9;
@@ -66,7 +71,7 @@ const TableData: FC<Props> = ({
         {/* ================= HEADER ================= */}
         <thead>
           <tr>
-            <th className="w-[5%]">#</th>
+            <th className="w-[5%] font-semibold">#</th>
 
             {/* dynamic header */}
             {header
@@ -74,7 +79,7 @@ const TableData: FC<Props> = ({
               .map((item, index) => (
                 <th
                   key={index}
-                  className="capitalize"
+                  className="capitalize font-semibold"
                   style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
                   {item.label}
@@ -86,7 +91,7 @@ const TableData: FC<Props> = ({
               fieldAksi.map((item, index) => (
                 <th
                   key={index}
-                  className="capitalize"
+                  className="capitalize font-semibold"
                   style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
                   {item.header}
@@ -98,7 +103,7 @@ const TableData: FC<Props> = ({
               fieldColor.map((item, index) => (
                 <th
                   key={index}
-                  className="capitalize"
+                  className="capitalize font-semibold"
                   style={{ width: item.size ? `${item.size}%` : undefined }}
                 >
                   {item.header}
@@ -107,7 +112,7 @@ const TableData: FC<Props> = ({
 
             {/* AKSI (single column only) */}
             {(aksi || aksiDetail || aksiLink) && (
-              <th className="w-[10%] text-center">Aksi</th>
+              <th className="w-[10%] text-center font-semibold">Aksi</th>
             )}
           </tr>
         </thead>
@@ -262,10 +267,12 @@ const TableData: FC<Props> = ({
 
       {/* empy data */}
       {datas.length === 0 && (
-        <div className="w-full flex justify-center items-center py-12">
-          <p className="text-sm font-semibold">
-            {emptyMessage || "Tidak ada data"}
-          </p>
+        <div className="w-full flex flex-row justify-center items-center">
+          <DataEmpty
+            title={titleEmpty}
+            description={descriptionEmpty}
+            iconData={icondDataEmpty}
+          />
         </div>
       )}
     </div>

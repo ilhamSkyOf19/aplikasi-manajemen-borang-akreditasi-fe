@@ -20,6 +20,8 @@ export class KebutuhanDokumentasiService {
       ResponseStructure<ResponseKebutuhanDokumenType | null>
     >("/kebutuhan-dokumen/create", data);
 
+    console.log(result);
+
     return result.data;
   }
 

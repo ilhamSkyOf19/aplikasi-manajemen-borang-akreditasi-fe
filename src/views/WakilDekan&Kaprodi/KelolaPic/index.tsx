@@ -9,6 +9,8 @@ import Toast from "../../../components/Toast";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";
 import ModalKeteranganDokumen from "../../../components/modalComponents/ModalKeteranganDokumen";
 import { generateStatus } from "../../../utils/generate";
+import { cn } from "../../../utils/cn";
+import { ClipboardList } from "lucide-react";
 
 const index: FC = () => {
   // call use kelola pic
@@ -89,7 +91,13 @@ const index: FC = () => {
           })}
         />
 
-        <div className="w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg">
+        <div
+          className={cn(
+            "w-full bg-primary-white flex flex-col justify-start items-start mt-8 p-4 rounded-lg",
+            isLoadingPic &&
+              "mask-alpha mask-b-from-black mask-b-from-40% mask-b-to-transparent",
+          )}
+        >
           {/* input field  search */}
           <div className="w-full flex flex-col lg:flex-row justify-between items-end lg:items-center gap-2">
             <div className="w-full lg:w-1/2">
@@ -98,18 +106,23 @@ const index: FC = () => {
             </div>
 
             {/* filter status */}
-            <div className="w-35 lg:w-50">
-              <div className="w-full flex flex-row justify-end items-center">
-                <DropDown
-                  handleChange={(e) => setStatus(e.target.value)}
-                  listChoose={[
-                    { value: "menunggu", label: "Menunggu" },
-                    { value: "revisi", label: "Revisi" },
-                    { value: "disetujui", label: "Disetujui" },
-                    { value: "semua", label: "Semua" },
-                  ]}
-                  placeholder="Pilih status"
-                />
+            <div className="w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2 lg:items-center">
+              <h3 className="text-xs font-medium lg:hidden">Filter :</h3>
+              <div className="flex flex-row justify-start items-center">
+                <div className="w-35 lg:w-50">
+                  <div className="w-full flex flex-row justify-end items-center">
+                    <DropDown
+                      handleChange={(e) => setStatus(e.target.value)}
+                      listChoose={[
+                        { value: "menunggu", label: "Menunggu" },
+                        { value: "revisi", label: "Revisi" },
+                        { value: "disetujui", label: "Disetujui" },
+                        { value: "semua", label: "Semua" },
+                      ]}
+                      placeholder="Pilih status"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -148,6 +161,8 @@ const index: FC = () => {
                     }))}
                     aksiLink={true}
                     handleAksiLink={handleDetailPage}
+                    titleEmpty="Data PIC Tidak Tersedia"
+                    icondDataEmpty={ClipboardList}
                   />
                 </div>
 
@@ -220,6 +235,8 @@ const index: FC = () => {
                     {...(user?.role === "wakil_dekan_1" && {
                       labelButtonUpdate: "verifikasi",
                     })}
+                    titleEmpty="Data PIC Tidak Tersedia"
+                    icondDataEmpty={ClipboardList}
                   />
                 </div>
               </>

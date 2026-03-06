@@ -162,6 +162,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                     }))}
                     aksiLink={true}
                     handleAksiLink={handleDetailPage}
+                    titleEmpty="Data Kebutuhan Dokumentasi Tidak Tersedia"
                   />
                 </div>
 
@@ -200,6 +201,7 @@ const KelolaKebutuhanDokumentasi: FC = () => {
                               : "bg-error",
                       },
                     ]}
+                    titleEmpty="Data Kebutuhan Dokumentasi Tidak Tersedia"
                   />
                 </div>
               </>

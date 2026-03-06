@@ -73,11 +73,9 @@ const SkeletonTable: FC<Props> = ({
           </tr>
         </thead>
       </table>
-      <div className="w-full h-11 skeleton" />
-      <div className="w-full h-11 skeleton" />
-      <div className="w-full h-11 skeleton" />
-      <div className="w-full h-11 skeleton" />
-      <div className="w-full h-11 skeleton" />
+      {Array.from({ length: 8 }, (_, i) => (
+        <div key={i} className="w-full h-11 skeleton" />
+      ))}
     </div>
   );
 };
