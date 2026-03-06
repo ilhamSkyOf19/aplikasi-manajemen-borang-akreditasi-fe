@@ -4,7 +4,7 @@ import ButtonSubmit from "../../../components/buttonComponents/ButtonSubmit";
 import BreadCrumbs from "../../../components/BreadCrumbs";
 import { cn } from "../../../utils/cn";
 import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
-import SkeletonForm from "../../../components/SkeletonForm";
+import SkeletonForm from "../../../components/skeletonComponents/SkeletonForm";
 import useFormulirPic from "./useFormulirPic";
 import type { CreatePicType, UpdatePicType } from "../../../models/pic.model";
 import InputFieldChooseWithSearch from "../../../components/inputComponents/InputFieldChooseWithSearch";

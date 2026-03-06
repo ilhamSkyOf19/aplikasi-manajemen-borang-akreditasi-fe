@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import FormulirKriteria from "../../views/Global/DaftarKriteria/FormulirKriteria";
+import FormulirKriteria from "../../views/WakilDekan/FormulirKriteria";
 import HeaderPage from "../../layouts/HeaderPage";
 
 const FormulirDaftarKriteriaPage: FC = () => {

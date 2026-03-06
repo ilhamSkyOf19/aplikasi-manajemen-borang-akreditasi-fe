@@ -1,14 +1,14 @@
 import { type FC } from "react";
-import TitlePage from "../../../../components/TitlePage";
+import TitlePage from "../../../components/TitlePage";
 import useFormulirKriteria from "./useFormulirKriteria";
-import InputFieldNonIconNumber from "../../../../components/inputComponents/InputFieldNonIconNumber";
-import InputFieldNonIconText from "../../../../components/inputComponents/InputFieldNonIconText";
-import ButtonSubmit from "../../../../components/buttonComponents/ButtonSubmit";
-import BreadCrumbs from "../../../../components/BreadCrumbs";
-import { cn } from "../../../../utils/cn";
-import ButtonBackBox from "../../../../components/buttonComponents/ButtonBackBox";
-import SkeletonForm from "../../../../components/SkeletonForm";
-import ModalAlert from "../../../../components/modalComponents/ModalAlert";
+import InputFieldNonIconNumber from "../../../components/inputComponents/InputFieldNonIconNumber";
+import InputFieldNonIconText from "../../../components/inputComponents/InputFieldNonIconText";
+import ButtonSubmit from "../../../components/buttonComponents/ButtonSubmit";
+import BreadCrumbs from "../../../components/BreadCrumbs";
+import { cn } from "../../../utils/cn";
+import ButtonBackBox from "../../../components/buttonComponents/ButtonBackBox";
+import SkeletonForm from "../../../components/skeletonComponents/SkeletonForm";
+import ModalAlert from "../../../components/modalComponents/ModalAlert";
 
 const FormulirKriteria: FC = () => {
   // use formulir kriteria

@@ -12,7 +12,7 @@ import type {
   UpdateUserType,
 } from "../../../../models/user.model";
 import InputFieldNonIconPassword from "../../../../components/inputComponents/InputFieldNonIconPassword";
-import SkeletonForm from "../../../../components/SkeletonForm";
+import SkeletonForm from "../../../../components/skeletonComponents/SkeletonForm";
 
 const FormulirKelolaUser: FC = () => {
   // use formulir kriteria

@@ -3,7 +3,7 @@ import TitlePage from "../../../components/TitlePage";
 import InputFieldSearch from "../../../components/inputComponents/InputFieldSearch";
 import useKelolaPic from "./useKelolaPic";
 import DropDown from "../../../components/DropDown";
-import SkeletonTable from "../../../components/SkeletonTable";
+import SkeletonTable from "../../../components/skeletonComponents/SkeletonTable";
 import TableData from "../../../components/TableData";
 import Toast from "../../../components/Toast";
 import ModalDaftarAnggota from "../../../components/modalComponents/ModalDaftarAnggota";

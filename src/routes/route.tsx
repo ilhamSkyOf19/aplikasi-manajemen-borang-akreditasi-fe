@@ -91,7 +91,7 @@ const route = createBrowserRouter([
   {
     path: "/dashboard",
     loader: dashboardLoader,
-    shouldRevalidate: () => true,
+    shouldRevalidate: () => false,
     element: <DashboardLayout />,
     children: [
       // ── Home ─────────────────────────────────────────────

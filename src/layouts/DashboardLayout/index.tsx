@@ -14,7 +14,7 @@ const DashboardLayout: FC = () => {
   const { isOnline } = useNetworkStatus();
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open relative">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
       {/* content */}

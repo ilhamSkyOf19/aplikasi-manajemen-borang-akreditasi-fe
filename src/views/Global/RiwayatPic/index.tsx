@@ -20,6 +20,8 @@ const RiwayatPic: FC<Props> = () => {
   // call use
   const { pathname, dataRiwayat, isLoadingRiwayat, user, id } = useRiwayat();
 
+  // console.log(dataRiwayat);
+
   return (
     <div className="w-full flex flex-col justify-between items-start pb-20 lg:pb-32">
       <div className="w-full flex flex-col justify-start items-start">

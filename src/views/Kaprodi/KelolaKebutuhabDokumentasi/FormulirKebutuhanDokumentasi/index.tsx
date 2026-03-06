@@ -12,7 +12,7 @@ import type {
   UpdateKebutuhanDokumenType,
 } from "../../../../models/kebutuhanDokumentasi.model";
 import InputFieldNonIconTextArea from "../../../../components/inputComponents/InputFieldNonIconTextArea";
-import SkeletonForm from "../../../../components/SkeletonForm";
+import SkeletonForm from "../../../../components/skeletonComponents/SkeletonForm";
 import ModalAlert from "../../../../components/modalComponents/ModalAlert";
 
 const FormulirKebutuhanDokumentasi: FC = () => {
@@ -32,6 +32,9 @@ const FormulirKebutuhanDokumentasi: FC = () => {
     loadingData,
     handleCloseModalAlert,
     modalAlertRef,
+    handleCancel,
+    handleConfirm,
+    modalConfirmRef,
   } = useFomulirKebutuhanDokumentasi();
 
   return (
@@ -181,6 +184,15 @@ const FormulirKebutuhanDokumentasi: FC = () => {
         handleCloseModal={handleCloseModalAlert}
         bigTitle="Data sedang  proses menunggu verifikasi."
         smallTitle="Perubahan tidak dapat dilakukan hingga proses revisi atau verifikasi selesai."
+      />
+
+      {/* modal confirm */}
+      <ModalAlert
+        handleCloseModal={handleCancel}
+        handleConfirm={handleConfirm}
+        modalRef={modalConfirmRef}
+        bigTitle="Apakah Anda yakin ingin mengubah data ini?"
+        smallTitle="Data ini saling terhubung dengan data lain. Mohon pastikan sebelum melakukan perubahan."
       />
     </div>
   );

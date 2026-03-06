@@ -12,6 +12,7 @@ import type {
 import { KebutuhanDokumenValidation } from "../../../../validations/kebutuhanDokumentasi.validation";
 import useModal from "../../../../hooks/useModal";
 import { AxiosError } from "axios";
+import useConfirm from "../../../../hooks/useConfirm";
 
 const useFomulirKebutuhanDokumentasi = () => {
   // navigate
@@ -28,6 +29,14 @@ const useFomulirKebutuhanDokumentasi = () => {
     handleCloseModal: handleCloseModalAlert,
     handleShowModal: handleShowModalAlert,
   } = useModal();
+
+  // modal alert konfirmasi
+  const {
+    confirm,
+    handleCancel,
+    handleConfirm,
+    modalRef: modalConfirmRef,
+  } = useConfirm();
 
   // get query
   const data = useQueries({
@@ -167,22 +176,36 @@ const useFomulirKebutuhanDokumentasi = () => {
   ) => {
     try {
       // check same data
-      if (
-        JSON.stringify(data) ===
-        JSON.stringify({
-          namaDokumen: dataKebutuhanDokumentasi?.data?.data?.namaDokumen,
-          keterangan: dataKebutuhanDokumentasi?.data?.data?.keterangan,
-          kriteriaId: dataKebutuhanDokumentasi?.data?.data?.kriteria.id,
-          pendekatanId: dataKebutuhanDokumentasi?.data?.data?.pendekatan.id,
-        })
-      ) {
-        navigate("/dashboard/kelola-kebutuhan-dokumentasi", {
-          state: {
-            status: "notUpdated",
-          },
-        });
+      if (id) {
+        if (
+          JSON.stringify({
+            ...data,
+            keteranganUpdate: null,
+          }) ===
+          JSON.stringify({
+            namaDokumen: dataKebutuhanDokumentasi?.data?.data?.namaDokumen,
+            keterangan: dataKebutuhanDokumentasi?.data?.data?.keterangan,
+            kriteriaId: dataKebutuhanDokumentasi?.data?.data?.kriteria.id,
+            pendekatanId: dataKebutuhanDokumentasi?.data?.data?.pendekatan.id,
+            keteranganUpdate: null,
+          })
+        ) {
+          navigate("/dashboard/kelola-kebutuhan-dokumentasi", {
+            state: {
+              status: "notUpdated",
+            },
+          });
 
-        return;
+          return;
+        }
+
+        // call confirm
+        const isConfirm = await confirm();
+
+        // check confirm
+        if (!isConfirm) {
+          return;
+        }
       }
 
       await mutateAsync(data);
@@ -207,6 +230,9 @@ const useFomulirKebutuhanDokumentasi = () => {
     loadingData: dataKebutuhanDokumentasi?.isLoading,
     modalAlertRef,
     handleCloseModalAlert,
+    handleCancel,
+    handleConfirm,
+    modalConfirmRef,
   };
 };
 

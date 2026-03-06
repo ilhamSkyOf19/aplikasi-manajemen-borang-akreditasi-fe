@@ -3,7 +3,7 @@ import useKelolaTimAkreditasi from "./useKelolaTimAkreditasi";
 import Toast from "../../../components/Toast";
 import TitlePage from "../../../components/TitlePage";
 import InputFieldSearch from "../../../components/inputComponents/InputFieldSearch";
-import SkeletonTable from "../../../components/SkeletonTable";
+import SkeletonTable from "../../../components/skeletonComponents/SkeletonTable";
 import TableData from "../../../components/TableData";
 import Pagination from "../../../components/Pagination";
 import { formatTanggalPanjang } from "../../../utils/formatDate";

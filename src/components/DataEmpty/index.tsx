@@ -37,10 +37,10 @@ const DataEmpty: FC<Props> = ({
       </div>
 
       {/* Text */}
-      <h3 className="text-base font-semibold text-base-content mb-1 tracking-tight">
+      <h3 className="text-sm lg:text-base font-semibold text-base-content mb-1 tracking-tight">
         {title}
       </h3>
-      <p className="text-sm text-base-content/55 max-w-xs leading-relaxed">
+      <p className="text-xs lg:text-sm text-base-content/55 max-w-xs leading-relaxed">
         {description}
       </p>
 

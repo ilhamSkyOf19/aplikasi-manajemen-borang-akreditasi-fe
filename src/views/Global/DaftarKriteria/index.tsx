@@ -7,7 +7,7 @@ import TitlePage from "../../../components/TitlePage";
 import UseDaftarKriteria from "./UseDaftarKriteria";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
-import SkeletonTable from "../../../components/SkeletonTable";
+import SkeletonTable from "../../../components/skeletonComponents/SkeletonTable";
 import DropDown from "../../../components/DropDown";
 import ModalDataDetail from "../../../components/modalComponents/ModalDataDetail";
 import { cn } from "../../../utils/cn";
@@ -99,15 +99,15 @@ const DaftarKriteria: FC = () => {
               <InputFieldSearch handleSearch={handleSearch} />
             </div>
 
-            <div className="w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2">
+            <div
+              className={cn(
+                "w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2",
+                user?.role !== "wakil_dekan_1" && "hidden",
+              )}
+            >
               {/* label */}
               <h3 className="text-xs font-medium lg:hidden">Filter :</h3>
-              <div
-                className={cn(
-                  "w-30 lg:w-40",
-                  user?.role !== "wakil_dekan_1" && "hidden",
-                )}
-              >
+              <div className="w-30 lg:w-40">
                 <div className="w-full flex flex-row lg:justify-end justify-start items-center">
                   <DropDown
                     handleChange={(e) => setFilterStatus(e.target.value)}

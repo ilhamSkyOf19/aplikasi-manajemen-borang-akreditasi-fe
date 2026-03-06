@@ -11,7 +11,7 @@ import type {
   UpdateTimAkreditasiType,
 } from "../../../../models/timAkreditasi.model";
 import InputFieldChooseWithSearch from "../../../../components/inputComponents/InputFieldChooseWithSearch";
-import SkeletonForm from "../../../../components/SkeletonForm";
+import SkeletonForm from "../../../../components/skeletonComponents/SkeletonForm";
 import DaftarPilihanInput from "../../../../components/DaftarPilihanInput";
 import ModalAlert from "../../../../components/modalComponents/ModalAlert";
 

@@ -2,15 +2,15 @@ import { useForm } from "react-hook-form";
 import type {
   CreateKriteriaType,
   UpdateKriteriaType,
-} from "../../../../models/kriteria.model";
+} from "../../../models/kriteria.model";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { KriteriaValidation } from "../../../../validations/kriteria.validation";
+import { KriteriaValidation } from "../../../validations/kriteria.validation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { KriteriaService } from "../../../../services/kriteria.service";
+import { KriteriaService } from "../../../services/kriteria.service";
 import { useEffect } from "react";
 import { AxiosError } from "axios";
-import useConfirm from "../../../../hooks/useConfirm";
+import useConfirm from "../../../hooks/useConfirm";
 
 const useFormulirKriteria = () => {
   // navigate

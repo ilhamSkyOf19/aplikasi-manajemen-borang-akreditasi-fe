@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { cn } from "../../utils/cn";
+import { cn } from "../../../utils/cn";
 
 type Props = {
   headerLg: { label: string; size: number }[];

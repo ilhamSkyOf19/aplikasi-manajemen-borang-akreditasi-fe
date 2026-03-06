@@ -5,7 +5,7 @@ import Pagination from "../../../components/Pagination";
 import TitlePage from "../../../components/TitlePage";
 import Toast from "../../../components/Toast";
 import ModalDelete from "../../../components/modalComponents/ModalDelete";
-import SkeletonTable from "../../../components/SkeletonTable";
+import SkeletonTable from "../../../components/skeletonComponents/SkeletonTable";
 import DropDown from "../../../components/DropDown";
 import { cn } from "../../../utils/cn";
 import useKelolaKebutuhanDokumentasi from "./useKelolaKebutuhanDokumentasi";
@@ -90,18 +90,24 @@ const KelolaKebutuhanDokumentasi: FC = () => {
             </div>
 
             {/* filter status */}
-            <div className="w-35 lg:w-50">
-              <div className="w-full flex flex-row justify-end items-center">
-                <DropDown
-                  handleChange={(e) => setStatus(e.target.value)}
-                  listChoose={[
-                    { value: "menunggu", label: "Menunggu" },
-                    { value: "revisi", label: "Revisi" },
-                    { value: "disetujui", label: "Disetujui" },
-                    { value: "semua", label: "Semua" },
-                  ]}
-                  placeholder="Pilih status"
-                />
+            <div className="w-full lg:w-auto flex flex-col justify-start items-start gap-2 mt-2">
+              <h3 className="text-xs font-medium lg:hidden">Filter :</h3>
+
+              <div className="flex flex-row justify-start items-center">
+                <div className="w-35 lg:w-50">
+                  <div className="w-full flex flex-row justify-end items-center">
+                    <DropDown
+                      handleChange={(e) => setStatus(e.target.value)}
+                      listChoose={[
+                        { value: "menunggu", label: "Menunggu" },
+                        { value: "revisi", label: "Revisi" },
+                        { value: "disetujui", label: "Disetujui" },
+                        { value: "semua", label: "Semua" },
+                      ]}
+                      placeholder="Pilih status"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
